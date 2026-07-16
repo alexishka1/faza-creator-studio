@@ -1,0 +1,435 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');
+
+/* ===== RESET ===== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-bg: #050505;
+  --color-text: #ffffff;
+  --color-accent: #888888;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Inter', sans-serif;
+  
+  --spacing-section: 15vh;
+}
+
+body, html {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== TYPOGRAPHY ===== */
+h1, h2, h3, h4, .font-serif {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: clamp(3rem, 8vw, 7rem);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+h2 {
+  font-size: clamp(2rem, 5vw, 4rem);
+}
+
+.text-muted {
+  color: var(--color-accent);
+}
+
+.text-sm {
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ===== LAYOUT & UTILS ===== */
+.container {
+  width: 90%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section {
+  padding: var(--spacing-section) 0;
+  position: relative;
+}
+
+/* ===== FIXED HEADER ===== */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.5rem 5%;
+  z-index: 9999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(180deg, rgba(5,5,5,0.7) 0%, rgba(5,5,5,0) 100%);
+  backdrop-filter: blur(0px);
+  transition: background 0.4s ease, backdrop-filter 0.4s ease;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.brand-logo {
+  height: 40px;
+  width: auto;
+  filter: invert(1); /* Invert since the original logo is black and the background is dark */
+}
+
+.brand-text {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  letter-spacing: 0.2em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: opacity 0.3s;
+}
+
+.nav-links a:hover {
+  opacity: 0.6;
+}
+
+/* ===== FLOATING CTA BAR ===== */
+.cta-bar {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-text);
+  color: var(--color-bg);
+  padding: 1rem 3rem;
+  border-radius: 100px;
+  z-index: 100;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: transform 0.3s, background-color 0.3s;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.cta-bar:hover {
+  transform: translateX(-50%) translateY(-5px);
+  background-color: #dddddd;
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/images/hero.png');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.4;
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+}
+
+/* ===== PHILOSOPHY SECTION ===== */
+.philosophy {
+  min-height: 150vh; /* Extra height for scroll duration */
+  display: flex;
+  align-items: center;
+}
+
+.quote-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.quote-line {
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.quote-text {
+  display: block;
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-family: var(--font-serif);
+  line-height: 1.1;
+}
+
+/* ===== PORTFOLIO SECTION ===== */
+.portfolio {
+  padding: 10vh 5%;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2rem;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.1); /* Will be animated down on scroll */
+}
+
+/* Staggered grid */
+.item-1 { grid-column: 1 / 6; margin-top: 10vh; }
+.item-2 { grid-column: 7 / 12; }
+.item-3 { grid-column: 2 / 8; margin-top: 15vh; }
+.item-4 { grid-column: 9 / 13; margin-top: -10vh; }
+
+/* ===== PRICING SECTION ===== */
+.pricing {
+  min-height: 100vh;
+  padding: 10vh 5%;
+  border-top: 1px solid var(--color-border);
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 3rem;
+  margin-top: 5rem;
+}
+
+.pricing-card {
+  padding: 3rem;
+  border: 1px solid var(--color-border);
+  transition: border-color 0.3s;
+}
+
+.pricing-card:hover {
+  border-color: var(--color-text);
+}
+
+.pricing-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.pricing-price {
+  font-size: 2.5rem;
+  font-family: var(--font-serif);
+  margin-bottom: 2rem;
+}
+
+.pricing-list {
+  list-style: none;
+  margin-bottom: 3rem;
+}
+
+.pricing-list li {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-accent);
+}
+
+.btn-outline {
+  display: inline-block;
+  padding: 1rem 2rem;
+  border: 1px solid var(--color-text);
+  color: var(--color-text);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  transition: all 0.3s;
+}
+
+.btn-outline:hover {
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+/* ===== FOOTER SECTION ===== */
+.footer-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-top: 1px solid var(--color-border);
+}
+
+.footer-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/images/welcome.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.6;
+  z-index: 1;
+}
+
+.footer-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+}
+
+.footer-content h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 6vw, 6rem);
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.footer-content p {
+  font-size: 1rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.footer-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  list-style: none;
+  margin-top: 2rem;
+}
+
+.footer-nav a {
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  transition: color 0.3s;
+}
+
+.footer-nav a:hover {
+  color: var(--color-accent);
+}
+
+.home-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  list-style: none;
+  margin-top: 2rem;
+}
+
+.home-nav a {
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  transition: opacity 0.3s;
+}
+
+.home-nav a:hover {
+  opacity: 0.5;
+}
+
+/* ===== GLOBAL HEADER (App.jsx) ===== */
+.brand-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 0.2em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 3rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  position: relative;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.15em;
+  padding-bottom: 5px;
+  display: inline-block;
+}
+
+/* Animated Border on Hover */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  background-color: #fff;
+  transition: width 0.3s ease-out;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
