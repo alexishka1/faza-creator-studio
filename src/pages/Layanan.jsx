@@ -24,40 +24,48 @@ const Layanan = () => {
   const cardsRef = useRef([]);
 
   useEffect(() => {
-    // Pin the header section while scrolling the cards
-    ScrollTrigger.create({
-      trigger: containerRef.current,
-      start: "top top",
-      end: "bottom bottom",
-      pin: headerRef.current,
-      pinSpacing: false,
-    });
+    let ctx = gsap.context(() => {
+      // Pin the header section while scrolling the cards
+      ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: "top top",
+        end: "bottom bottom",
+        pin: headerRef.current,
+        pinSpacing: false,
+      });
 
-    // Infinite horizontal scrolling background
-    gsap.to(marqueeRef.current, {
-      xPercent: -50,
-      ease: "none",
-      duration: 40, // Adjust this value to make it slower or faster
-      repeat: -1
-    });
+      // Infinite horizontal scrolling background
+      if (marqueeRef.current) {
+        gsap.to(marqueeRef.current, {
+          xPercent: -50,
+          ease: "none",
+          duration: 40,
+          repeat: -1
+        });
+      }
 
-    // Staggered slide up for pricing cards
-    cardsRef.current.forEach((card, i) => {
-      gsap.fromTo(card, 
-        { y: 150, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: card,
-            start: "top 90%",
-            toggleActions: "play none none reverse"
-          }
+      // Staggered slide up for pricing cards
+      cardsRef.current.forEach((card) => {
+        if (card) {
+          gsap.fromTo(card, 
+            { y: 150, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 1,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: card,
+                start: "top 90%",
+                toggleActions: "play none none reverse"
+              }
+            }
+          );
         }
-      );
+      });
     });
+
+    return () => ctx.revert();
   }, []);
 
   return (
