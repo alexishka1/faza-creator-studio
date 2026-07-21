@@ -67,19 +67,19 @@ const Layanan = () => {
         <div ref={headerRef} style={{ width: '100%', height: '100vh', position: 'absolute', top: 0, left: 0, zIndex: 0, overflow: 'hidden' }}>
           
           {/* Animated Background Gallery */}
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', opacity: 0.35 }}>
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', opacity: 0.7 }}>
             <div ref={marqueeRef} style={{ display: 'flex', gap: '2vw', whiteSpace: 'nowrap', padding: '0 1vw', willChange: 'transform' }}>
               {/* Duplicate array for seamless looping */}
               {[...MARQUEE_IMAGES, ...MARQUEE_IMAGES].map((src, i) => (
                 <div key={i} style={{ width: '25vw', minWidth: '300px', height: '40vh', borderRadius: '4px', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
-                  <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(30%) contrast(1.1)' }} />
+                  <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(20%) contrast(1.1)' }} />
                 </div>
               ))}
             </div>
           </div>
           
           {/* Overlay to ensure text readability */}
-          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle, rgba(5,5,5,0.2) 0%, rgba(5,5,5,0.95) 100%)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%)' }} />
 
           {/* Foreground Text */}
           <div style={{ position: 'relative', zIndex: 1, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
