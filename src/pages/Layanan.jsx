@@ -7,14 +7,14 @@ import '../index.css';
 gsap.registerPlugin(ScrollTrigger);
 
 const MARQUEE_IMAGES = [
-  '/images/ASET RUANG FAZA/DSCF9515.jpg',
-  '/images/ASET RUANG FAZA/DSCF9516.jpg',
-  '/images/ASET RUANG FAZA/DSCF9517.jpg',
-  '/images/ASET RUANG FAZA/DSCF9518.jpg',
-  '/images/ASET RUANG FAZA/DSCF9519.jpg',
-  '/images/ASET RUANG FAZA/DSCF9520.jpg',
-  '/images/ASET RUANG FAZA/DSCF9527.jpg',
-  '/images/ASET RUANG FAZA/DSCF9530.jpg',
+  'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=800&auto=format&fit=crop', // Studio lights
+  'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=800&auto=format&fit=crop', // Vintage camera
+  'https://images.unsplash.com/photo-1551316671-12ecdbb19ba9?q=80&w=800&auto=format&fit=crop', // Photography equipment
+  'https://images.unsplash.com/photo-1603899122634-f086ca5f5ddd?q=80&w=800&auto=format&fit=crop', // Studio shoot
+  'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?q=80&w=800&auto=format&fit=crop', // Camera lens
+  'https://images.unsplash.com/photo-1525926477800-7a3b10316ac6?q=80&w=800&auto=format&fit=crop', // Fashion shoot
+  'https://images.unsplash.com/photo-1621609764180-2ca554a9d6f2?q=80&w=800&auto=format&fit=crop', // Aesthetic room
+  'https://images.unsplash.com/photo-1493863641943-9b68992a8d07?q=80&w=800&auto=format&fit=crop', // Professional camera set
 ];
 
 const Layanan = () => {
