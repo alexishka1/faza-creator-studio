@@ -7,14 +7,14 @@ import '../index.css';
 gsap.registerPlugin(ScrollTrigger);
 
 const MARQUEE_IMAGES = [
-  'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=800&auto=format&fit=crop', // Camera in hand
-  'https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?q=80&w=800&auto=format&fit=crop', // Vintage camera top view
-  'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=800&auto=format&fit=crop', // Photographer taking picture
-  'https://images.unsplash.com/photo-1517511620798-cec17d428bc0?q=80&w=800&auto=format&fit=crop', // DSLR details
-  'https://images.unsplash.com/photo-1502982720700-baf97b4fe278?q=80&w=800&auto=format&fit=crop', // Camera setup
-  'https://images.unsplash.com/photo-1516961642265-531546e84af2?q=80&w=800&auto=format&fit=crop', // Lens
-  'https://images.unsplash.com/photo-1588612501905-23c28cb2c6fb?q=80&w=800&auto=format&fit=crop', // Photography desk
-  'https://images.unsplash.com/photo-1493863641943-9b68992a8d07?q=80&w=800&auto=format&fit=crop', // Pro setup
+  '/images/gallery/gallery_camera_1784626886689.png',
+  '/images/gallery/gallery_studio_1784626896513.png',
+  '/images/gallery/gallery_fashion_1784626910447.png',
+  '/images/gallery/gallery_camera_1784626886689.png',
+  '/images/gallery/gallery_studio_1784626896513.png',
+  '/images/gallery/gallery_fashion_1784626910447.png',
+  '/images/gallery/gallery_camera_1784626886689.png',
+  '/images/gallery/gallery_studio_1784626896513.png',
 ];
 
 const SERVICES = [
