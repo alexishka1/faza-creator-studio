@@ -71,25 +71,24 @@ const Layanan = () => {
         });
       }
 
-      // Staggered slide up for pricing cards
-      cardsRef.current.forEach((card) => {
-        if (card) {
-          gsap.fromTo(card, 
-            { y: 150, opacity: 0 },
-            {
-              y: 0,
-              opacity: 1,
-              duration: 1,
-              ease: "power3.out",
-              scrollTrigger: {
-                trigger: card,
-                start: "top 90%",
-                toggleActions: "play none none reverse"
-              }
+      // Staggered slide up for all service cards together
+      if (cardsRef.current.length > 0) {
+        gsap.fromTo(cardsRef.current, 
+          { y: 150, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            stagger: 0.2, // The "ripple" sequence delay between each card
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: ".services-container",
+              start: "top 85%",
+              toggleActions: "play none none reverse"
             }
-          );
-        }
-      });
+          }
+        );
+      }
     });
 
     return () => ctx.revert();
