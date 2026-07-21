@@ -7,14 +7,14 @@ import '../index.css';
 gsap.registerPlugin(ScrollTrigger);
 
 const MARQUEE_IMAGES = [
-  '/images/gallery/gallery_camera_1784626886689.png',
-  '/images/gallery/gallery_studio_1784626896513.png',
-  '/images/gallery/gallery_fashion_1784626910447.png',
-  '/images/gallery/gallery_camera_1784626886689.png',
-  '/images/gallery/gallery_studio_1784626896513.png',
-  '/images/gallery/gallery_fashion_1784626910447.png',
-  '/images/gallery/gallery_camera_1784626886689.png',
-  '/images/gallery/gallery_studio_1784626896513.png',
+  'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=800&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1551316671-12ecdbb19ba9?q=80&w=800&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?q=80&w=800&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1525926477800-7a3b10316ac6?q=80&w=800&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1621609764180-2ca554a9d6f2?q=80&w=800&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1493863641943-9b68992a8d07?q=80&w=800&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=800&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1551316671-12ecdbb19ba9?q=80&w=800&auto=format&fit=crop',
 ];
 
 const SERVICES = [
