@@ -7,14 +7,14 @@ import '../index.css';
 gsap.registerPlugin(ScrollTrigger);
 
 const MARQUEE_IMAGES = [
-  'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=800&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1551316671-12ecdbb19ba9?q=80&w=800&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?q=80&w=800&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1525926477800-7a3b10316ac6?q=80&w=800&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1621609764180-2ca554a9d6f2?q=80&w=800&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1493863641943-9b68992a8d07?q=80&w=800&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=800&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1551316671-12ecdbb19ba9?q=80&w=800&auto=format&fit=crop',
+  '/images/gallery/unsplash_1.jpg',
+  '/images/gallery/unsplash_3.jpg',
+  '/images/gallery/unsplash_4.jpg',
+  '/images/gallery/unsplash_5.jpg',
+  '/images/gallery/unsplash_6.jpg',
+  '/images/gallery/unsplash_1.jpg',
+  '/images/gallery/unsplash_3.jpg',
+  '/images/gallery/unsplash_4.jpg',
 ];
 
 const SERVICES = [
