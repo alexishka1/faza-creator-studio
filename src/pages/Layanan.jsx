@@ -72,23 +72,21 @@ const Layanan = () => {
       }
 
       // Staggered slide up for all service cards together
-      if (cardsRef.current.length > 0) {
-        gsap.fromTo(cardsRef.current, 
-          { y: 150, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 1.2,
-            stagger: 0.2, // The "ripple" sequence delay between each card
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: ".services-container",
-              start: "top 85%",
-              toggleActions: "play none none reverse"
-            }
+      gsap.fromTo(".service-arch-card", 
+        { y: 150, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          stagger: 0.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".services-container",
+            start: "top 85%",
+            toggleActions: "play none none reverse"
           }
-        );
-      }
+        }
+      );
     });
 
     return () => ctx.revert();
