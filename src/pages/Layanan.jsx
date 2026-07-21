@@ -17,6 +17,33 @@ const MARQUEE_IMAGES = [
   'https://images.unsplash.com/photo-1493863641943-9b68992a8d07?q=80&w=800&auto=format&fit=crop', // Professional camera set
 ];
 
+const SERVICES = [
+  {
+    title: 'Portrait Session',
+    price: 'Mulai dari Rp 1.500.000',
+    desc: 'Sesi foto personal atau profesional dengan pencahayaan studio premium dan arahan gaya eksklusif.',
+    img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop'
+  },
+  {
+    title: 'Pre-Wedding',
+    price: 'Mulai dari Rp 3.500.000',
+    desc: 'Konsep cerita cinta yang diabadikan dengan indah melalui konsep artistik dan sinematik.',
+    img: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=600&auto=format&fit=crop'
+  },
+  {
+    title: 'Editorial & Fashion',
+    price: 'Mulai dari Rp 5.000.000',
+    desc: 'Pemotretan komersial berstandar majalah internasional untuk kebutuhan portfolio atau brand Anda.',
+    img: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=600&auto=format&fit=crop'
+  },
+  {
+    title: 'Product & Commercial',
+    price: 'Mulai dari Rp 2.000.000',
+    desc: 'Katalog produk berkualitas tinggi dengan detail sempurna untuk kebutuhan iklan dan visual.',
+    img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop'
+  }
+];
+
 const Layanan = () => {
   const containerRef = useRef(null);
   const headerRef = useRef(null);
@@ -98,35 +125,24 @@ const Layanan = () => {
 
         <div style={{ marginTop: '100vh', zIndex: 1, position: 'relative', background: 'var(--color-bg)', padding: '5rem 0 10rem 0' }}>
           <div className="container">
-            <div className="pricing-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem' }}>
-              
-              {/* Card 1 */}
-              <div ref={el => cardsRef.current[0] = el} className="pricing-card" style={{ background: '#111', padding: '4rem', border: '1px solid #333' }}>
-                <h3 className="pricing-title font-serif" style={{ fontSize: '2rem', marginBottom: '1rem' }}>Portrait Session</h3>
-                <div className="pricing-price" style={{ fontSize: '1.5rem', marginBottom: '2rem', color: 'var(--color-accent)' }}>$1,500</div>
-                <ul className="pricing-list" style={{ listStyle: 'none', padding: 0, marginBottom: '3rem', lineHeight: '2' }}>
-                  <li style={{ borderBottom: '1px solid #222', padding: '0.5rem 0' }}>2 Hours Studio Time</li>
-                  <li style={{ borderBottom: '1px solid #222', padding: '0.5rem 0' }}>3 Wardrobe Changes</li>
-                  <li style={{ borderBottom: '1px solid #222', padding: '0.5rem 0' }}>15 Retouched Digital Files</li>
-                  <li style={{ borderBottom: '1px solid #222', padding: '0.5rem 0' }}>Online Gallery Access</li>
-                </ul>
-                <a href="#" className="btn-outline" style={{ display: 'inline-block', border: '1px solid #fff', padding: '1rem 2rem', textDecoration: 'none', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Reserve Date</a>
-              </div>
-
-              {/* Card 2 */}
-              <div ref={el => cardsRef.current[1] = el} className="pricing-card" style={{ background: '#111', padding: '4rem', border: '1px solid #333' }}>
-                <h3 className="pricing-title font-serif" style={{ fontSize: '2rem', marginBottom: '1rem' }}>Editorial Package</h3>
-                <div className="pricing-price" style={{ fontSize: '1.5rem', marginBottom: '2rem', color: 'var(--color-accent)' }}>$3,800</div>
-                <ul className="pricing-list" style={{ listStyle: 'none', padding: 0, marginBottom: '3rem', lineHeight: '2' }}>
-                  <li style={{ borderBottom: '1px solid #222', padding: '0.5rem 0' }}>Full Day Production</li>
-                  <li style={{ borderBottom: '1px solid #222', padding: '0.5rem 0' }}>Creative Direction Included</li>
-                  <li style={{ borderBottom: '1px solid #222', padding: '0.5rem 0' }}>50 Retouched Digital Files</li>
-                  <li style={{ borderBottom: '1px solid #222', padding: '0.5rem 0' }}>Commercial Usage Rights</li>
-                </ul>
-                <a href="#" className="btn-outline" style={{ display: 'inline-block', border: '1px solid #fff', padding: '1rem 2rem', textDecoration: 'none', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Reserve Date</a>
-              </div>
-
+            
+            <div className="services-container">
+              {SERVICES.map((service, i) => (
+                <div 
+                  key={i}
+                  ref={el => cardsRef.current[i] = el}
+                  className="service-arch-card"
+                >
+                  <img src={service.img} alt={service.title} className="service-arch-card-bg" />
+                  <div className="service-arch-card-content">
+                    <h3 className="service-arch-card-title">{service.title}</h3>
+                    <div className="service-arch-card-price">{service.price}</div>
+                    <p className="service-arch-card-desc">{service.desc}</p>
+                  </div>
+                </div>
+              ))}
             </div>
+
           </div>
         </div>
 
