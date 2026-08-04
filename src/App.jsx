@@ -12,6 +12,7 @@ import TentangKami from './pages/TentangKami';
 import Loader from './components/Loader';
 import IntroScreen from './components/IntroScreen';
 import CustomCursor from './components/CustomCursor';
+import Footer from './components/Footer';
 import './index.css';
 
 // A wrapper component that allows useLocation
@@ -88,6 +89,7 @@ function App() {
           <main>
             <AnimatedRoutes />
           </main>
+          <Footer />
         </Router>
       )}
     </>
