@@ -11,6 +11,7 @@ import Layanan from './pages/Layanan';
 import TentangKami from './pages/TentangKami';
 import Loader from './components/Loader';
 import IntroScreen from './components/IntroScreen';
+import CustomCursor from './components/CustomCursor';
 import './index.css';
 
 // A wrapper component that allows useLocation
@@ -62,6 +63,7 @@ function App() {
 
   return (
     <>
+      <CustomCursor />
       {!hasStarted && <IntroScreen onStart={() => setHasStarted(true)} />}
       
       {hasStarted && (

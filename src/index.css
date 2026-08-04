@@ -25,6 +25,11 @@ body, html {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  cursor: none;
+}
+
+a, button, input {
+  cursor: none !important;
 }
 
 /* ===== LENIS SMOOTH SCROLL ===== */
