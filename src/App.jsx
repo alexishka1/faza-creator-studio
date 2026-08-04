@@ -9,6 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 import Home from './pages/Home';
 import Layanan from './pages/Layanan';
 import TentangKami from './pages/TentangKami';
+import Karya from './pages/Karya';
 import Loader from './components/Loader';
 import IntroScreen from './components/IntroScreen';
 import CustomCursor from './components/CustomCursor';
@@ -29,6 +30,7 @@ const AnimatedRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/layanan" element={<Layanan />} />
         <Route path="/tentangkami" element={<TentangKami />} />
+        <Route path="/karya" element={<Karya />} />
       </Routes>
     </AnimatePresence>
   );
@@ -91,6 +93,7 @@ function App() {
             <ul className="nav-links">
               <li><Link to="/" className="nav-link">Home</Link></li>
               <li><Link to="/layanan" className="nav-link">Layanan</Link></li>
+              <li><Link to="/karya" className="nav-link">Karya</Link></li>
               <li><Link to="/tentangkami" className="nav-link">Tentang Kami</Link></li>
             </ul>
           </header>
