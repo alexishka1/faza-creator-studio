@@ -33,18 +33,24 @@ const Home = () => {
 
     const ctx = gsap.context(() => {
 
-      // 1. Hero: text fades up on load
-      gsap.from(heroTextRef.current, {
-        y: 40,
+      // 1. Hero: stagger text and scale background on load
+      gsap.fromTo(heroImgRef.current, 
+        { scale: 1.15 }, 
+        { scale: 1, duration: 2.5, ease: 'power3.out' }
+      );
+
+      gsap.from(heroTextRef.current.children, {
+        y: 60,
         opacity: 0,
-        duration: 1.4,
-        ease: 'power3.out',
-        delay: 0.3,
+        duration: 1.5,
+        stagger: 0.15,
+        ease: 'power4.out',
+        delay: 0.2,
       });
 
       // Hero image slow parallax as you scroll past
       gsap.to(heroImgRef.current, {
-        yPercent: 20,
+        yPercent: 25,
         ease: 'none',
         scrollTrigger: {
           trigger: heroImgRef.current.parentElement,
@@ -92,50 +98,52 @@ const Home = () => {
         });
 
         tl.fromTo(imgEl,
-          { y: '100vh', opacity: 0 },
-          { y: '0vh', opacity: 1, duration: 0.3, ease: 'power2.out' } // Slide in and fade in
+          { y: '100vh', opacity: 0, scale: 0.85, rotation: i % 2 === 0 ? 3 : -3 },
+          { y: '0vh', opacity: 1, scale: 1, rotation: 0, duration: 0.5, ease: 'power3.out' } // Slide in and fade in
         )
         .to(imgEl, 
           { y: '-10vh', duration: 0.4, ease: 'none' } // Slow drift in the center
         )
         .to(imgEl, 
-          { y: '-100vh', opacity: 0, duration: 0.3, ease: 'power2.in' } // Slide out and fade out
+          { y: '-100vh', opacity: 0, scale: 0.85, rotation: i % 2 === 0 ? -3 : 3, duration: 0.4, ease: 'power3.in' } // Slide out and fade out
         );
       });
 
-      // 3. Text reveal: words light up as you scroll
+      // 3. Text reveal: words light up and rise as you scroll
       const words = textRevealRef.current.querySelectorAll('.reveal-word');
       gsap.fromTo(words,
-        { color: 'rgba(255,255,255,0.1)' },
+        { color: 'rgba(255,255,255,0.1)', y: 20 },
         {
           color: 'rgba(255,255,255,1)',
-          stagger: 0.08,
-          ease: 'none',
+          y: 0,
+          stagger: 0.05,
+          ease: 'power2.out',
           scrollTrigger: {
             trigger: textRevealRef.current,
-            start: 'top 75%',
+            start: 'top 80%',
             end: 'bottom 40%',
-            scrub: true,
+            scrub: 1.2,
           }
         }
       );
 
-      // 4. Final clip-path reveal
+      // 4. Final clip-path reveal with scaling
       gsap.fromTo(clipImageRef.current,
-        { clipPath: 'inset(35% 35% 35% 35% round 4px)' },
+        { clipPath: 'inset(30% 30% 30% 30% round 12px)', scale: 1.2 },
         {
           clipPath: 'inset(0% 0% 0% 0% round 0px)',
-          ease: 'none',
+          scale: 1,
+          ease: 'power3.inOut',
           scrollTrigger: {
             trigger: clipSectionRef.current,
             start: 'top 85%',
             end: 'top 15%',
-            scrub: true,
+            scrub: 1.5,
           }
         }
       );
 
-      // 5. Video Auto-Mute/Unmute
+      // 5. Video Auto-Mute/Unmute & Parallax
       ScrollTrigger.create({
         trigger: videoSectionRef.current,
         start: 'top 60%', // Trigger when top of video reaches 60% of viewport
@@ -144,6 +152,17 @@ const Home = () => {
         onLeave: () => { if (videoRef.current) videoRef.current.muted = true; },
         onEnterBack: () => { if (videoRef.current) videoRef.current.muted = false; },
         onLeaveBack: () => { if (videoRef.current) videoRef.current.muted = true; },
+      });
+
+      gsap.to(videoRef.current, {
+        yPercent: 20,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: videoSectionRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true
+        }
       });
 
     });
@@ -252,7 +271,7 @@ const Home = () => {
               loop
               playsInline
               muted
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              style={{ width: '100%', height: '120%', objectFit: 'cover', transform: 'translateY(-10%)' }}
             />
           </div>
           

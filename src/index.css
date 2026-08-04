@@ -27,6 +27,28 @@ body, html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ===== LENIS SMOOTH SCROLL ===== */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+
 /* ===== TYPOGRAPHY ===== */
 h1, h2, h3, h4, .font-serif {
   font-family: var(--font-serif);
