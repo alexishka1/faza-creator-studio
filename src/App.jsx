@@ -10,6 +10,7 @@ import Home from './pages/Home';
 import Layanan from './pages/Layanan';
 import TentangKami from './pages/TentangKami';
 import Karya from './pages/Karya';
+import Booking from './pages/Booking';
 import Loader from './components/Loader';
 import IntroScreen from './components/IntroScreen';
 import CustomCursor from './components/CustomCursor';
@@ -31,6 +32,7 @@ const AnimatedRoutes = () => {
         <Route path="/layanan" element={<Layanan />} />
         <Route path="/tentangkami" element={<TentangKami />} />
         <Route path="/karya" element={<Karya />} />
+        <Route path="/booking" element={<Booking />} />
       </Routes>
     </AnimatePresence>
   );
@@ -95,6 +97,24 @@ function App() {
               <li><Link to="/layanan" className="nav-link">Layanan</Link></li>
               <li><Link to="/karya" className="nav-link">Karya</Link></li>
               <li><Link to="/tentangkami" className="nav-link">Tentang Kami</Link></li>
+              <li>
+                <Link to="/booking" style={{
+                  border: '1px solid #fff', 
+                  padding: '0.5rem 1rem', 
+                  borderRadius: '30px', 
+                  textDecoration: 'none', 
+                  color: '#fff',
+                  textTransform: 'uppercase',
+                  fontSize: '0.8rem',
+                  letterSpacing: '0.1em',
+                  transition: 'all 0.3s'
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.color = '#000'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#fff'; }}
+                >
+                  Booking
+                </Link>
+              </li>
             </ul>
           </header>
 
