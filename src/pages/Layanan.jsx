@@ -183,7 +183,7 @@ const Layanan = () => {
           {/* Detail Panel (shows for hovered card) */}
           <div style={{
             maxWidth: '700px',
-            margin: '0 auto 4rem auto',
+            margin: '0 auto 8rem auto',
             padding: '0 2rem',
             textAlign: 'center',
             minHeight: '180px',
