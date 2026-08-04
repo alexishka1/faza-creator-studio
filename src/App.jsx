@@ -34,6 +34,15 @@ const AnimatedRoutes = () => {
   );
 };
 
+const FooterWrapper = () => {
+  const location = useLocation();
+  // Hide footer on Home (/) and Tentang Kami (/tentangkami)
+  if (location.pathname === '/' || location.pathname === '/tentangkami') {
+    return null;
+  }
+  return <Footer />;
+};
+
 function App() {
   const [hasStarted, setHasStarted] = useState(false);
 
@@ -89,7 +98,7 @@ function App() {
           <main>
             <AnimatedRoutes />
           </main>
-          <Footer />
+          <FooterWrapper />
         </Router>
       )}
     </>
@@ -97,3 +106,4 @@ function App() {
 }
 
 export default App;
+
