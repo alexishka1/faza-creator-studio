@@ -2,61 +2,125 @@ import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import PageTransition from '../components/PageTransition';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import '../index.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const MARQUEE_IMAGES = [
-  '/images/gallery/unsplash_1.jpg',
-  '/images/gallery/unsplash_3.jpg',
-  '/images/gallery/unsplash_4.jpg',
-  '/images/gallery/unsplash_5.jpg',
-  '/images/gallery/unsplash_6.jpg',
-  '/images/gallery/unsplash_1.jpg',
-  '/images/gallery/unsplash_3.jpg',
-  '/images/gallery/unsplash_4.jpg',
+  '/images/optimized/DSCF9516-800.webp',
+  '/images/optimized/DSCF9527-800.webp',
+  '/images/optimized/DSCF9518-800.webp',
+  '/images/optimized/DSCF9520-800.webp',
+  '/images/optimized/DSCF9524-800.webp',
+  '/images/optimized/DSCF9515-800.webp',
+  '/images/optimized/DSCF9516-800.webp',
+  '/images/optimized/DSCF9527-800.webp',
 ];
 
-const SERVICES = [
+const B2C_SERVICES = [
   {
-    title: 'Portrait',
-    subtitle: 'Session',
-    price: 'Rp 1.500.000',
-    tag: 'PERSONAL',
-    desc: 'Sesi foto personal atau profesional dengan pencahayaan studio premium dan arahan gaya eksklusif untuk mengabadikan momen terbaik Anda.',
-    features: ['2 Jam Sesi Studio', '3 Ganti Pakaian', '15 Foto Edited', 'Akses Galeri Online'],
-    img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop',
-    color: '#c9a96e',
+    id: 'studio-rent',
+    title: 'Studio Rent',
+    subtitle: '/ Jam',
+    price: 'Rp 150.000 – 250.000',
+    tag: 'RETAIL / PER JAM',
+    desc: 'Sewa ruang studio fleksibel per jam dengan setup pencahayaan profesional, berbagai pilihan background/cyclorama, dan ruangan ber-AC nyaman untuk segala kebutuhan foto mandiri.',
+    features: ['Setup Lighting Pro Terpasang', 'Pilihan Backdrop & Cyclorama', 'AC & Ruang Rias Privat', 'Minimal Sewa 1 Jam'],
+    desktopImg: '/images/optimized/DSCF9516-1600.webp',
+    mobileImg: '/images/optimized/DSCF9516-800.webp',
   },
   {
-    title: 'Pre-Wedding',
-    subtitle: 'Package',
-    price: 'Rp 3.500.000',
-    tag: 'ROMANTIC',
-    desc: 'Cerita cinta yang diabadikan secara artistik dan sinematik. Konsep personal untuk momen paling berharga dalam hidup Anda.',
-    features: ['Lokasi Bebas', 'Full Day Shoot', '50 Foto Edited', 'Highlight Video'],
-    img: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=600&auto=format&fit=crop',
-    color: '#e8a0b4',
+    id: 'happy-hour',
+    title: 'Weekdays',
+    subtitle: 'Happy Hour',
+    price: 'Rp 499.000',
+    tag: 'POPULAR DEAL',
+    desc: 'Paket hemat studio sesi di hari kerja (Senin–Kamis). Pilihan terbaik untuk konten kreator, foto wisuda, atau foto bareng teman dengan harga terjangkau dan hasil maksimal.',
+    features: ['2 Jam Sesi Studio Lengkap', 'Semua Raw Files Diberikan', '5 Foto Edited Pilihan', 'Maksimal 4 Orang'],
+    desktopImg: '/images/optimized/DSCF9527-1600.webp',
+    mobileImg: '/images/optimized/DSCF9527-800.webp',
   },
   {
+    id: 'together-moment',
+    title: 'Together',
+    subtitle: 'Moment',
+    price: 'Rp 699.000',
+    tag: 'BEST FOR GROUP',
+    desc: 'Abadikan kehangatan keluarga, momen wisuda, sahabat, atau rekan satu tim dengan konsep foto grup yang estetik, terarah, dan tak lekang oleh waktu.',
+    features: ['2 Jam Sesi Studio Lengkap', 'Kapasitas hingga 8 Orang', '10 Foto Edited Premium', 'Akses Galeri Cloud Drive'],
+    desktopImg: '/images/optimized/DSCF9518-1600.webp',
+    mobileImg: '/images/optimized/DSCF9518-800.webp',
+  },
+  {
+    id: 'linkedin-portrait',
+    title: 'LinkedIn',
+    subtitle: 'Portrait',
+    price: 'Rp 150.000',
+    tag: 'CAREER & PROFILE',
+    desc: 'Headshot profesional cepat & berkelas untuk upgrade profil LinkedIn, CV, resume kerja, portfolio kreatif, atau citra profesional korporat Anda.',
+    features: ['30 Menit Sesi Fokus', '1 Pilihan Background Estetik', '3 Foto Edited High-Res', 'Pengerjaan Cepat (1-2 Hari)'],
+    desktopImg: '/images/optimized/DSCF9520-1600.webp',
+    mobileImg: '/images/optimized/DSCF9520-800.webp',
+  },
+];
+
+const B2B_SERVICES = [
+  {
+    id: 'editorial-fashion',
     title: 'Editorial',
     subtitle: '& Fashion',
     price: 'Rp 5.000.000',
-    tag: 'PREMIUM',
-    desc: 'Pemotretan komersial berstandar majalah internasional. Arahkan kreativitas Anda dengan tim kreatif kami yang berpengalaman.',
-    features: ['Creative Direction', 'Stylist Included', '80 Foto Edited', 'Commercial Rights'],
-    img: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=600&auto=format&fit=crop',
-    color: '#a0c4e8',
+    tag: 'PREMIUM PRODUCTION',
+    desc: 'Pemotretan komersial berstandar majalah & lookbook internasional. Didukung creative direction mendalam, pencahayaan kompleks, dan visual storytelling yang memukau.',
+    features: ['Creative Direction & Concept', 'Full Studio Lighting Setup', '80 Foto Edited Berkualitas', 'Commercial License Hak Cipta'],
+    desktopImg: '/images/optimized/DSCF9524-1600.webp',
+    mobileImg: '/images/optimized/DSCF9524-800.webp',
   },
   {
+    id: 'product-commercial',
     title: 'Product',
     subtitle: '& Commercial',
     price: 'Rp 2.000.000',
-    tag: 'BRAND',
-    desc: 'Katalog produk berkualitas tinggi dengan detail sempurna untuk kebutuhan iklan, e-commerce, dan konten visual brand Anda.',
-    features: ['30 Produk/Sesi', 'White/Dark BG', '40 Foto Edited', 'Brand Kit'],
-    img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop',
-    color: '#a8e6a0',
+    tag: 'BRAND & CATALOG',
+    desc: 'Katalog dan foto produk berkualitas tinggi dengan detail tekstur sempurna untuk kebutuhan iklan digital, e-commerce, marketplace, dan visual campaign brand Anda.',
+    features: ['Hingga 30 SKU Produk', 'White/Dark/Creative Setup', '40 Foto Edited Siap Pakai', 'Resolusi Tinggi Siap Cetak'],
+    desktopImg: '/images/optimized/DSCF9515-1600.webp',
+    mobileImg: '/images/optimized/DSCF9515-800.webp',
+  },
+  {
+    id: 'sewa-ruang',
+    title: 'Sewa Ruang',
+    subtitle: '½ Hari / Full-Day',
+    price: 'Rp 1.200.000 – 2.000.000',
+    tag: 'SPACE PRODUCTION',
+    desc: 'Eksklusif sewa seluruh area creative space untuk produksi video, shooting iklan, casting, workshop kreatif, photoshoot skala besar, atau private event.',
+    features: ['Pilihan ½ Day (4 Jam) / Full Day (8 Jam)', 'Akses Penuh Seluruh Area Studio', 'Daya Listrik Besar & WiFi Kencang', 'Ruang Tunggu & Area Makeup'],
+    desktopImg: '/images/optimized/DSCF9516-1600.webp',
+    mobileImg: '/images/optimized/DSCF9516-800.webp',
+  },
+  {
+    id: 'podcast-bundle',
+    title: 'Podcast',
+    subtitle: 'Bundle',
+    price: 'Rp 850.000',
+    tag: 'PODCAST & TALKSHOW',
+    desc: 'Paket studio podcast & talkshow siap pakai dengan setup multi-mic profesional, lighting estetik, dan ruangan kedap suara yang nyaman untuk kreasi konten audio-visual Anda.',
+    features: ['2 Jam Sesi Rekaman', 'Setup 2-3 Mic Profesional & Mixer', 'Tata Lampu Estetik Siap Rekam', 'Raw Video & Audio File Langsung'],
+    desktopImg: '/images/optimized/DSCF9527-1600.webp',
+    mobileImg: '/images/optimized/DSCF9527-800.webp',
+  },
+  {
+    id: 'retainer-bulanan',
+    title: 'Retainer',
+    subtitle: 'Bulanan',
+    price: 'Mulai Rp 4.500.000 / bln',
+    tag: 'BRAND PARTNERSHIP',
+    desc: 'Solusi kemitraan visual rutin bagi brand dan agensi. Nikmati alokasi jam studio bulanan fleksibel, prioritas jadwal booking, dan tim produksi kreatif khusus.',
+    features: ['Alokasi Jam Studio Fleksibel', 'Prioritas Jadwal Kapan Saja', 'Dedicated Tim Fotografer & Editor', 'Skema Hemat untuk Kebutuhan Rutin'],
+    desktopImg: '/images/optimized/DSCF9518-1600.webp',
+    mobileImg: '/images/optimized/DSCF9518-800.webp',
   },
 ];
 
@@ -64,15 +128,15 @@ const Layanan = () => {
   const containerRef = useRef(null);
   const headerRef = useRef(null);
   const marqueeRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [hovered, setHovered] = useState(null);
+  const servicesRef = useRef([]);
+  const [activeTab, setActiveTab] = useState('all');
 
   useEffect(() => {
     let ctx = gsap.context(() => {
       ScrollTrigger.create({
         trigger: containerRef.current,
-        start: "top top",
-        end: "bottom bottom",
+        start: 'top top',
+        end: 'bottom bottom',
         pin: headerRef.current,
         pinSpacing: false,
       });
@@ -80,251 +144,382 @@ const Layanan = () => {
       if (marqueeRef.current) {
         gsap.to(marqueeRef.current, {
           xPercent: -50,
-          ease: "none",
-          duration: 40,
-          repeat: -1
+          ease: 'none',
+          duration: 35,
+          repeat: -1,
         });
       }
 
-      // Section entrance animation
-      gsap.fromTo(".services-deck-section",
-        { opacity: 0, y: 80 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: ".services-deck-section",
-            start: "top 85%",
+      servicesRef.current.forEach((el) => {
+        if (!el) return;
+        gsap.fromTo(
+          el,
+          { opacity: 0, y: 60 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: el,
+              start: 'top 85%',
+            },
           }
-        }
-      );
+        );
+      });
     });
 
     return () => ctx.revert();
-  }, []);
+  }, [activeTab]);
 
-  const getCardStyle = (i) => {
-    const total = SERVICES.length;
-    const mid = (total - 1) / 2;
-    const offset = i - mid;
-    const isActive = hovered === i;
+  const renderServiceCard = (service, i) => {
+    const isEven = i % 2 === 0;
+    return (
+      <div
+        key={service.id || i}
+        ref={(el) => (servicesRef.current[i] = el)}
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          flexDirection: isEven ? 'row' : 'row-reverse',
+          alignItems: 'center',
+          gap: 'clamp(2rem, 5vw, 5rem)',
+          padding: '2.5rem 0',
+          borderBottom: '1px solid rgba(255,255,255,0.06)',
+        }}
+      >
+        {/* Image Section */}
+        <div style={{ flex: '1 1 360px', position: 'relative' }}>
+          <div style={{ width: '100%', aspectRatio: '4/5', overflow: 'hidden', borderRadius: '8px', boxShadow: '0 20px 40px rgba(0,0,0,0.6)', background: '#14110f' }}>
+            <img
+              src={service.desktopImg}
+              srcSet={`${service.mobileImg} 800w, ${service.desktopImg} 1600w`}
+              sizes="(max-width: 768px) 90vw, 45vw"
+              alt={service.title}
+              loading="lazy"
+              className="faza-graded-img"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block',
+              }}
+            />
+          </div>
+          {/* Floating Number */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '-1.5rem',
+              [isEven ? 'left' : 'right']: '-1.5rem',
+              fontSize: 'clamp(4rem, 8vw, 6.5rem)',
+              fontFamily: 'var(--font-serif)',
+              color: 'rgba(201, 169, 110, 0.08)',
+              pointerEvents: 'none',
+              lineHeight: 1,
+            }}
+          >
+            {String(i + 1).padStart(2, '0')}
+          </div>
+        </div>
 
-    // Fan/deck layout: rotate and offset each card
-    const baseRotate = offset * 8; // degrees
-    const baseX = offset * 120; // px spacing
-    const baseY = Math.abs(offset) * 20; // arc effect
+        {/* Text Section */}
+        <div style={{ flex: '1 1 360px', padding: '1rem 0' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginBottom: '1.2rem' }}>
+            <span
+              style={{
+                padding: '0.35rem 1rem',
+                border: '1px solid rgba(201, 169, 110, 0.35)',
+                background: 'rgba(201, 169, 110, 0.1)',
+                borderRadius: '100px',
+                fontSize: '0.72rem',
+                letterSpacing: '0.15em',
+                fontWeight: 600,
+                color: 'var(--color-accent)',
+              }}
+            >
+              {service.tag}
+            </span>
+          </div>
 
-    return {
-      position: 'absolute',
-      left: '50%',
-      bottom: '0',
-      width: 'clamp(200px, 18vw, 240px)',
-      height: 'clamp(320px, 40vw, 420px)',
-      borderRadius: '120px 120px 0 0',
-      overflow: 'hidden',
-      cursor: 'pointer',
-      transformOrigin: 'bottom center',
-      transform: isActive
-        ? `translateX(calc(-50% + ${baseX}px)) translateY(-60px) rotate(${baseRotate}deg) scale(1.25)`
-        : `translateX(calc(-50% + ${baseX}px)) translateY(${baseY}px) rotate(${baseRotate}deg) scale(1)`,
-      transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
-      zIndex: isActive ? 20 : 10 - Math.abs(offset),
-      boxShadow: isActive
-        ? `0 30px 80px rgba(0,0,0,0.9), 0 0 40px ${SERVICES[i].color}66`
-        : '0 10px 30px rgba(0,0,0,0.6)',
-      border: isActive ? `1px solid ${SERVICES[i].color}88` : '1px solid rgba(255,255,255,0.08)',
-    };
+          <h3 className="font-serif" style={{ fontSize: 'clamp(2.2rem, 4.5vw, 3.5rem)', color: '#fff', marginBottom: '1rem', lineHeight: 1.1 }}>
+            {service.title} <br />
+            <em style={{ color: 'var(--color-accent)', fontSize: '0.85em', fontStyle: 'italic' }}>{service.subtitle}</em>
+          </h3>
+
+          <p style={{ color: 'var(--color-text-secondary)', lineHeight: 1.8, fontSize: '1rem', marginBottom: '2rem' }}>
+            {service.desc}
+          </p>
+
+          <ul
+            style={{
+              listStyle: 'none',
+              padding: 0,
+              marginBottom: '2.5rem',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+              gap: '0.9rem',
+            }}
+          >
+            {service.features.map((f, idx) => (
+              <li
+                key={idx}
+                style={{
+                  color: 'rgba(255,255,255,0.9)',
+                  fontSize: '0.88rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.6rem',
+                }}
+              >
+                <span style={{ width: '6px', height: '6px', background: 'var(--color-accent)', borderRadius: '50%', flexShrink: 0 }} />
+                {f}
+              </li>
+            ))}
+          </ul>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
+            <p style={{ fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', fontFamily: 'var(--font-serif)', color: '#fff', margin: 0, fontWeight: 500 }}>
+              {service.price}
+            </p>
+            <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap' }}>
+              <a
+                href="/booking"
+                style={{
+                  display: 'inline-block',
+                  padding: '0.85rem 1.8rem',
+                  border: '1px solid var(--color-accent)',
+                  color: '#000',
+                  background: 'var(--color-accent)',
+                  textDecoration: 'none',
+                  textTransform: 'uppercase',
+                  fontSize: '0.78rem',
+                  fontWeight: 600,
+                  letterSpacing: '0.12em',
+                  borderRadius: '4px',
+                  transition: 'all 0.3s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#dfc28d';
+                  e.currentTarget.style.borderColor = '#dfc28d';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'var(--color-accent)';
+                  e.currentTarget.style.borderColor = 'var(--color-accent)';
+                }}
+              >
+                Pilih Tanggal
+              </a>
+              <a
+                href={`https://wa.me/6285933585829?text=Halo%20Faza%20Studio%2C%20saya%20tertarik%20dengan%20paket%20${encodeURIComponent(service.title + ' ' + service.subtitle)}%20(${encodeURIComponent(service.price)}).`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  padding: '0.85rem 1.4rem',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  color: '#fff',
+                  background: 'rgba(255,255,255,0.04)',
+                  textDecoration: 'none',
+                  textTransform: 'uppercase',
+                  fontSize: '0.78rem',
+                  letterSpacing: '0.1em',
+                  borderRadius: '4px',
+                  transition: 'all 0.3s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#25D366';
+                  e.currentTarget.style.color = '#25D366';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)';
+                  e.currentTarget.style.color = '#fff';
+                }}
+              >
+                <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '15px' }} />
+                Chat WA
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   };
 
-  const activeService = SERVICES[hovered ?? activeIndex];
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+    const servicesEl = document.getElementById('services-section');
+    if (servicesEl) {
+      const rect = servicesEl.getBoundingClientRect();
+      if (rect.top < 50) {
+        if (window.lenis) {
+          window.lenis.scrollTo(servicesEl, { offset: -20, duration: 0.8 });
+        } else {
+          servicesEl.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
+  };
 
   return (
     <PageTransition>
-      <div ref={containerRef} style={{ display: 'flex', flexDirection: 'column', minHeight: '220vh', background: 'var(--color-bg)' }}>
-        
-        {/* ===== HERO HEADER ===== */}
+      <div ref={containerRef} style={{ display: 'flex', flexDirection: 'column', minHeight: '200vh', background: 'var(--color-bg)' }}>
+        {/* ===== HERO HEADER WITH FADED PHOTO BACKGROUND ===== */}
         <div ref={headerRef} style={{ width: '100%', height: '100vh', position: 'absolute', top: 0, left: 0, zIndex: 0, overflow: 'hidden' }}>
-          
           {/* Animated Background Gallery */}
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', opacity: 0.5 }}>
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', opacity: 0.3 }}>
             <div ref={marqueeRef} style={{ display: 'flex', gap: '2vw', whiteSpace: 'nowrap', padding: '0 1vw', willChange: 'transform' }}>
               {[...MARQUEE_IMAGES, ...MARQUEE_IMAGES].map((src, i) => (
-                <div key={i} style={{ width: '25vw', minWidth: '300px', height: '40vh', borderRadius: '4px', overflow: 'hidden' }}>
-                  <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(30%) contrast(1.1)' }} />
+                <div key={i} style={{ width: '25vw', minWidth: '280px', height: '40vh', borderRadius: '4px', overflow: 'hidden', background: '#14110f' }}>
+                  <img src={src} alt="" loading="lazy" className="faza-graded-img" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
               ))}
             </div>
           </div>
-          
-          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.85) 100%)' }} />
 
-          <div style={{ position: 'relative', zIndex: 1, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-            <p style={{ fontSize: '0.8rem', letterSpacing: '0.4em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: '1.5rem' }}>Faza Studio</p>
-            <h1 className="font-serif" style={{ fontSize: 'clamp(3rem, 7vw, 6rem)', letterSpacing: '0.1em', color: '#fff', textShadow: '0 10px 40px rgba(0,0,0,0.9)' }}>LAYANAN KAMI</h1>
-            <p style={{ marginTop: '2rem', fontSize: '1rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>Tailored experiences for your unique story.</p>
-            <div style={{ marginTop: '3rem', display: 'flex', alignItems: 'center', gap: '0.8rem', color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-              <span style={{ display: 'inline-block', width: '30px', height: '1px', background: 'rgba(255,255,255,0.4)' }} />
-              Scroll untuk memilih layanan
-              <span style={{ display: 'inline-block', width: '30px', height: '1px', background: 'rgba(255,255,255,0.4)' }} />
+          {/* Dark Scrim Gradient Overlay (Spec 55-85%) */}
+          <div className="faza-scrim" style={{ background: 'radial-gradient(circle, rgba(20,17,15,0.7) 0%, rgba(14,12,10,0.96) 100%)' }} />
+
+          <div style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', padding: '0 1.5rem' }}>
+            <p style={{ fontSize: '0.85rem', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'var(--color-accent)', marginBottom: '1.2rem', fontWeight: 600 }}>
+              FAZA STUDIO — JAKARTA TIMUR
+            </p>
+            <h1 className="font-serif" style={{ fontSize: 'clamp(2.8rem, 6.5vw, 5.5rem)', letterSpacing: '0.06em', color: '#fff', textShadow: '0 10px 40px rgba(0,0,0,0.9)', marginBottom: '1.5rem' }}>
+              LAYANAN & HARGA
+            </h1>
+            <p style={{ fontSize: 'clamp(0.95rem, 2vw, 1.15rem)', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', maxWidth: '700px', lineHeight: 1.6 }}>
+              Paket Foto Retail & Solusi Produksi Creative Space Profesional
+            </p>
+            <div style={{ marginTop: '2.5rem', display: 'flex', alignItems: 'center', gap: '0.8rem', color: 'rgba(255,255,255,0.6)', fontSize: '0.78rem', letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 500 }}>
+              <span style={{ display: 'inline-block', width: '30px', height: '1px', background: 'var(--color-accent)' }} />
+              Scroll untuk menjelajahi paket
+              <span style={{ display: 'inline-block', width: '30px', height: '1px', background: 'var(--color-accent)' }} />
             </div>
           </div>
         </div>
 
-        {/* ===== DECK SELECTION SECTION ===== */}
-        <div className="services-deck-section" style={{ marginTop: '100vh', zIndex: 1, position: 'relative', background: 'var(--color-bg)', padding: '0 0 8rem 0', minHeight: '120vh' }}>
-          
-          {/* Section label */}
-          <div style={{ textAlign: 'center', paddingTop: '5rem', paddingBottom: '2rem' }}>
-            <p style={{ fontSize: '0.75rem', letterSpacing: '0.5em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)' }}>— Pilih Layanan Anda —</p>
-          </div>
-
-          {/* Detail Panel (shows for hovered card) */}
-          <div style={{
-            maxWidth: '700px',
-            margin: '0 auto 8rem auto',
-            padding: '0 2rem',
-            textAlign: 'center',
-            minHeight: '180px',
-            transition: 'all 0.4s ease',
-          }}>
-            <div style={{
-              display: 'inline-block',
-              padding: '0.3rem 1.2rem',
-              border: `1px solid ${activeService.color}66`,
-              borderRadius: '100px',
-              fontSize: '0.7rem',
-              letterSpacing: '0.3em',
-              color: activeService.color,
-              marginBottom: '1.2rem',
-              transition: 'all 0.4s ease',
-            }}>
-              {activeService.tag}
-            </div>
-            <h2 className="font-serif" style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', color: '#fff', marginBottom: '1rem', transition: 'all 0.4s ease' }}>
-              {activeService.title} <em style={{ color: activeService.color }}>{activeService.subtitle}</em>
-            </h2>
-            <p style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.8, fontSize: '0.95rem', marginBottom: '1.5rem', transition: 'all 0.4s ease' }}>
-              {activeService.desc}
-            </p>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
-              {activeService.features.map((f, i) => (
-                <span key={i} style={{ padding: '0.4rem 1rem', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '100px', fontSize: '0.78rem', color: 'rgba(255,255,255,0.6)', letterSpacing: '0.05em' }}>
-                  {f}
-                </span>
+        {/* ===== SERVICES CONTENT SECTION ===== */}
+        <div id="services-section" style={{ marginTop: '100vh', zIndex: 2, position: 'relative', background: 'var(--color-bg)', padding: '5rem 6% 8rem 6%' }}>
+          <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+            {/* Filter / Quick Jump Navigation */}
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginBottom: '5rem', flexWrap: 'wrap' }}>
+              {[
+                { id: 'all', label: '✨ Semua Layanan' },
+                { id: 'b2c', label: '🛍️ B2C Retail (Personal & Group)' },
+                { id: 'b2b', label: '🏢 B2B Creative Space & Brand' },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => handleTabChange(tab.id)}
+                  style={{
+                    padding: '0.8rem 1.8rem',
+                    borderRadius: '50px',
+                    border: activeTab === tab.id ? '1px solid var(--color-accent)' : '1px solid rgba(255,255,255,0.12)',
+                    background: activeTab === tab.id ? 'var(--color-accent)' : 'rgba(255,255,255,0.03)',
+                    color: activeTab === tab.id ? '#000' : 'rgba(255,255,255,0.85)',
+                    fontSize: '0.85rem',
+                    fontWeight: 600,
+                    letterSpacing: '0.05em',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    backdropFilter: 'blur(10px)',
+                  }}
+                >
+                  {tab.label}
+                </button>
               ))}
             </div>
-            <p style={{ fontSize: '1.8rem', fontFamily: 'var(--font-serif)', color: activeService.color, transition: 'all 0.4s ease' }}>
-              {activeService.price}
-            </p>
-          </div>
 
-          {/* ===== FAN/DECK CARD SELECTOR ===== */}
-          <div style={{ position: 'relative', height: '480px', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
-            {SERVICES.map((service, i) => (
-              <div
-                key={i}
-                style={getCardStyle(i)}
-                onMouseEnter={() => { setHovered(i); setActiveIndex(i); }}
-                onMouseLeave={() => setHovered(null)}
-              >
-                <img
-                  src={service.img}
-                  alt={service.title}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    filter: hovered === i ? 'grayscale(0%) brightness(0.85)' : 'grayscale(50%) brightness(0.4)',
-                    transition: 'filter 0.5s ease, transform 0.5s ease',
-                    transform: hovered === i ? 'scale(1.1)' : 'scale(1.0)',
-                  }}
-                />
-                {/* Card overlay content */}
-                <div style={{
-                  position: 'absolute',
-                  bottom: 0,
-                  left: 0,
-                  width: '100%',
-                  padding: '2rem 1.5rem 1.5rem',
-                  background: 'linear-gradient(to top, rgba(0,0,0,0.97) 0%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,0) 100%)',
-                }}>
-                  {/* Number badge */}
-                  <div style={{
-                    position: 'absolute',
-                    top: '-1rem',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '50%',
-                    background: hovered === i ? service.color : 'rgba(255,255,255,0.1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '0.75rem',
-                    fontWeight: '600',
-                    color: hovered === i ? '#000' : '#fff',
-                    transition: 'all 0.4s ease',
-                    border: `1px solid ${hovered === i ? service.color : 'rgba(255,255,255,0.15)'}`,
-                  }}>
-                    {String(i + 1).padStart(2, '0')}
-                  </div>
-                  <h3 className="font-serif" style={{ fontSize: '1.3rem', color: '#fff', textAlign: 'center', marginBottom: '0.3rem', transition: 'all 0.4s ease' }}>
-                    {service.title}
-                  </h3>
-                  <p style={{ textAlign: 'center', fontSize: '0.75rem', color: service.color, letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-                    {service.tag}
+            {/* ═════ GROUP 1: B2C RETAIL ═════ */}
+            {(activeTab === 'all' || activeTab === 'b2c') && (
+              <div style={{ marginBottom: '8rem' }}>
+                <div style={{ borderLeft: '3px solid var(--color-accent)', paddingLeft: '1.5rem', marginBottom: '4rem' }}>
+                  <span style={{ fontSize: '0.75rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--color-accent)', fontWeight: 600, display: 'block', marginBottom: '0.4rem' }}>
+                    KATEGORI 01
+                  </span>
+                  <h2 className="font-serif" style={{ fontSize: 'clamp(2rem, 4vw, 3.2rem)', color: '#fff', margin: '0 0 0.5rem 0' }}>
+                    B2C Retail & Personal Session
+                  </h2>
+                  <p style={{ color: 'var(--color-text-secondary)', fontSize: '1rem', maxWidth: '700px', margin: 0 }}>
+                    Layanan foto studio personal, portrait profesional, foto grup, dan sewa studio per jam dengan harga terjangkau.
                   </p>
                 </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
+                  {B2C_SERVICES.map((s, idx) => renderServiceCard(s, idx))}
+                </div>
               </div>
-            ))}
-          </div>
+            )}
 
-          {/* Navigation dots */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '0.8rem', marginTop: '3rem' }}>
-            {SERVICES.map((s, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveIndex(i)}
-                style={{
-                  width: activeIndex === i ? '32px' : '8px',
-                  height: '8px',
-                  borderRadius: '100px',
-                  background: activeIndex === i ? s.color : 'rgba(255,255,255,0.2)',
-                  border: 'none',
-                  cursor: 'pointer',
-                  transition: 'all 0.4s ease',
-                  padding: 0,
-                }}
-              />
-            ))}
-          </div>
+            {/* ═════ GROUP 2: B2B CREATIVE SPACE ═════ */}
+            {(activeTab === 'all' || activeTab === 'b2b') && (
+              <div>
+                <div style={{ borderLeft: '3px solid var(--color-accent)', paddingLeft: '1.5rem', marginBottom: '4rem' }}>
+                  <span style={{ fontSize: '0.75rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--color-accent)', fontWeight: 600, display: 'block', marginBottom: '0.4rem' }}>
+                    KATEGORI 02
+                  </span>
+                  <h2 className="font-serif" style={{ fontSize: 'clamp(2rem, 4vw, 3.2rem)', color: '#fff', margin: '0 0 0.5rem 0' }}>
+                    B2B Creative Space & Production
+                  </h2>
+                  <p style={{ color: 'var(--color-text-secondary)', fontSize: '1rem', maxWidth: '700px', margin: 0 }}>
+                    Solusi komersial untuk brand, agensi, editorial fashion, podcast studio, sewa ruang privat, dan kemitraan retainer.
+                  </p>
+                </div>
 
-          {/* CTA */}
-          <div style={{ textAlign: 'center', marginTop: '3rem' }}>
-            <a href="#" style={{
-              display: 'inline-block',
-              padding: '1rem 3rem',
-              border: '1px solid rgba(255,255,255,0.25)',
-              color: '#fff',
-              textDecoration: 'none',
-              textTransform: 'uppercase',
-              fontSize: '0.8rem',
-              letterSpacing: '0.2em',
-              borderRadius: '100px',
-              transition: 'all 0.4s ease',
-              background: 'rgba(255,255,255,0.04)',
-              backdropFilter: 'blur(10px)',
-            }}
-            onMouseEnter={e => e.target.style.background = 'rgba(255,255,255,0.12)'}
-            onMouseLeave={e => e.target.style.background = 'rgba(255,255,255,0.04)'}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
+                  {B2B_SERVICES.map((s, idx) => renderServiceCard(s, B2C_SERVICES.length + idx))}
+                </div>
+              </div>
+            )}
+
+            {/* Bottom Custom Consultation Banner */}
+            <div
+              style={{
+                marginTop: '8rem',
+                background: 'linear-gradient(135deg, rgba(21,18,15,0.9) 0%, rgba(14,12,10,0.95) 100%)',
+                border: '1px solid rgba(201,169,110,0.2)',
+                borderRadius: '12px',
+                padding: 'clamp(2.5rem, 5vw, 4rem)',
+                textAlign: 'center',
+                boxShadow: '0 20px 40px rgba(0,0,0,0.5)',
+              }}
             >
-              Pesan Sekarang
-            </a>
+              <h3 className="font-serif" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', color: '#fff', marginBottom: '1rem' }}>
+                Punya Kebutuhan Khusus atau Event Tertentu?
+              </h3>
+              <p style={{ color: 'var(--color-text-secondary)', maxWidth: '650px', margin: '0 auto 2rem', fontSize: '1rem', lineHeight: 1.7 }}>
+                Kami melayani custom setup studio, live streaming, workshop, dan paket khusus disesuaikan dengan kebutuhan dan anggaran produksi Anda.
+              </p>
+              <a
+                href="https://wa.me/6285933585829?text=Halo%20Faza%20Studio%2C%20saya%20ingin%20konsultasi%20paket%20atau%20custom%20sewa%20studio."
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.6rem',
+                  padding: '1rem 2.5rem',
+                  background: '#25D366',
+                  color: '#fff',
+                  textDecoration: 'none',
+                  fontSize: '0.85rem',
+                  fontWeight: 600,
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  borderRadius: '50px',
+                  boxShadow: '0 4px 20px rgba(37, 211, 102, 0.35)',
+                  transition: 'all 0.3s ease',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-3px)')}
+                onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
+              >
+                <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '18px', color: '#fff' }} />
+                Konsultasi Bebas via WhatsApp
+              </a>
+            </div>
           </div>
-
         </div>
       </div>
     </PageTransition>

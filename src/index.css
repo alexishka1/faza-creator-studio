@@ -8,14 +8,51 @@
 }
 
 :root {
-  --color-bg: #050505;
+  --color-bg: #0e0c0a;
+  --color-bg-card: #151210;
   --color-text: #ffffff;
-  --color-accent: #888888;
-  --color-border: rgba(255, 255, 255, 0.1);
+  --color-accent: #c9a96e; /* Single consistent signature Tan/Gold accent */
+  --color-accent-hover: #dfc28d;
+  --color-border: rgba(255, 255, 255, 0.08);
   --font-serif: 'Playfair Display', serif;
   --font-sans: 'Inter', sans-serif;
-  
   --spacing-section: 15vh;
+}
+
+/* ===== UNIVERSAL PHOTO GRADE (Warm charcoal-cream desaturate) ===== */
+.faza-graded-img {
+  filter: grayscale(30%) sepia(16%) contrast(1.08) brightness(0.94);
+  transition: filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s ease;
+}
+
+.faza-graded-img:hover {
+  filter: grayscale(0%) sepia(8%) contrast(1.1) brightness(1);
+}
+
+/* ===== FADED PHOTO BACKGROUND & SCRIM (Spec: 15-30% opacity + dark gradient 55-80%) ===== */
+.faza-faded-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.22;
+  filter: grayscale(35%) sepia(18%) contrast(1.1);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.faza-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(20, 17, 15, 0.85) 0%, rgba(20, 17, 15, 0.55) 50%, rgba(14, 12, 10, 0.95) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --spacing-section: 8vh;
+  }
 }
 
 body, html {
@@ -28,8 +65,14 @@ body, html {
   cursor: none;
 }
 
-a, button, input {
+a, button, input, select, textarea {
   cursor: none !important;
+}
+
+@media (pointer: coarse) {
+  body, html, a, button, input, select, textarea {
+    cursor: auto !important;
+  }
 }
 
 /* ===== LENIS SMOOTH SCROLL ===== */
@@ -140,22 +183,58 @@ h2 {
 }
 
 .nav-links {
-  display: flex;
-  gap: 2rem;
   list-style: none;
+  display: flex;
+  gap: 3rem;
+  margin: 0;
+  padding: 0;
+  align-items: center;
 }
-
-.nav-links a {
-  color: var(--color-text);
+.nav-link {
   text-decoration: none;
-  font-size: 0.8rem;
-  text-transform: uppercase;
+  color: #fff;
+  font-size: 0.9rem;
   letter-spacing: 0.1em;
-  transition: opacity 0.3s;
+  text-transform: uppercase;
+  transition: opacity 0.3s ease;
+}
+.nav-link:hover {
+  opacity: 0.6;
+}
+.btn-outline-nav {
+  border: 1px solid #fff;
+  padding: 0.5rem 1.5rem;
+  border-radius: 30px;
+  text-decoration: none;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  transition: all 0.3s ease;
+}
+.btn-outline-nav:hover {
+  background: #fff;
+  color: #000;
 }
 
-.nav-links a:hover {
-  opacity: 0.6;
+/* Mobile Menu Button */
+.mobile-menu-btn {
+  display: none;
+  cursor: pointer;
+  z-index: 100;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none !important;
+  }
+  .mobile-menu-btn {
+    display: block;
+  }
+  .header {
+    padding: 1.5rem 5%;
+  }
 }
 
 /* ===== FLOATING CTA BAR ===== */
@@ -394,9 +473,11 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 3rem;
+  flex-wrap: wrap;
+  gap: 2rem;
   list-style: none;
   margin-top: 2rem;
+  padding: 0 1rem;
 }
 
 .footer-nav a {
@@ -477,6 +558,89 @@ h2 {
   width: 100%;
 }
 
+.btn-wa-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #25D366;
+  color: #fff !important;
+  font-weight: 600;
+  border-radius: 30px;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.35);
+  transition: all 0.3s ease;
+}
+
+/* ===== FLOATING WHATSAPP BUTTON & PULSE ANIMATION ===== */
+.wa-float-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.wa-float-btn {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #25D366;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.45), 0 4px 12px rgba(0, 0, 0, 0.35);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.wa-float-btn:hover {
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 12px 30px rgba(37, 211, 102, 0.6), 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Subtle Radar Pulse Ring */
+.wa-pulse-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid rgba(37, 211, 102, 0.65);
+  animation: wa-pulse 2.8s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes wa-pulse {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.85;
+  }
+  70% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .wa-float-container {
+    bottom: 1.25rem;
+    right: 1.25rem;
+  }
+  .wa-float-btn {
+    width: 52px;
+    height: 52px;
+  }
+  .wa-tooltip-desktop {
+    display: none !important;
+  }
+}
+
 /* ===== CUSTOM SERVICES ARCH CARD ===== */
 .services-container {
   display: flex;
@@ -489,8 +653,9 @@ h2 {
 
 .service-arch-card {
   position: relative;
-  width: clamp(280px, 25vw, 350px);
-  height: clamp(400px, 40vw, 500px);
+  width: 100%;
+  max-width: 350px;
+  height: 450px;
   border-radius: 200px 200px 0 0; /* Arch top */
   overflow: hidden;
   cursor: pointer;

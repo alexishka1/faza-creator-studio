@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Link } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -11,6 +11,7 @@ import Layanan from './pages/Layanan';
 import TentangKami from './pages/TentangKami';
 import Karya from './pages/Karya';
 import Booking from './pages/Booking';
+import Admin from './pages/Admin';
 import Loader from './components/Loader';
 import IntroScreen from './components/IntroScreen';
 import CustomCursor from './components/CustomCursor';
@@ -33,6 +34,7 @@ const AnimatedRoutes = () => {
         <Route path="/tentangkami" element={<TentangKami />} />
         <Route path="/karya" element={<Karya />} />
         <Route path="/booking" element={<Booking />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </AnimatePresence>
   );
@@ -47,8 +49,22 @@ const FooterWrapper = () => {
   return <Footer />;
 };
 
+import WhatsAppFloating from './components/WhatsAppFloating';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import ScrollToTop from './components/ScrollToTop';
+
 function App() {
   const [hasStarted, setHasStarted] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [isMobileMenuOpen]);
 
   useEffect(() => {
     // Only init lenis after intro is done
@@ -66,6 +82,8 @@ function App() {
       infinite: false,
     });
 
+    window.lenis = lenis;
+
     lenis.on('scroll', ScrollTrigger.update);
 
     gsap.ticker.add((time) => {
@@ -75,6 +93,7 @@ function App() {
     gsap.ticker.lagSmoothing(0);
 
     return () => {
+      window.lenis = null;
       lenis.destroy();
     };
   }, [hasStarted]);
@@ -86,37 +105,129 @@ function App() {
       
       {hasStarted && (
         <Router>
+          <ScrollToTop />
           <Loader />
+          <WhatsAppFloating />
           {/* GLOBAL HEADER LOGO & NAV */}
           <header className="header">
             <div className="brand">
-              <span className="brand-text">FAZA STUDIO</span>
+              <Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>
+                <span className="brand-text">FAZA STUDIO</span>
+              </Link>
             </div>
-            <ul className="nav-links">
+            <ul className="nav-links desktop-nav">
               <li><Link to="/" className="nav-link">Home</Link></li>
-              <li><Link to="/layanan" className="nav-link">Layanan</Link></li>
+              <li><Link to="/layanan" className="nav-link">Sewa Studio / Harga</Link></li>
               <li><Link to="/karya" className="nav-link">Karya</Link></li>
               <li><Link to="/tentangkami" className="nav-link">Tentang Kami</Link></li>
               <li>
-                <Link to="/booking" style={{
-                  border: '1px solid #fff', 
-                  padding: '0.5rem 1rem', 
-                  borderRadius: '30px', 
-                  textDecoration: 'none', 
-                  color: '#fff',
-                  textTransform: 'uppercase',
-                  fontSize: '0.8rem',
-                  letterSpacing: '0.1em',
-                  transition: 'all 0.3s'
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.color = '#000'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#fff'; }}
+                <a
+                  href="https://wa.me/6285933585829?text=Halo%20Faza%20Studio%2C%20saya%20tertarik%20untuk%20booking%20atau%20tanya%20jadwal%20studio."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-wa-nav"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.65rem 1.4rem',
+                    background: '#25D366',
+                    color: '#fff',
+                    textDecoration: 'none',
+                    borderRadius: '30px',
+                    fontSize: '0.82rem',
+                    fontWeight: 600,
+                    letterSpacing: '0.05em',
+                    boxShadow: '0 4px 15px rgba(37, 211, 102, 0.35)',
+                    transition: 'all 0.3s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 6px 20px rgba(37, 211, 102, 0.5)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(37, 211, 102, 0.35)';
+                  }}
                 >
-                  Booking
-                </Link>
+                  <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '16px', color: '#fff' }} />
+                  Booking via WhatsApp
+                </a>
               </li>
             </ul>
+
+            {/* Mobile Hamburger Icon */}
+            <div className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(true)}>
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="square">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
+            </div>
           </header>
+
+          {/* Full Screen Mobile Menu Overlay */}
+          <div 
+            style={{
+              position: 'fixed',
+              top: 0, left: 0, width: '100%', height: '100vh',
+              background: '#0a0807',
+              zIndex: 9999,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              overflowY: 'auto',
+              padding: '4rem 0',
+              opacity: isMobileMenuOpen ? 1 : 0,
+              transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(-100%)',
+              transition: 'opacity 0.4s ease, transform 0.4s ease',
+              pointerEvents: isMobileMenuOpen ? 'auto' : 'none',
+            }}
+          >
+            <div 
+              onClick={() => setIsMobileMenuOpen(false)}
+              style={{ position: 'absolute', top: '2rem', right: '2rem', cursor: 'pointer', zIndex: 10 }}
+            >
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="square">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </div>
+            
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '1.8rem' }}>
+              <li><Link to="/" onClick={() => setIsMobileMenuOpen(false)} style={mobileLinkStyle}>Home</Link></li>
+              <li><Link to="/layanan" onClick={() => setIsMobileMenuOpen(false)} style={mobileLinkStyle}>Sewa Studio / Harga</Link></li>
+              <li><Link to="/karya" onClick={() => setIsMobileMenuOpen(false)} style={mobileLinkStyle}>Karya</Link></li>
+              <li><Link to="/tentangkami" onClick={() => setIsMobileMenuOpen(false)} style={mobileLinkStyle}>Tentang Kami</Link></li>
+              <li>
+                <a
+                  href="https://wa.me/6285933585829?text=Halo%20Faza%20Studio%2C%20saya%20tertarik%20untuk%20booking%20atau%20tanya%20jadwal%20studio."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.6rem',
+                    background: '#25D366',
+                    color: '#fff',
+                    textDecoration: 'none',
+                    padding: '0.85rem 2.2rem',
+                    borderRadius: '40px',
+                    fontSize: '1.05rem',
+                    fontWeight: 600,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                    boxShadow: '0 4px 20px rgba(37, 211, 102, 0.4)',
+                  }}
+                >
+                  <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '22px', color: '#fff' }} />
+                  Booking via WhatsApp
+                </a>
+              </li>
+            </ul>
+          </div>
 
           <main>
             <AnimatedRoutes />
@@ -127,6 +238,15 @@ function App() {
     </>
   );
 }
+
+const mobileLinkStyle = {
+  textDecoration: 'none',
+  color: '#fff',
+  fontFamily: 'var(--font-serif)',
+  fontSize: 'clamp(1.8rem, 6vw, 2.5rem)',
+  textTransform: 'uppercase',
+  display: 'inline-block'
+};
 
 export default App;
 

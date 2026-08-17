@@ -5,8 +5,15 @@ const CustomCursor = () => {
   const dotRef = useRef(null);
   const ringRef = useRef(null);
   const [isHovering, setIsHovering] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   useEffect(() => {
+    // Check if device is touch-enabled
+    if (window.matchMedia("(pointer: coarse)").matches) {
+      setIsTouchDevice(true);
+      return;
+    }
+
     const onMouseMove = (e) => {
       // Move dot instantly
       gsap.to(dotRef.current, {
@@ -61,6 +68,10 @@ const CustomCursor = () => {
       gsap.to(dotRef.current, { scale: 1, duration: 0.3 });
     }
   }, [isHovering]);
+
+  if (isTouchDevice) {
+    return null;
+  }
 
   return (
     <>

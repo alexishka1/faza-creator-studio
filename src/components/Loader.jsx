@@ -65,6 +65,7 @@ const Loader = () => {
   const textRef = useRef(null);
   const flashRef = useRef(null);
   const progressRef = useRef({ value: 0 });
+  const isFirstMount = useRef(true);
 
   useEffect(() => {
     setIsLoading(true);
@@ -117,18 +118,25 @@ const Loader = () => {
       duration: 0.3
     }, 3.2);
 
-    // 3. Camera Flash!
-    tl.to(flashRef.current, { opacity: 1, duration: 0.1, ease: 'power4.out' }, 3.5);
+    // 3. Camera Flash (ONLY on subsequent route changes, not first load)
+    if (!isFirstMount.current) {
+      tl.to(flashRef.current, { opacity: 1, duration: 0.1, ease: 'power4.out' }, 3.5);
+    }
     
     // 4. Shutter opens exactly at the peak of the flash
     tl.to(topShutterRef.current, { yPercent: -100, duration: 0.9, ease: "power4.inOut" }, 3.55);
     tl.to(bottomShutterRef.current, { yPercent: 100, duration: 0.9, ease: "power4.inOut" }, 3.55);
     
     // Fade out flash slowly to reveal the crisp page behind it
-    tl.to(flashRef.current, { opacity: 0, duration: 0.9, ease: 'power2.out' }, 3.6);
+    if (!isFirstMount.current) {
+      tl.to(flashRef.current, { opacity: 0, duration: 0.9, ease: 'power2.out' }, 3.6);
+    }
 
     // 5. Hide completely from DOM
     tl.set(loaderRef.current, { display: 'none' });
+
+    // Mark that initial load is done
+    isFirstMount.current = false;
 
   }, [location.pathname]);
 
