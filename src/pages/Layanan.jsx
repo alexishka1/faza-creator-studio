@@ -227,8 +227,8 @@ const Layanan = () => {
                   transition: 'all 0.3s ease',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#25D366';
-                  e.currentTarget.style.color = '#25D366';
+                  e.currentTarget.style.borderColor = 'var(--color-wa-light, #2fe668)';
+                  e.currentTarget.style.color = 'var(--color-wa-light, #2fe668)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)';
@@ -398,7 +398,8 @@ const Layanan = () => {
                   alignItems: 'center',
                   gap: '0.6rem',
                   padding: '1rem 2.5rem',
-                  background: '#25D366',
+                  background: 'var(--color-wa-gradient, linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%))',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
                   color: '#fff',
                   textDecoration: 'none',
                   fontSize: '0.85rem',
@@ -406,7 +407,7 @@ const Layanan = () => {
                   letterSpacing: '0.1em',
                   textTransform: 'uppercase',
                   borderRadius: '50px',
-                  boxShadow: '0 4px 20px rgba(37, 211, 102, 0.35)',
+                  boxShadow: '0 6px 22px var(--color-wa-glow, rgba(36, 215, 87, 0.45))',
                   transition: 'all 0.3s ease',
                 }}
                 onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-3px)')}

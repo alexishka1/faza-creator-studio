@@ -386,8 +386,11 @@ const Admin = () => {
                             href={`https://wa.me/${b.phone?.replace(/\D/g, '').replace(/^0/, '62')}?text=Halo%20${encodeURIComponent(b.nama)}%2C%20kami%20dari%20Faza%20Studio%20mengenai%20reservasi%20sesi%20${encodeURIComponent(b.layanan)}%20pada%20${b.tanggal}%20pukul%20${b.jam}.`}
                             target="_blank" rel="noopener noreferrer"
                             style={{
-                              ...actionBtnStyle, textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
-                              background: '#25D366', color: '#fff', fontWeight: 600, border: 'none',
+                              background: 'var(--color-wa-gradient, linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%))',
+                              color: '#fff',
+                              fontWeight: 600,
+                              border: '1px solid rgba(255, 255, 255, 0.25)',
+                              boxShadow: '0 4px 15px var(--color-wa-glow, rgba(36, 215, 87, 0.45))',
                             }}
                           >
                             <FontAwesomeIcon icon={faWhatsapp} /> Chat Klien

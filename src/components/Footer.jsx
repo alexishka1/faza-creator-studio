@@ -63,7 +63,8 @@ const Footer = () => {
               alignItems: 'center',
               gap: '0.6rem',
               padding: '0.9rem 2rem',
-              background: '#25D366',
+              background: 'var(--color-wa-gradient, linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%))',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
               color: '#fff',
               textDecoration: 'none',
               textTransform: 'uppercase',
@@ -71,7 +72,7 @@ const Footer = () => {
               fontSize: '0.82rem',
               fontWeight: 600,
               borderRadius: '50px',
-              boxShadow: '0 4px 20px rgba(37, 211, 102, 0.35)',
+              boxShadow: '0 6px 22px var(--color-wa-glow, rgba(36, 215, 87, 0.45))',
               transition: 'all 0.3s ease',
             }}
             onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-2px)')}
@@ -96,7 +97,7 @@ const Footer = () => {
               href="https://wa.me/6285933585829"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: '#25D366', textDecoration: 'none', fontSize: '1.05rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
+              style={{ color: 'var(--color-wa-light, #2fe668)', textDecoration: 'none', fontSize: '1.05rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
             >
               +62 859-3358-5829 ↗
             </a>

@@ -41,10 +41,10 @@ const WhatsAppFloating = () => {
           style={{
             width: '8px',
             height: '8px',
-            background: '#25D366',
+            background: 'var(--color-wa, #20c850)',
             borderRadius: '50%',
             display: 'inline-block',
-            boxShadow: '0 0 8px #25D366',
+            boxShadow: '0 0 10px var(--color-wa-light, #2fe668)',
           }}
         />
         <span>Chat Admin (09.00–21.00)</span>

@@ -73,23 +73,24 @@ const HeaderWrapper = ({ onOpenMobileMenu }) => {
               alignItems: 'center',
               gap: '0.5rem',
               padding: '0.65rem 1.4rem',
-              background: '#25D366',
+              background: 'var(--color-wa-gradient, linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%))',
               color: '#fff',
               textDecoration: 'none',
               borderRadius: '30px',
+              border: '1px solid rgba(255, 255, 255, 0.25)',
               fontSize: '0.82rem',
               fontWeight: 600,
               letterSpacing: '0.05em',
-              boxShadow: '0 4px 15px rgba(37, 211, 102, 0.35)',
+              boxShadow: '0 4px 18px var(--color-wa-glow, rgba(36, 215, 87, 0.45))',
               transition: 'all 0.3s ease',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = '0 6px 20px rgba(37, 211, 102, 0.5)';
+              e.currentTarget.style.boxShadow = '0 6px 24px var(--color-wa-glow-strong, rgba(46, 230, 107, 0.65))';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 4px 15px rgba(37, 211, 102, 0.35)';
+              e.currentTarget.style.boxShadow = '0 4px 18px var(--color-wa-glow, rgba(36, 215, 87, 0.45))';
             }}
           >
             <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '16px', color: '#fff' }} />
@@ -220,7 +221,8 @@ function App() {
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '0.6rem',
-                    background: '#25D366',
+                    background: 'var(--color-wa-gradient, linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%))',
+                    border: '1px solid rgba(255, 255, 255, 0.3)',
                     color: '#fff',
                     textDecoration: 'none',
                     padding: '0.85rem 2.2rem',
@@ -229,7 +231,7 @@ function App() {
                     fontWeight: 600,
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em',
-                    boxShadow: '0 4px 20px rgba(37, 211, 102, 0.4)',
+                    boxShadow: '0 6px 22px var(--color-wa-glow, rgba(36, 215, 87, 0.45))',
                   }}
                 >
                   <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '22px', color: '#fff' }} />

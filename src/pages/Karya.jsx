@@ -153,7 +153,8 @@ const Karya = () => {
                 alignItems: 'center',
                 gap: '0.6rem',
                 padding: '0.95rem 2.2rem',
-                background: '#25D366',
+                background: 'var(--color-wa-gradient, linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%))',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
                 color: '#fff',
                 textDecoration: 'none',
                 fontSize: '0.85rem',
@@ -161,7 +162,7 @@ const Karya = () => {
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',
                 borderRadius: '50px',
-                boxShadow: '0 4px 20px rgba(37, 211, 102, 0.4)',
+                boxShadow: '0 6px 22px var(--color-wa-glow, rgba(36, 215, 87, 0.45))',
               }}
             >
               <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '18px', color: '#fff' }} />

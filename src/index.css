@@ -14,6 +14,12 @@
   --color-accent: #c9a96e; /* Single consistent signature Tan/Gold accent */
   --color-accent-hover: #dfc28d;
   --color-border: rgba(255, 255, 255, 0.08);
+  --color-wa: #20c850;
+  --color-wa-light: #2fe668;
+  --color-wa-dark: #149c3b;
+  --color-wa-gradient: linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%);
+  --color-wa-glow: rgba(36, 215, 87, 0.45);
+  --color-wa-glow-strong: rgba(46, 230, 107, 0.65);
   --font-serif: 'Playfair Display', serif;
   --font-sans: 'Inter', sans-serif;
   --spacing-section: 15vh;
@@ -562,11 +568,12 @@ h2 {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background-color: #25D366;
+  background: var(--color-wa-gradient, linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%));
   color: #fff !important;
   font-weight: 600;
   border-radius: 30px;
-  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 18px var(--color-wa-glow, rgba(36, 215, 87, 0.45));
   transition: all 0.3s ease;
 }
 
@@ -586,12 +593,13 @@ h2 {
   width: 58px;
   height: 58px;
   border-radius: 50%;
-  background: #25D366;
+  background: var(--color-wa-gradient, linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%));
+  border: 1px solid rgba(255, 255, 255, 0.35);
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.45), 0 4px 12px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 8px 25px var(--color-wa-glow, rgba(36, 215, 87, 0.45)), 0 4px 12px rgba(0, 0, 0, 0.35);
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
   text-decoration: none;
   cursor: pointer;
@@ -599,7 +607,7 @@ h2 {
 
 .wa-float-btn:hover {
   transform: scale(1.08) translateY(-2px);
-  box-shadow: 0 12px 30px rgba(37, 211, 102, 0.6), 0 6px 16px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 12px 30px var(--color-wa-glow-strong, rgba(46, 230, 107, 0.65)), 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
 /* Subtle Radar Pulse Ring */
@@ -607,7 +615,7 @@ h2 {
   position: absolute;
   inset: -6px;
   border-radius: 50%;
-  border: 2px solid rgba(37, 211, 102, 0.65);
+  border: 2px solid var(--color-wa-glow-strong, rgba(46, 230, 107, 0.65));
   animation: wa-pulse 2.8s cubic-bezier(0.25, 1, 0.5, 1) infinite;
   pointer-events: none;
 }

@@ -119,10 +119,11 @@ const Booking = () => {
                 target="_blank" rel="noopener noreferrer"
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: '0.6rem',
-                  padding: '0.9rem 2rem', border: 'none', color: '#fff',
+                  padding: '0.9rem 2rem', border: '1px solid rgba(255, 255, 255, 0.3)', color: '#fff',
                   textDecoration: 'none', textTransform: 'uppercase', fontSize: '0.8rem',
-                  fontWeight: 600, letterSpacing: '0.12em', borderRadius: '4px', background: '#25D366',
-                  boxShadow: '0 4px 15px rgba(37, 211, 102, 0.35)'
+                  fontWeight: 600, letterSpacing: '0.12em', borderRadius: '4px',
+                  background: 'var(--color-wa-gradient, linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%))',
+                  boxShadow: '0 6px 22px var(--color-wa-glow, rgba(36, 215, 87, 0.45))'
                 }}
               >
                 <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '16px', color: '#fff' }} />
@@ -168,7 +169,7 @@ const Booking = () => {
             <div style={{ marginBottom: '3rem' }}>
               <h4 style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--color-accent, #c9a96e)', marginBottom: '0.5rem', fontWeight: 600 }}>Kontak Langsung</h4>
               <p style={{ fontSize: '1.05rem', margin: '0 0 0.3rem', color: '#fff' }}>dewadp08@gmail.com</p>
-              <p style={{ fontSize: '1.05rem', margin: 0, color: '#25D366', fontWeight: 600 }}>+62 859-3358-5829</p>
+              <p style={{ fontSize: '1.05rem', margin: 0, color: 'var(--color-wa-light, #2fe668)', fontWeight: 600 }}>+62 859-3358-5829</p>
             </div>
 
             <a
@@ -177,10 +178,13 @@ const Booking = () => {
               rel="noopener noreferrer"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: '0.7rem',
-                padding: '1rem 2.2rem', background: '#25D366', color: '#fff',
+                padding: '1rem 2.2rem',
+                background: 'var(--color-wa-gradient, linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%))',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                color: '#fff',
                 textDecoration: 'none', textTransform: 'uppercase', letterSpacing: '0.1em',
                 fontSize: '0.82rem', fontWeight: 600, borderRadius: '50px',
-                boxShadow: '0 4px 20px rgba(37, 211, 102, 0.4)',
+                boxShadow: '0 6px 22px var(--color-wa-glow, rgba(36, 215, 87, 0.45))',
                 transition: 'transform 0.3s ease'
               }}
               onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-2px)')}

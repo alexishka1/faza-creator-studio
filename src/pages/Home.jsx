@@ -271,7 +271,8 @@ const Home = () => {
                   alignItems: 'center',
                   gap: '0.6rem',
                   padding: '0.95rem 2.2rem',
-                  background: '#25D366',
+                  background: 'var(--color-wa-gradient, linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%))',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
                   color: '#fff',
                   textDecoration: 'none',
                   fontSize: '0.85rem',
@@ -279,16 +280,16 @@ const Home = () => {
                   textTransform: 'uppercase',
                   fontWeight: 600,
                   borderRadius: '50px',
-                  boxShadow: '0 4px 20px rgba(37, 211, 102, 0.4)',
+                  boxShadow: '0 6px 22px var(--color-wa-glow, rgba(36, 215, 87, 0.45))',
                   transition: 'all 0.3s ease',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-3px)';
-                  e.currentTarget.style.boxShadow = '0 6px 25px rgba(37, 211, 102, 0.55)';
+                  e.currentTarget.style.boxShadow = '0 8px 28px var(--color-wa-glow-strong, rgba(46, 230, 107, 0.65))';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(37, 211, 102, 0.4)';
+                  e.currentTarget.style.boxShadow = '0 6px 22px var(--color-wa-glow, rgba(36, 215, 87, 0.45))';
                 }}
               >
                 <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '18px', color: '#fff' }} />
@@ -608,7 +609,8 @@ const Home = () => {
                   alignItems: 'center',
                   gap: '0.6rem',
                   padding: '0.9rem 2.2rem',
-                  background: '#25D366',
+                  background: 'var(--color-wa-gradient, linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%))',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
                   color: '#fff',
                   textDecoration: 'none',
                   fontSize: '0.85rem',
@@ -616,7 +618,7 @@ const Home = () => {
                   letterSpacing: '0.08em',
                   textTransform: 'uppercase',
                   borderRadius: '50px',
-                  boxShadow: '0 4px 20px rgba(37, 211, 102, 0.4)',
+                  boxShadow: '0 6px 22px var(--color-wa-glow, rgba(36, 215, 87, 0.45))',
                 }}
               >
                 <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '18px', color: '#fff' }} />
@@ -691,7 +693,8 @@ const Home = () => {
                 alignItems: 'center',
                 gap: '0.6rem',
                 padding: '1rem 2.6rem',
-                background: '#25D366',
+                background: 'var(--color-wa-gradient, linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%))',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
                 color: '#fff',
                 textDecoration: 'none',
                 fontSize: '0.88rem',
@@ -699,7 +702,7 @@ const Home = () => {
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',
                 borderRadius: '50px',
-                boxShadow: '0 4px 20px rgba(37, 211, 102, 0.4)',
+                boxShadow: '0 6px 22px var(--color-wa-glow, rgba(36, 215, 87, 0.45))',
                 transition: 'all 0.3s ease',
               }}
               onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-3px)')}
