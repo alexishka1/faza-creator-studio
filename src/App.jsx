@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Link } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -24,106 +24,11 @@ import ScrollToTop from './components/ScrollToTop';
 import { STUDIO_INFO, getWhatsAppUrl } from './data/contact';
 import './index.css';
 
-// Animated route transitions
-const AnimatedRoutes = () => {
-  const location = useLocation();
-  
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
-  
-  return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Home />} />
-        <Route path="/layanan" element={<Layanan />} />
-        <Route path="/tentangkami" element={<TentangKami />} />
-        <Route path="/karya" element={<Karya />} />
-        <Route path="/booking" element={<Booking />} />
-        <Route path="/admin" element={<Admin />} />
-      </Routes>
-    </AnimatePresence>
-  );
-};
-
-// Header Wrapper to hide on /admin
-const HeaderWrapper = ({ onOpenMobileMenu }) => {
-  const location = useLocation();
-  if (location.pathname === '/admin') return null;
-
-  return (
-    <header className="header">
-      <div className="brand">
-        <Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>
-          <span className="brand-text">{STUDIO_INFO.name}</span>
-        </Link>
-      </div>
-      <ul className="nav-links desktop-nav">
-        <li><Link to="/" className="nav-link">Home</Link></li>
-        <li><Link to="/layanan" className="nav-link">Sewa Studio / Harga</Link></li>
-        <li><Link to="/karya" className="nav-link">Karya</Link></li>
-        <li><Link to="/tentangkami" className="nav-link">Tentang Kami</Link></li>
-        <li>
-          <a
-            href={getWhatsAppUrl('Halo Faza Studio, saya tertarik untuk booking atau tanya jadwal studio.')}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-wa-nav"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              padding: '0.65rem 1.4rem',
-              background: 'var(--color-wa-gradient, linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%))',
-              color: '#fff',
-              textDecoration: 'none',
-              borderRadius: '30px',
-              border: '1px solid rgba(255, 255, 255, 0.25)',
-              fontSize: '0.82rem',
-              fontWeight: 600,
-              letterSpacing: '0.05em',
-              boxShadow: '0 4px 18px var(--color-wa-glow, rgba(36, 215, 87, 0.45))',
-              transition: 'all 0.3s ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = '0 6px 24px var(--color-wa-glow-strong, rgba(46, 230, 107, 0.65))';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 4px 18px var(--color-wa-glow, rgba(36, 215, 87, 0.45))';
-            }}
-          >
-            <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '16px', color: '#fff' }} />
-            Booking via WhatsApp
-          </a>
-        </li>
-      </ul>
-
-      {/* Mobile Hamburger Icon */}
-      <div className="mobile-menu-btn" onClick={onOpenMobileMenu}>
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="square">
-          <line x1="3" y1="12" x2="21" y2="12"></line>
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <line x1="3" y1="18" x2="21" y2="18"></line>
-        </svg>
-      </div>
-    </header>
-  );
-};
-
-// Footer Wrapper to hide on specific pages
-const FooterWrapper = () => {
-  const location = useLocation();
-  if (location.pathname === '/' || location.pathname === '/tentangkami' || location.pathname === '/admin') {
-    return null;
-  }
-  return <Footer />;
-};
-
-function App() {
+// Client Layout for Public Marketing Pages
+const ClientLayout = ({ children }) => {
   const [hasStarted, setHasStarted] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -134,7 +39,6 @@ function App() {
   }, [isMobileMenuOpen]);
 
   useEffect(() => {
-    // Only init lenis after intro is done
     if (!hasStarted) return;
 
     const lenis = new Lenis({
@@ -150,13 +54,10 @@ function App() {
     });
 
     window.lenis = lenis;
-
     lenis.on('scroll', ScrollTrigger.update);
-
     gsap.ticker.add((time) => {
       lenis.raf(time * 1000);
     });
-
     gsap.ticker.lagSmoothing(0);
 
     return () => {
@@ -169,14 +70,70 @@ function App() {
     <>
       <CustomCursor />
       {!hasStarted && <IntroScreen onStart={() => setHasStarted(true)} />}
-      
+
       {hasStarted && (
-        <Router>
+        <>
           <ScrollToTop />
           <Loader />
           <WhatsAppFloating />
-          
-          <HeaderWrapper onOpenMobileMenu={() => setIsMobileMenuOpen(true)} />
+
+          {/* Header */}
+          <header className="header">
+            <div className="brand">
+              <Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>
+                <span className="brand-text">{STUDIO_INFO.name}</span>
+              </Link>
+            </div>
+            <ul className="nav-links desktop-nav">
+              <li><Link to="/" className="nav-link">Home</Link></li>
+              <li><Link to="/layanan" className="nav-link">Sewa Studio / Harga</Link></li>
+              <li><Link to="/karya" className="nav-link">Karya</Link></li>
+              <li><Link to="/tentangkami" className="nav-link">Tentang Kami</Link></li>
+              <li>
+                <a
+                  href={getWhatsAppUrl('Halo Faza Studio, saya tertarik untuk booking atau tanya jadwal studio.')}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-wa-nav"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.65rem 1.4rem',
+                    background: 'var(--color-wa-gradient, linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%))',
+                    color: '#fff',
+                    textDecoration: 'none',
+                    borderRadius: '30px',
+                    border: '1px solid rgba(255, 255, 255, 0.25)',
+                    fontSize: '0.82rem',
+                    fontWeight: 600,
+                    letterSpacing: '0.05em',
+                    boxShadow: '0 4px 18px var(--color-wa-glow, rgba(36, 215, 87, 0.45))',
+                    transition: 'all 0.3s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 6px 24px var(--color-wa-glow-strong, rgba(46, 230, 107, 0.65))';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 18px var(--color-wa-glow, rgba(36, 215, 87, 0.45))';
+                  }}
+                >
+                  <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '16px', color: '#fff' }} />
+                  Booking via WhatsApp
+                </a>
+              </li>
+            </ul>
+
+            <div className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(true)}>
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="square">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
+            </div>
+          </header>
 
           {/* Full Screen Mobile Menu Overlay */}
           <div 
@@ -242,13 +199,55 @@ function App() {
             </ul>
           </div>
 
-          <main>
-            <AnimatedRoutes />
-          </main>
-          <FooterWrapper />
-        </Router>
+          <main>{children}</main>
+
+          {/* Footer (Hide on Home & Tentang Kami) */}
+          {location.pathname !== '/' && location.pathname !== '/tentangkami' && <Footer />}
+        </>
       )}
     </>
+  );
+};
+
+// Animated client routes
+const ClientAnimatedRoutes = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Home />} />
+        <Route path="/layanan" element={<Layanan />} />
+        <Route path="/tentangkami" element={<TentangKami />} />
+        <Route path="/karya" element={<Karya />} />
+        <Route path="/booking" element={<Booking />} />
+      </Routes>
+    </AnimatePresence>
+  );
+};
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        {/* 1. COMPLETELY SEPARATE & STANDALONE ADMIN PORTAL */}
+        <Route path="/admin" element={<Admin />} />
+
+        {/* 2. PUBLIC USER WEBSITE (With Intro, Smooth Scroll, Cursor, etc.) */}
+        <Route
+          path="/*"
+          element={
+            <ClientLayout>
+              <ClientAnimatedRoutes />
+            </ClientLayout>
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
 
