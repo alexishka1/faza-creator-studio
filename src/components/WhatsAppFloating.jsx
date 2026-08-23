@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 
 const WhatsAppFloating = () => {
+  const location = useLocation();
   const [isHovered, setIsHovered] = useState(false);
   const waNumber = '6285933585829';
   const defaultMsg = 'Halo Faza Studio, saya mau tanya-tanya soal sewa studio dan paket foto';
   const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(defaultMsg)}`;
+
+  if (location.pathname === '/admin') return null;
 
   return (
     <aside aria-label="WhatsApp Floating Widget" className="wa-float-container">

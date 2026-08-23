@@ -1,0 +1,122 @@
+// Centralized source of truth for all Faza Studio packages & pricing
+
+export const B2C_SERVICES = [
+  {
+    id: 'studio-rent',
+    title: 'Studio Rent',
+    subtitle: '/ Jam',
+    price: 'Rp 150.000 – 250.000',
+    tag: 'RETAIL / PER JAM',
+    desc: 'Sewa ruang studio fleksibel per jam dengan setup pencahayaan profesional, berbagai pilihan background/cyclorama, dan ruangan ber-AC nyaman untuk segala kebutuhan foto mandiri.',
+    features: ['Setup Lighting Pro Terpasang', 'Pilihan Backdrop & Cyclorama', 'AC & Ruang Rias Privat', 'Minimal Sewa 1 Jam'],
+    desktopImg: '/images/optimized/DSCF9516-1600.webp',
+    mobileImg: '/images/optimized/DSCF9516-800.webp',
+  },
+  {
+    id: 'happy-hour',
+    title: 'Weekdays',
+    subtitle: 'Happy Hour',
+    price: 'Rp 499.000',
+    tag: 'POPULAR DEAL',
+    desc: 'Paket hemat studio sesi di hari kerja (Senin–Kamis). Pilihan terbaik untuk konten kreator, foto wisuda, atau foto bareng teman dengan harga terjangkau dan hasil maksimal.',
+    features: ['2 Jam Sesi Studio Lengkap', 'Semua Raw Files Diberikan', '5 Foto Edited Pilihan', 'Maksimal 4 Orang'],
+    desktopImg: '/images/optimized/DSCF9527-1600.webp',
+    mobileImg: '/images/optimized/DSCF9527-800.webp',
+  },
+  {
+    id: 'together-moment',
+    title: 'Together',
+    subtitle: 'Moment',
+    price: 'Rp 699.000',
+    tag: 'BEST FOR GROUP',
+    desc: 'Abadikan kehangatan keluarga, momen wisuda, sahabat, atau rekan satu tim dengan konsep foto grup yang estetik, terarah, dan tak lekang oleh waktu.',
+    features: ['2 Jam Sesi Studio Lengkap', 'Kapasitas hingga 8 Orang', '10 Foto Edited Premium', 'Akses Galeri Cloud Drive'],
+    desktopImg: '/images/optimized/DSCF9518-1600.webp',
+    mobileImg: '/images/optimized/DSCF9518-800.webp',
+  },
+  {
+    id: 'linkedin-portrait',
+    title: 'LinkedIn',
+    subtitle: 'Portrait',
+    price: 'Rp 150.000',
+    tag: 'CAREER & PROFILE',
+    desc: 'Headshot profesional cepat & berkelas untuk upgrade profil LinkedIn, CV, resume kerja, portfolio kreatif, atau citra profesional korporat Anda.',
+    features: ['30 Menit Sesi Fokus', '1 Pilihan Background Estetik', '3 Foto Edited High-Res', 'Pengerjaan Cepat (1-2 Hari)'],
+    desktopImg: '/images/optimized/DSCF9520-1600.webp',
+    mobileImg: '/images/optimized/DSCF9520-800.webp',
+  },
+];
+
+export const B2B_SERVICES = [
+  {
+    id: 'editorial-fashion',
+    title: 'Editorial',
+    subtitle: '& Fashion',
+    price: 'Rp 5.000.000',
+    tag: 'PREMIUM PRODUCTION',
+    desc: 'Pemotretan komersial berstandar majalah & lookbook internasional. Didukung creative direction mendalam, pencahayaan kompleks, dan visual storytelling yang memukau.',
+    features: ['Creative Direction & Concept', 'Full Studio Lighting Setup', '80 Foto Edited Berkualitas', 'Commercial License Hak Cipta'],
+    desktopImg: '/images/optimized/DSCF9524-1600.webp',
+    mobileImg: '/images/optimized/DSCF9524-800.webp',
+  },
+  {
+    id: 'product-commercial',
+    title: 'Product',
+    subtitle: '& Commercial',
+    price: 'Rp 2.000.000',
+    tag: 'BRAND & CATALOG',
+    desc: 'Katalog dan foto produk berkualitas tinggi dengan detail tekstur sempurna untuk kebutuhan iklan digital, e-commerce, marketplace, dan visual campaign brand Anda.',
+    features: ['Hingga 30 SKU Produk', 'White/Dark/Creative Setup', '40 Foto Edited Siap Pakai', 'Resolusi Tinggi Siap Cetak'],
+    desktopImg: '/images/optimized/DSCF9515-1600.webp',
+    mobileImg: '/images/optimized/DSCF9515-800.webp',
+  },
+  {
+    id: 'sewa-ruang',
+    title: 'Sewa Ruang',
+    subtitle: '½ Hari / Full-Day',
+    price: 'Rp 1.200.000 – 2.000.000',
+    tag: 'SPACE PRODUCTION',
+    desc: 'Eksklusif sewa seluruh area creative space untuk produksi video, shooting iklan, casting, workshop kreatif, photoshoot skala besar, atau private event.',
+    features: ['Pilihan ½ Day (4 Jam) / Full Day (8 Jam)', 'Akses Penuh Seluruh Area Studio', 'Daya Listrik Besar & WiFi Kencang', 'Ruang Tunggu & Area Makeup'],
+    desktopImg: '/images/optimized/DSCF9516-1600.webp',
+    mobileImg: '/images/optimized/DSCF9516-800.webp',
+  },
+  {
+    id: 'podcast-bundle',
+    title: 'Podcast',
+    subtitle: 'Bundle',
+    price: 'Rp 850.000',
+    tag: 'PODCAST & TALKSHOW',
+    desc: 'Paket studio podcast & talkshow siap pakai dengan setup multi-mic profesional, lighting estetik, dan ruangan kedap suara yang nyaman untuk kreasi konten audio-visual Anda.',
+    features: ['2 Jam Sesi Rekaman', 'Setup 2-3 Mic Profesional & Mixer', 'Tata Lampu Estetik Siap Rekam', 'Raw Video & Audio File Langsung'],
+    desktopImg: '/images/optimized/DSCF9527-1600.webp',
+    mobileImg: '/images/optimized/DSCF9527-800.webp',
+  },
+  {
+    id: 'retainer-bulanan',
+    title: 'Retainer',
+    subtitle: 'Bulanan',
+    price: 'Mulai Rp 4.500.000 / bln',
+    tag: 'BRAND PARTNERSHIP',
+    desc: 'Solusi kemitraan visual rutin bagi brand dan agensi. Nikmati alokasi jam studio bulanan fleksibel, prioritas jadwal booking, dan tim produksi kreatif khusus.',
+    features: ['Alokasi Jam Studio Fleksibel', 'Prioritas Jadwal Kapan Saja', 'Dedicated Tim Fotografer & Editor', 'Skema Hemat untuk Kebutuhan Rutin'],
+    desktopImg: '/images/optimized/DSCF9518-1600.webp',
+    mobileImg: '/images/optimized/DSCF9518-800.webp',
+  },
+];
+
+export const ALL_SERVICES = [...B2C_SERVICES, ...B2B_SERVICES];
+
+export const LAYANAN_OPTIONS = [
+  // B2C Retail
+  { value: 'Studio Rent / Jam', label: 'Studio Rent / Jam (Rp 150k – 250k)' },
+  { value: 'Weekdays Happy Hour', label: 'Weekdays Happy Hour (Rp 499.000)' },
+  { value: 'Together Moment', label: 'Together Moment (Rp 699.000)' },
+  { value: 'LinkedIn Portrait', label: 'LinkedIn Portrait (Rp 150.000)' },
+  // B2B Creative Space
+  { value: 'Editorial & Fashion', label: 'Editorial & Fashion (Rp 5.000.000)' },
+  { value: 'Product & Commercial', label: 'Product & Commercial (Rp 2.000.000)' },
+  { value: 'Sewa Ruang ½ / Full-Day', label: 'Sewa Ruang ½ / Full-Day (Rp 1.2jt – 2jt)' },
+  { value: 'Podcast Bundle', label: 'Podcast Bundle (Rp 850.000)' },
+  { value: 'Retainer Bulanan', label: 'Retainer Bulanan (Mulai Rp 4.5jt/bln)' },
+];

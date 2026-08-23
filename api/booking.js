@@ -11,9 +11,9 @@ export default async function handler(req, res) {
   // 1. Anti-bot honeypot
   if (honeypot) return res.status(400).json({ error: 'Bot detected' });
 
-  // 2. Validate required fields
-  if (!nama || !email || !phone || !layanan || !tanggal || !jam || !pesan) {
-    return res.status(400).json({ error: 'Semua field wajib diisi.' });
+  // 2. Validate required fields (pesan is optional)
+  if (!nama || !email || !phone || !layanan || !tanggal || !jam) {
+    return res.status(400).json({ error: 'Nama, email, no WA, paket layanan, tanggal, dan jam wajib diisi.' });
   }
 
   // 3. Validate email format
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
   }
 
   // 5. Sanitize inputs
-  const clean = (s) => String(s).replace(/<[^>]*>/g, '').trim().slice(0, 1000);
+  const clean = (s) => String(s || '').replace(/<[^>]*>/g, '').trim().slice(0, 1000);
   const data = {
     nama: clean(nama),
     email: clean(email).toLowerCase(),
@@ -35,7 +35,7 @@ export default async function handler(req, res) {
     layanan: clean(layanan),
     tanggal: clean(tanggal),
     jam,
-    pesan: clean(pesan),
+    pesan: clean(pesan || '-'),
     ip_address: req.headers['x-forwarded-for'] || req.socket?.remoteAddress || null,
   };
 
@@ -96,10 +96,15 @@ async function sendAdminEmail(booking) {
   const resend = new Resend(apiKey);
 
   const layananLabels = {
-    'Pre-Wedding & Wedding': '💒 Pre-Wedding & Wedding',
-    'Commercial & Product': '📦 Commercial & Product',
-    'Personal Portrait': '🧍 Personal Portrait',
+    'Studio Rent / Jam': '🏢 Studio Rent / Jam',
+    'Weekdays Happy Hour': '⚡ Weekdays Happy Hour',
+    'Together Moment': '👥 Together Moment',
+    'LinkedIn Portrait': '👔 LinkedIn Portrait',
     'Editorial & Fashion': '✨ Editorial & Fashion',
+    'Product & Commercial': '📦 Product & Commercial',
+    'Sewa Ruang ½ / Full-Day': '🎬 Sewa Ruang ½ / Full-Day',
+    'Podcast Bundle': '🎙️ Podcast Bundle',
+    'Retainer Bulanan': '🤝 Retainer Bulanan',
   };
 
   await resend.emails.send({

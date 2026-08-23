@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import PageTransition from '../components/PageTransition';
@@ -293,8 +294,8 @@ const Home = () => {
                 <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '18px', color: '#fff' }} />
                 Booking via WhatsApp
               </a>
-              <a
-                href="/layanan"
+              <Link
+                to="/layanan"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -323,7 +324,7 @@ const Home = () => {
                 }}
               >
                 Cek Fasilitas & Harga
-              </a>
+              </Link>
             </div>
             <p style={{ color: 'rgba(255,255,255,0.5)', letterSpacing: '0.15em', fontSize: '0.78rem', textTransform: 'uppercase', marginTop: '2.5rem' }}>
               Gulir ke bawah untuk melihat ruang studio
@@ -418,8 +419,8 @@ const Home = () => {
               Kami menyediakan cyclorama wall yang terawat, continuous & strobe lighting, AC dingin, ruang rias privat, serta koneksi WiFi berkecepatan tinggi agar setiap sesi foto dan rekaman podcast Anda berjalan lancar tanpa hambatan.
             </p>
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-              <a
-                href="/layanan"
+              <Link
+                to="/layanan"
                 style={{
                   padding: '0.9rem 2rem',
                   background: 'var(--color-accent)',
@@ -436,7 +437,7 @@ const Home = () => {
                 onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--color-accent)')}
               >
                 Cek Paket & Harga Sewa
-              </a>
+              </Link>
               <a
                 href="https://wa.me/6285933585829?text=Halo%20Faza%20Studio%2C%20saya%20mau%20tanya%20ketersediaan%20alat%20dan%20jadwal%20studio."
                 target="_blank"
@@ -621,8 +622,8 @@ const Home = () => {
                 <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '18px', color: '#fff' }} />
                 Konsultasi WhatsApp
               </a>
-              <a
-                href="/layanan"
+              <Link
+                to="/layanan"
                 style={{
                   padding: '0.9rem 2rem',
                   border: '1px solid rgba(255,255,255,0.3)',
@@ -647,7 +648,7 @@ const Home = () => {
                 }}
               >
                 Lihat Daftar Harga
-              </a>
+              </Link>
             </div>
           </div>
         </section>

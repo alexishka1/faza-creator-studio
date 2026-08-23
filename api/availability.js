@@ -11,13 +11,14 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Parameter tanggal tidak valid (format: YYYY-MM-DD).' });
   }
 
-  // Block dates in the past
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const requestedDate = new Date(tanggal);
-  if (requestedDate < today) {
+  // Block dates in the past (safe YYYY-MM-DD string comparison in WIB timezone)
+  const nowWIB = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Jakarta' }));
+  const todayStr = `${nowWIB.getFullYear()}-${String(nowWIB.getMonth() + 1).padStart(2, '0')}-${String(nowWIB.getDate()).padStart(2, '0')}`;
+  
+  if (tanggal < todayStr) {
     return res.status(200).json({
       slots: ALL_SLOTS.map((jam) => ({ jam, available: false })),
+      tanggal,
     });
   }
 

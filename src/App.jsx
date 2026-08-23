@@ -4,8 +4,11 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 
 gsap.registerPlugin(ScrollTrigger);
+
 import Home from './pages/Home';
 import Layanan from './pages/Layanan';
 import TentangKami from './pages/TentangKami';
@@ -16,9 +19,11 @@ import Loader from './components/Loader';
 import IntroScreen from './components/IntroScreen';
 import CustomCursor from './components/CustomCursor';
 import Footer from './components/Footer';
+import WhatsAppFloating from './components/WhatsAppFloating';
+import ScrollToTop from './components/ScrollToTop';
 import './index.css';
 
-// A wrapper component that allows useLocation
+// Animated route transitions
 const AnimatedRoutes = () => {
   const location = useLocation();
   
@@ -40,19 +45,79 @@ const AnimatedRoutes = () => {
   );
 };
 
+// Header Wrapper to hide on /admin
+const HeaderWrapper = ({ onOpenMobileMenu }) => {
+  const location = useLocation();
+  if (location.pathname === '/admin') return null;
+
+  return (
+    <header className="header">
+      <div className="brand">
+        <Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>
+          <span className="brand-text">FAZA STUDIO</span>
+        </Link>
+      </div>
+      <ul className="nav-links desktop-nav">
+        <li><Link to="/" className="nav-link">Home</Link></li>
+        <li><Link to="/layanan" className="nav-link">Sewa Studio / Harga</Link></li>
+        <li><Link to="/karya" className="nav-link">Karya</Link></li>
+        <li><Link to="/tentangkami" className="nav-link">Tentang Kami</Link></li>
+        <li>
+          <a
+            href="https://wa.me/6285933585829?text=Halo%20Faza%20Studio%2C%20saya%20tertarik%20untuk%20booking%20atau%20tanya%20jadwal%20studio."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-wa-nav"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              padding: '0.65rem 1.4rem',
+              background: '#25D366',
+              color: '#fff',
+              textDecoration: 'none',
+              borderRadius: '30px',
+              fontSize: '0.82rem',
+              fontWeight: 600,
+              letterSpacing: '0.05em',
+              boxShadow: '0 4px 15px rgba(37, 211, 102, 0.35)',
+              transition: 'all 0.3s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 6px 20px rgba(37, 211, 102, 0.5)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 4px 15px rgba(37, 211, 102, 0.35)';
+            }}
+          >
+            <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '16px', color: '#fff' }} />
+            Booking via WhatsApp
+          </a>
+        </li>
+      </ul>
+
+      {/* Mobile Hamburger Icon */}
+      <div className="mobile-menu-btn" onClick={onOpenMobileMenu}>
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="square">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </div>
+    </header>
+  );
+};
+
+// Footer Wrapper to hide on specific pages
 const FooterWrapper = () => {
   const location = useLocation();
-  // Hide footer on Home (/) and Tentang Kami (/tentangkami)
-  if (location.pathname === '/' || location.pathname === '/tentangkami') {
+  if (location.pathname === '/' || location.pathname === '/tentangkami' || location.pathname === '/admin') {
     return null;
   }
   return <Footer />;
 };
-
-import WhatsAppFloating from './components/WhatsAppFloating';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   const [hasStarted, setHasStarted] = useState(false);
@@ -108,63 +173,8 @@ function App() {
           <ScrollToTop />
           <Loader />
           <WhatsAppFloating />
-          {/* GLOBAL HEADER LOGO & NAV */}
-          <header className="header">
-            <div className="brand">
-              <Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>
-                <span className="brand-text">FAZA STUDIO</span>
-              </Link>
-            </div>
-            <ul className="nav-links desktop-nav">
-              <li><Link to="/" className="nav-link">Home</Link></li>
-              <li><Link to="/layanan" className="nav-link">Sewa Studio / Harga</Link></li>
-              <li><Link to="/karya" className="nav-link">Karya</Link></li>
-              <li><Link to="/tentangkami" className="nav-link">Tentang Kami</Link></li>
-              <li>
-                <a
-                  href="https://wa.me/6285933585829?text=Halo%20Faza%20Studio%2C%20saya%20tertarik%20untuk%20booking%20atau%20tanya%20jadwal%20studio."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-wa-nav"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '0.65rem 1.4rem',
-                    background: '#25D366',
-                    color: '#fff',
-                    textDecoration: 'none',
-                    borderRadius: '30px',
-                    fontSize: '0.82rem',
-                    fontWeight: 600,
-                    letterSpacing: '0.05em',
-                    boxShadow: '0 4px 15px rgba(37, 211, 102, 0.35)',
-                    transition: 'all 0.3s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 6px 20px rgba(37, 211, 102, 0.5)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(37, 211, 102, 0.35)';
-                  }}
-                >
-                  <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '16px', color: '#fff' }} />
-                  Booking via WhatsApp
-                </a>
-              </li>
-            </ul>
-
-            {/* Mobile Hamburger Icon */}
-            <div className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(true)}>
-              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="square">
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-              </svg>
-            </div>
-          </header>
+          
+          <HeaderWrapper onOpenMobileMenu={() => setIsMobileMenuOpen(true)} />
 
           {/* Full Screen Mobile Menu Overlay */}
           <div 
@@ -249,4 +259,3 @@ const mobileLinkStyle = {
 };
 
 export default App;
-

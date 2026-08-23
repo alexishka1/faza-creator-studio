@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
   const supabase = getSupabaseAdmin();
 
-  // ─── GET: Fetch all bookings ─────────────────────────────────────
+  // ─── GET: Fetch all bookings & blocked slots ────────────────────
   if (req.method === 'GET') {
     const { status, tanggal, limit = 100 } = req.query;
 
@@ -28,18 +28,29 @@ export default async function handler(req, res) {
     if (status && status !== 'all') query = query.eq('status', status);
     if (tanggal) query = query.eq('tanggal', tanggal);
 
-    const { data, error } = await query;
+    const { data: bookingsData, error } = await query;
     if (error) return res.status(500).json({ error: error.message });
+
+    // Fetch all active blocked slots
+    const { data: blockedSlotsData, error: blkErr } = await supabase
+      .from('blocked_slots')
+      .select('*')
+      .order('tanggal', { ascending: true });
 
     // Stats
     const stats = {
-      total: data?.length || 0,
-      pending: data?.filter((b) => b.status === 'pending').length || 0,
-      confirmed: data?.filter((b) => b.status === 'confirmed').length || 0,
-      cancelled: data?.filter((b) => b.status === 'cancelled').length || 0,
+      total: bookingsData?.length || 0,
+      pending: bookingsData?.filter((b) => b.status === 'pending').length || 0,
+      confirmed: bookingsData?.filter((b) => b.status === 'confirmed').length || 0,
+      cancelled: bookingsData?.filter((b) => b.status === 'cancelled').length || 0,
+      blocked: blockedSlotsData?.length || 0,
     };
 
-    return res.status(200).json({ bookings: data, stats });
+    return res.status(200).json({
+      bookings: bookingsData || [],
+      blockedSlots: blockedSlotsData || [],
+      stats,
+    });
   }
 
   // ─── PATCH: Update booking status ────────────────────────────────

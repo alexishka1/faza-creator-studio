@@ -17,7 +17,7 @@ export function getSupabaseAdmin() {
   });
 }
 
-export const ALL_SLOTS = ['09:00', '11:00', '13:00', '15:00', '17:00'];
+export const ALL_SLOTS = ['09:00', '11:00', '13:00', '15:00', '17:00', '19:00'];
 
 // CORS headers untuk semua API responses
 export function setCorsHeaders(res) {
