@@ -3,19 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import PageTransition from '../components/PageTransition';
-
-const portfolioData = [
-  { id: 1, desktopSrc: '/images/optimized/DSCF9516-1600.webp', mobileSrc: '/images/optimized/DSCF9516-800.webp', category: 'Ruang & Studio', title: 'Studio Ambiance & Cyclorama Wall' },
-  { id: 2, desktopSrc: '/images/optimized/DSCF9527-1600.webp', mobileSrc: '/images/optimized/DSCF9527-800.webp', category: 'Portrait & Personal', title: 'Warm Tone Portrait Session' },
-  { id: 3, desktopSrc: '/images/optimized/DSCF9518-1600.webp', mobileSrc: '/images/optimized/DSCF9518-800.webp', category: 'Editorial & Fashion', title: 'Editorial & Fashion Story' },
-  { id: 4, desktopSrc: '/images/optimized/DSCF9520-1600.webp', mobileSrc: '/images/optimized/DSCF9520-800.webp', category: 'Portrait & Personal', title: 'LinkedIn & Executive Headshot' },
-  { id: 5, desktopSrc: '/images/optimized/DSCF9524-1600.webp', mobileSrc: '/images/optimized/DSCF9524-800.webp', category: 'Editorial & Fashion', title: 'Lookbook & Styling Production' },
-  { id: 6, desktopSrc: '/images/optimized/DSCF9515-1600.webp', mobileSrc: '/images/optimized/DSCF9515-800.webp', category: 'Commercial & Product', title: 'Commercial Studio Lighting' },
-  { id: 7, desktopSrc: '/images/optimized/DSCF9528-1600.webp', mobileSrc: '/images/optimized/DSCF9528-800.webp', category: 'Ruang & Studio', title: 'Lounge Area & Makeup Station' },
-  { id: 8, desktopSrc: '/images/optimized/DSCF9530-1600.webp', mobileSrc: '/images/optimized/DSCF9530-800.webp', category: 'Commercial & Product', title: 'Product Showcase & E-Commerce' },
-];
-
-const categories = ['Semua', 'Portrait & Personal', 'Commercial & Product', 'Editorial & Fashion', 'Ruang & Studio'];
+import { PORTFOLIO_ITEMS, PORTFOLIO_CATEGORIES } from '../data/portfolio';
+import { getWhatsAppUrl } from '../data/contact';
 
 const Karya = () => {
   const [filter, setFilter] = useState('Semua');
@@ -37,7 +26,7 @@ const Karya = () => {
   };
 
   const filteredData =
-    filter === 'Semua' ? portfolioData : portfolioData.filter((item) => item.category === filter);
+    filter === 'Semua' ? PORTFOLIO_ITEMS : PORTFOLIO_ITEMS.filter((item) => item.category === filter);
 
   return (
     <PageTransition>
@@ -56,7 +45,7 @@ const Karya = () => {
 
           {/* Filter Buttons */}
           <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '0.8rem' }}>
-            {categories.map((cat) => (
+            {PORTFOLIO_CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 onClick={() => handleFilterChange(cat)}
@@ -145,7 +134,7 @@ const Karya = () => {
               Tertarik memiliki karya visual seperti ini untuk kebutuhan Anda?
             </p>
             <a
-              href="https://wa.me/6285933585829?text=Halo%20Faza%20Studio%2C%20saya%20tertarik%20dengan%20karya%20portfolio%20dan%20ingin%20tanya%20paket%20foto."
+              href={getWhatsAppUrl('Halo Faza Studio, saya tertarik dengan karya portfolio dan ingin tanya paket foto.')}
               target="_blank"
               rel="noopener noreferrer"
               style={{

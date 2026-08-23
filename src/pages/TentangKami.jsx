@@ -4,6 +4,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import PageTransition from '../components/PageTransition';
+import { CLIENT_LOGOS } from '../data/testimonials';
+import { STUDIO_INFO, getWhatsAppUrl } from '../data/contact';
 import '../index.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -98,8 +100,6 @@ const TentangKami = () => {
     { name: 'Diana Putri', role: 'Creative Director & Stylist', img: '/images/optimized/DSCF9527-800.webp' },
     { name: 'Bima Sena', role: 'Lighting & Post-Production Lead', img: '/images/optimized/DSCF9518-800.webp' },
   ];
-
-  const clients = ['LUMEN APPAREL', 'STUDIO EIGHT', 'NOIR ARCHIVE', 'METROPOLITAN MEDIA', 'AURORA BRAND', 'KREASI CO.'];
 
   return (
     <PageTransition>
@@ -225,7 +225,7 @@ const TentangKami = () => {
 
           <div style={{ display: 'flex', opacity: 0.65, borderTop: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '2rem 0' }}>
             <div ref={marqueeRef} style={{ display: 'flex', whiteSpace: 'nowrap', willChange: 'transform' }}>
-              {[...clients, ...clients].map((client, i) => (
+              {[...CLIENT_LOGOS, ...CLIENT_LOGOS].map((client, i) => (
                 <span key={i} className="font-serif" style={{ fontSize: 'clamp(1.4rem, 2.5vw, 2.2rem)', margin: '0 3.5rem', letterSpacing: '0.12em', color: 'var(--color-accent)' }}>
                   {client}
                 </span>
@@ -236,7 +236,7 @@ const TentangKami = () => {
           {/* Direct CTA */}
           <div style={{ textAlign: 'center', marginTop: '4rem' }}>
             <a
-              href="https://wa.me/6285933585829?text=Halo%20Faza%20Studio%2C%20saya%20tertarik%20untuk%20berkunjung%20atau%20tanya%20sewa%20studio."
+              href={getWhatsAppUrl('Halo Faza Studio, saya tertarik untuk berkunjung atau tanya sewa studio.')}
               target="_blank"
               rel="noopener noreferrer"
               style={{

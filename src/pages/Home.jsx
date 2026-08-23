@@ -5,6 +5,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import PageTransition from '../components/PageTransition';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { TESTIMONIALS, CLIENT_LOGOS, GOOGLE_REVIEWS_STATS } from '../data/testimonials';
+import { STUDIO_INFO, getWhatsAppUrl } from '../data/contact';
 import '../index.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -35,42 +37,6 @@ const IMAGES = [
     title: 'KOMERSIAL & PRODUCT DISPLAY',
     desc: 'Meja display dan aneka backdrop warna untuk katalog produk dan visual advertising.',
   },
-];
-
-const TESTIMONIALS = [
-  {
-    name: 'Aditya Pratama',
-    role: 'Brand Founder & Apparel Owner',
-    type: 'Product & Commercial Shoot',
-    rating: 5,
-    text: 'Studio paling proper di Jakarta Timur. Lighting setup-nya sangat lengkap, tempatnya bersih dan estetik, AC dingin, dan timnya sangat helpful mengarahkan angle produk kami.',
-    avatar: '👨‍💼',
-  },
-  {
-    name: 'Sarah Nabila',
-    role: 'Content Creator & Model',
-    type: 'Editorial & Personal Portrait',
-    rating: 5,
-    text: 'Suka banget sama ambiance dan cyclorama wall-nya. Hasil foto portrait-nya bener-bener berkarakter, tone warnanya mewah, dan sesuai banget dengan moodboard yang aku mau!',
-    avatar: '👩‍🎨',
-  },
-  {
-    name: 'Dimas & Vania',
-    role: 'Graduation & Family Group',
-    type: 'Together Moment & Studio Rent',
-    rating: 5,
-    text: 'Sewa studio 2 jam buat foto grup wisuda bareng sahabat. Raw files langsung dikirim hari itu juga dan hasil editannya rapi banget. Tempatnya luas dan nyaman buat ramean.',
-    avatar: '🎓',
-  },
-];
-
-const CLIENT_LOGOS = [
-  'LUMEN APPAREL',
-  'STUDIO EIGHT',
-  'NOIR ARCHIVE',
-  'METROPOLITAN MEDIA',
-  'AURORA BRAND',
-  'KREASI CO.',
 ];
 
 const Home = () => {
@@ -263,7 +229,7 @@ const Home = () => {
             </p>
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
               <a
-                href="https://wa.me/6285933585829?text=Halo%20Faza%20Studio%2C%20saya%20tertarik%20untuk%20booking%20atau%20tanya%20jadwal%20studio."
+                href={getWhatsAppUrl('Halo Faza Studio, saya tertarik untuk booking atau tanya jadwal studio.')}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
@@ -440,7 +406,7 @@ const Home = () => {
                 Cek Paket & Harga Sewa
               </Link>
               <a
-                href="https://wa.me/6285933585829?text=Halo%20Faza%20Studio%2C%20saya%20mau%20tanya%20ketersediaan%20alat%20dan%20jadwal%20studio."
+                href={getWhatsAppUrl('Halo Faza Studio, saya mau tanya ketersediaan alat dan jadwal studio.')}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
@@ -601,7 +567,7 @@ const Home = () => {
             </p>
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
               <a
-                href="https://wa.me/6285933585829?text=Halo%20Faza%20Studio%2C%20saya%20ingin%20tanya%20jadwal%20dan%20paket%20foto."
+                href={getWhatsAppUrl('Halo Faza Studio, saya ingin tanya jadwal dan paket foto.')}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
@@ -685,7 +651,7 @@ const Home = () => {
               Hubungi kami untuk reservasi sesi foto & sewa studio
             </p>
             <a
-              href="https://wa.me/6285933585829?text=Halo%20Faza%20Studio%2C%20saya%20ingin%20reservasi%20sesi%20foto."
+              href={getWhatsAppUrl('Halo Faza Studio, saya ingin reservasi sesi foto.')}
               target="_blank"
               rel="noopener noreferrer"
               style={{

@@ -21,6 +21,7 @@ import CustomCursor from './components/CustomCursor';
 import Footer from './components/Footer';
 import WhatsAppFloating from './components/WhatsAppFloating';
 import ScrollToTop from './components/ScrollToTop';
+import { STUDIO_INFO, getWhatsAppUrl } from './data/contact';
 import './index.css';
 
 // Animated route transitions
@@ -54,7 +55,7 @@ const HeaderWrapper = ({ onOpenMobileMenu }) => {
     <header className="header">
       <div className="brand">
         <Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>
-          <span className="brand-text">FAZA STUDIO</span>
+          <span className="brand-text">{STUDIO_INFO.name}</span>
         </Link>
       </div>
       <ul className="nav-links desktop-nav">
@@ -64,7 +65,7 @@ const HeaderWrapper = ({ onOpenMobileMenu }) => {
         <li><Link to="/tentangkami" className="nav-link">Tentang Kami</Link></li>
         <li>
           <a
-            href="https://wa.me/6285933585829?text=Halo%20Faza%20Studio%2C%20saya%20tertarik%20untuk%20booking%20atau%20tanya%20jadwal%20studio."
+            href={getWhatsAppUrl('Halo Faza Studio, saya tertarik untuk booking atau tanya jadwal studio.')}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-wa-nav"
@@ -213,7 +214,7 @@ function App() {
               <li><Link to="/tentangkami" onClick={() => setIsMobileMenuOpen(false)} style={mobileLinkStyle}>Tentang Kami</Link></li>
               <li>
                 <a
-                  href="https://wa.me/6285933585829?text=Halo%20Faza%20Studio%2C%20saya%20tertarik%20untuk%20booking%20atau%20tanya%20jadwal%20studio."
+                  href={getWhatsAppUrl('Halo Faza Studio, saya tertarik untuk booking atau tanya jadwal studio.')}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setIsMobileMenuOpen(false)}

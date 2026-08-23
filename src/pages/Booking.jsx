@@ -6,6 +6,7 @@ import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import PageTransition from '../components/PageTransition';
 import BookingCalendar from '../components/BookingCalendar';
 import { LAYANAN_OPTIONS } from '../data/services';
+import { STUDIO_INFO, getWhatsAppUrl } from '../data/contact';
 
 const Booking = () => {
   const [searchParams] = useSearchParams();
@@ -115,7 +116,7 @@ const Booking = () => {
                 Kembali ke Beranda
               </Link>
               <a
-                href={`https://wa.me/6285933585829?text=Halo%20Faza%20Studio%2C%20saya%20${encodeURIComponent(form.nama)}%20baru%20saja%20mengisi%20form%20booking%20untuk%20sesi%20${encodeURIComponent(form.layanan)}%20pada%20${form.tanggal}%20pukul%20${form.jam}.`}
+                href={getWhatsAppUrl(`Halo Faza Studio, saya ${form.nama} baru saja mengisi form booking untuk sesi ${form.layanan} pada ${form.tanggal} pukul ${form.jam}.`)}
                 target="_blank" rel="noopener noreferrer"
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: '0.6rem',
@@ -161,19 +162,18 @@ const Booking = () => {
             <div style={{ marginBottom: '2.5rem' }}>
               <h4 style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--color-accent, #c9a96e)', marginBottom: '0.5rem', fontWeight: 600 }}>Lokasi Studio</h4>
               <p style={{ fontSize: '1.05rem', lineHeight: 1.6, margin: 0, color: '#fff' }}>
-                Jl. Dukuh V No 79, RT.05/RW.02, Kramat Jati / Ciracas<br />
-                Jakarta Timur, DKI Jakarta 13550
+                {STUDIO_INFO.address}
               </p>
             </div>
 
             <div style={{ marginBottom: '3rem' }}>
               <h4 style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--color-accent, #c9a96e)', marginBottom: '0.5rem', fontWeight: 600 }}>Kontak Langsung</h4>
-              <p style={{ fontSize: '1.05rem', margin: '0 0 0.3rem', color: '#fff' }}>dewadp08@gmail.com</p>
-              <p style={{ fontSize: '1.05rem', margin: 0, color: 'var(--color-wa-light, #2fe668)', fontWeight: 600 }}>+62 859-3358-5829</p>
+              <p style={{ fontSize: '1.05rem', margin: '0 0 0.3rem', color: '#fff' }}>{STUDIO_INFO.email}</p>
+              <p style={{ fontSize: '1.05rem', margin: 0, color: 'var(--color-wa-light, #2fe668)', fontWeight: 600 }}>{STUDIO_INFO.phone}</p>
             </div>
 
             <a
-              href="https://wa.me/6285933585829?text=Halo%20Faza%20Studio%2C%20saya%20ingin%20tanya%20jadwal%20dan%20paket%20studio."
+              href={getWhatsAppUrl('Halo Faza Studio, saya ingin tanya jadwal dan paket studio.')}
               target="_blank"
               rel="noopener noreferrer"
               style={{

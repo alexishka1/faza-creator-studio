@@ -6,6 +6,7 @@ import PageTransition from '../components/PageTransition';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { B2C_SERVICES, B2B_SERVICES } from '../data/services';
+import { getWhatsAppUrl } from '../data/contact';
 import '../index.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -208,7 +209,7 @@ const Layanan = () => {
                 Pilih Tanggal
               </Link>
               <a
-                href={`https://wa.me/6285933585829?text=Halo%20Faza%20Studio%2C%20saya%20tertarik%20dengan%20paket%20${encodeURIComponent(service.title + ' ' + service.subtitle)}%20(${encodeURIComponent(service.price)}).`}
+                href={getWhatsAppUrl(`Halo Faza Studio, saya tertarik dengan paket ${service.title} ${service.subtitle} (${service.price}).`)}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
@@ -390,7 +391,7 @@ const Layanan = () => {
                 Kami melayani custom setup studio, live streaming, workshop, dan paket khusus disesuaikan dengan kebutuhan dan anggaran produksi Anda.
               </p>
               <a
-                href="https://wa.me/6285933585829?text=Halo%20Faza%20Studio%2C%20saya%20ingin%20konsultasi%20paket%20atau%20custom%20sewa%20studio."
+                href={getWhatsAppUrl('Halo Faza Studio, saya ingin konsultasi paket atau custom sewa studio.')}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{

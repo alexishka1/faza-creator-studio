@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { STUDIO_INFO, getWhatsAppUrl } from '../data/contact';
 
 const Footer = () => {
   return (
@@ -52,10 +53,10 @@ const Footer = () => {
             Karya Visual Anda?
           </h3>
           <p style={{ color: 'var(--color-text-secondary)', lineHeight: 1.8, fontSize: '0.95rem', marginBottom: '2rem', maxWidth: '380px' }}>
-            Konsultasikan ide sesi foto, sewa studio per jam, atau kebutuhan komersial brand Anda langsung dengan tim Faza Studio.
+            Konsultasikan ide sesi foto, sewa studio per jam, atau kebutuhan komersial brand Anda langsung dengan tim {STUDIO_INFO.name}.
           </p>
           <a
-            href="https://wa.me/6285933585829?text=Halo%20Faza%20Studio%2C%20saya%20tertarik%20untuk%20booking%20atau%20tanya%20jadwal%20studio."
+            href={getWhatsAppUrl('Halo Faza Studio, saya tertarik untuk booking atau tanya jadwal studio.')}
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -94,12 +95,12 @@ const Footer = () => {
               WhatsApp Hotline
             </p>
             <a
-              href="https://wa.me/6285933585829"
+              href={`https://wa.me/${STUDIO_INFO.phoneRaw}`}
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: 'var(--color-wa-light, #2fe668)', textDecoration: 'none', fontSize: '1.05rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
             >
-              +62 859-3358-5829 ↗
+              {STUDIO_INFO.phone} ↗
             </a>
           </div>
 
@@ -108,12 +109,12 @@ const Footer = () => {
               Instagram Resmi
             </p>
             <a
-              href="https://instagram.com/fazastudio"
+              href={STUDIO_INFO.instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: '#fff', textDecoration: 'none', fontSize: '1.05rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
             >
-              @fazastudio ↗
+              {STUDIO_INFO.instagramHandle} ↗
             </a>
           </div>
 
@@ -122,8 +123,8 @@ const Footer = () => {
               Jam Operasional
             </p>
             <p style={{ color: '#fff', fontSize: '0.95rem', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
-              Senin – Minggu: 09.00 – 21.00 WIB <br />
-              <span style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.85rem' }}>(Berdasarkan Reservasi Jadwal)</span>
+              {STUDIO_INFO.operatingHours} <br />
+              <span style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.85rem' }}>({STUDIO_INFO.operatingHoursNote})</span>
             </p>
           </div>
         </div>
@@ -134,8 +135,8 @@ const Footer = () => {
             Lokasi Studio
           </h4>
           <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.95rem', lineHeight: 1.7, marginBottom: '1.5rem' }}>
-            <strong style={{ color: '#fff', display: 'block', marginBottom: '0.3rem' }}>Faza Studio Jakarta</strong>
-            Jl. Dukuh V No. 79, RT.05/RW.02, Dukuh, Kec. Kramat Jati, Jakarta Timur, DKI Jakarta 13550
+            <strong style={{ color: '#fff', display: 'block', marginBottom: '0.3rem' }}>{STUDIO_INFO.name}</strong>
+            {STUDIO_INFO.address}
           </p>
 
           {/* Maps Embed Card */}
