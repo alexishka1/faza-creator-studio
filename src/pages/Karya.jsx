@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
@@ -9,6 +9,18 @@ import { getWhatsAppUrl } from '../data/contact';
 const Karya = () => {
   const [filter, setFilter] = useState('Semua');
   const [selectedImg, setSelectedImg] = useState(null);
+  const [galleryItems, setGalleryItems] = useState(PORTFOLIO_ITEMS);
+
+  useEffect(() => {
+    fetch('/api/gallery')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data && data.items && data.items.length > 0) {
+          setGalleryItems(data.items);
+        }
+      })
+      .catch((err) => console.warn('Fetch gallery error:', err));
+  }, []);
 
   const handleFilterChange = (cat) => {
     setFilter(cat);
@@ -26,7 +38,7 @@ const Karya = () => {
   };
 
   const filteredData =
-    filter === 'Semua' ? PORTFOLIO_ITEMS : PORTFOLIO_ITEMS.filter((item) => item.category === filter);
+    filter === 'Semua' ? galleryItems : galleryItems.filter((item) => item.category === filter);
 
   return (
     <PageTransition>

@@ -28,6 +28,21 @@ const Layanan = () => {
   const marqueeRef = useRef(null);
   const servicesRef = useRef([]);
   const [activeTab, setActiveTab] = useState('all');
+  const [b2cServices, setB2cServices] = useState(B2C_SERVICES);
+  const [b2bServices, setB2bServices] = useState(B2B_SERVICES);
+
+  // Fetch latest packages from Database (with static instant fallback)
+  useEffect(() => {
+    fetch('/api/packages')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data && data.b2c && data.b2b) {
+          setB2cServices(data.b2c);
+          setB2bServices(data.b2b);
+        }
+      })
+      .catch((err) => console.warn('Fetch packages error:', err));
+  }, []);
 
   useEffect(() => {
     let ctx = gsap.context(() => {
@@ -346,7 +361,7 @@ const Layanan = () => {
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
-                  {B2C_SERVICES.map((s, idx) => renderServiceCard(s, idx))}
+                  {b2cServices.map((s, idx) => renderServiceCard(s, idx))}
                 </div>
               </div>
             )}
@@ -367,7 +382,7 @@ const Layanan = () => {
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
-                  {B2B_SERVICES.map((s, idx) => renderServiceCard(s, B2C_SERVICES.length + idx))}
+                  {b2bServices.map((s, idx) => renderServiceCard(s, b2cServices.length + idx))}
                 </div>
               </div>
             )}
