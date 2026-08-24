@@ -73,6 +73,7 @@ const AdminLogin = ({ onLoginSuccess }) => {
 
   return (
     <div
+      className="admin-login"
       style={{
         minHeight: '100vh',
         backgroundColor: '#0a0807',

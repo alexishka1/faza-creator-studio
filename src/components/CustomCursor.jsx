@@ -14,6 +14,8 @@ const CustomCursor = () => {
       return;
     }
 
+    document.body.classList.add('custom-cursor-enabled');
+
     const onMouseMove = (e) => {
       // Move dot instantly
       gsap.to(dotRef.current, {
@@ -52,6 +54,7 @@ const CustomCursor = () => {
     window.addEventListener('mouseover', updateHoverState);
 
     return () => {
+      document.body.classList.remove('custom-cursor-enabled');
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseover', updateHoverState);
     };

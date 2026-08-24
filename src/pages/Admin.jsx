@@ -202,7 +202,7 @@ const Admin = () => {
   const currentTabInfo = tabTitles[activeTab] || tabTitles.overview;
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#0c0a09', color: '#fff' }}>
+    <div className="admin-portal" style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#0c0a09', color: '#fff' }}>
       {/* 1. Left Sidebar Navigation */}
       <AdminSidebar
         activeTab={activeTab}

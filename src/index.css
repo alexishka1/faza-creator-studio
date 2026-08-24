@@ -68,11 +68,46 @@ body, html {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  cursor: none;
 }
 
-a, button, input, select, textarea {
+/* Custom cursor only active on public client pages when enabled */
+body.custom-cursor-enabled,
+body.custom-cursor-enabled a,
+body.custom-cursor-enabled button,
+body.custom-cursor-enabled [role="button"] {
   cursor: none !important;
+}
+
+/* Standalone Admin Portal & Normal Fallback: Always show standard OS cursors */
+body:not(.custom-cursor-enabled),
+.admin-portal,
+.admin-portal *,
+.admin-login,
+.admin-login * {
+  cursor: auto;
+}
+
+.admin-portal button,
+.admin-portal a,
+.admin-portal [role="button"],
+.admin-portal .clickable,
+.admin-login button,
+.admin-login a {
+  cursor: pointer !important;
+}
+
+.admin-portal input,
+.admin-portal textarea,
+.admin-portal select,
+.admin-login input,
+.admin-login select,
+.admin-login textarea {
+  cursor: text !important;
+}
+
+.admin-portal button:disabled,
+.admin-login button:disabled {
+  cursor: not-allowed !important;
 }
 
 @media (pointer: coarse) {
