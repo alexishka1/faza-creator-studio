@@ -1,7 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { PORTFOLIO_ITEMS, PORTFOLIO_CATEGORIES } from '../../data/portfolio';
 import { supabase } from '../../lib/supabase';
-import { Image, Plus, Trash2, Tag, UploadCloud, AlertCircle, X, Check } from 'lucide-react';
+import { Image, Plus, Trash2, Tag, UploadCloud, AlertCircle, X, Check, User, ShoppingBag, Sparkles, Building2 } from 'lucide-react';
+
+const CATEGORY_OPTIONS = [
+  {
+    id: 'Portrait & Personal',
+    label: 'Portrait & Personal',
+    desc: 'Sesi portrait personal, headshot profesional, wisuda & foto grup.',
+    icon: User,
+  },
+  {
+    id: 'Commercial & Product',
+    label: 'Commercial & Product',
+    desc: 'Foto katalog produk, e-commerce, commercial lighting & campaign brand.',
+    icon: ShoppingBag,
+  },
+  {
+    id: 'Editorial & Fashion',
+    label: 'Editorial & Fashion',
+    desc: 'Fashion lookbook, konsep busana, model editorial & majalah.',
+    icon: Sparkles,
+  },
+  {
+    id: 'Ruang & Studio',
+    label: 'Ruang & Studio',
+    desc: 'Fasilitas studio, cyclorama wall, makeup station & lounge area.',
+    icon: Building2,
+  },
+];
 
 const GalleryManager = () => {
   const [items, setItems] = useState(PORTFOLIO_ITEMS);
@@ -10,7 +37,7 @@ const GalleryManager = () => {
 
   // Form State
   const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('Portrait');
+  const [category, setCategory] = useState('Portrait & Personal');
   const [imageUrl, setImageUrl] = useState('');
   const [fileBase64, setFileBase64] = useState('');
   const [fileName, setFileName] = useState('');
@@ -18,6 +45,16 @@ const GalleryManager = () => {
   const [isCompressing, setIsCompressing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedback, setFeedback] = useState('');
+
+  const openUploadModal = () => {
+    // If currently filtering a specific category, preselect it
+    if (selectedCategory !== 'Semua') {
+      setCategory(selectedCategory);
+    } else {
+      setCategory('Portrait & Personal');
+    }
+    setIsModalOpen(true);
+  };
 
   const loadAllGalleryItems = async () => {
     // 1. Get stored items from localStorage
@@ -156,7 +193,7 @@ const GalleryManager = () => {
         },
       ]);
     } catch (dbErr) {
-      console.warn('Supabase insert note (continuing with local cache):', dbErr);
+      console.warn('Supabase insert note:', dbErr);
     }
 
     // 2. Save to LocalStorage persistence
@@ -174,7 +211,7 @@ const GalleryManager = () => {
 
     // 4. Update local state
     setItems((prev) => [newPhotoItem, ...prev]);
-    setFeedback('✅ Foto berhasil ditambahkan ke database & galeri!');
+    setFeedback(`✅ Foto berhasil ditambahkan ke kategori "${category}"!`);
     setIsModalOpen(false);
     setTitle('');
     setImageUrl('');
@@ -239,12 +276,12 @@ const GalleryManager = () => {
             Manajemen Galeri & Portfolio Studio
           </h2>
           <p style={{ fontSize: '0.82rem', color: 'rgba(255, 255, 255, 0.6)', margin: 0 }}>
-            Upload dan kelola foto karya terbaru. Foto otomatis dikonversi ke WebP ringan (~150KB) agar website tidak berat.
+            Upload dan kelola foto karya terbaru per kategori. Foto otomatis dikonversi ke WebP ringan (~150KB) agar website tidak berat.
           </p>
         </div>
 
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={openUploadModal}
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -271,21 +308,22 @@ const GalleryManager = () => {
         </div>
       )}
 
-      {/* Category Filter Pills */}
+      {/* Category Filter Tabs */}
       <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
         {PORTFOLIO_CATEGORIES.map((cat) => (
           <button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
             style={{
-              padding: '0.45rem 1rem',
+              padding: '0.5rem 1.1rem',
               borderRadius: '20px',
               border: selectedCategory === cat ? '1px solid var(--color-accent, #c9a96e)' : '1px solid rgba(255, 255, 255, 0.1)',
               backgroundColor: selectedCategory === cat ? 'rgba(201, 169, 110, 0.2)' : 'rgba(255, 255, 255, 0.03)',
               color: selectedCategory === cat ? 'var(--color-accent, #c9a96e)' : 'rgba(255, 255, 255, 0.7)',
-              fontSize: '0.78rem',
-              fontWeight: selectedCategory === cat ? 600 : 500,
+              fontSize: '0.8rem',
+              fontWeight: selectedCategory === cat ? 700 : 500,
               cursor: 'pointer',
+              transition: 'all 0.2s ease',
             }}
           >
             {cat} ({cat === 'Semua' ? items.length : items.filter((i) => i.category === cat).length})
@@ -349,7 +387,7 @@ const GalleryManager = () => {
                   {item.title}
                 </p>
                 <span style={{ fontSize: '0.72rem', color: 'rgba(255, 255, 255, 0.4)' }}>
-                  ID: {item.id}
+                  {item.category}
                 </span>
               </div>
 
@@ -381,13 +419,13 @@ const GalleryManager = () => {
           style={{
             position: 'fixed',
             inset: 0,
-            backgroundColor: 'rgba(0,0,0,0.8)',
-            backdropFilter: 'blur(6px)',
+            backgroundColor: 'rgba(0,0,0,0.82)',
+            backdropFilter: 'blur(8px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             zIndex: 9999,
-            padding: '1rem',
+            padding: '1.5rem',
           }}
           onClick={() => setIsModalOpen(false)}
         >
@@ -395,53 +433,89 @@ const GalleryManager = () => {
             style={{
               backgroundColor: '#161210',
               border: '1px solid rgba(255, 255, 255, 0.15)',
-              borderRadius: '12px',
+              borderRadius: '14px',
               padding: '2rem',
-              maxWidth: '520px',
+              maxWidth: '560px',
               width: '100%',
+              maxHeight: '90vh',
+              overflowY: 'auto',
               boxShadow: '0 25px 60px rgba(0,0,0,0.9)',
             }}
             onClick={(e) => e.stopPropagation()}
           >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <UploadCloud size={20} color="var(--color-accent, #c9a96e)" />
-                <h3 style={{ margin: 0, fontSize: '1.15rem', color: '#fff' }}>Upload Foto Galeri Baru</h3>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '8px', backgroundColor: 'rgba(201, 169, 110, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <UploadCloud size={20} color="var(--color-accent, #c9a96e)" />
+                </div>
+                <div>
+                  <h3 style={{ margin: 0, fontSize: '1.15rem', color: '#fff' }}>Upload Foto Karya Baru</h3>
+                  <p style={{ margin: 0, fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)' }}>Pilih kategori galeri yang sesuai</p>
+                </div>
               </div>
-              <button onClick={() => setIsModalOpen(false)} style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer' }}>
+              <button onClick={() => setIsModalOpen(false)} style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer', padding: '0.3rem' }}>
                 <X size={20} />
               </button>
             </div>
 
-            <form onSubmit={handleAddPhoto} style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+            <form onSubmit={handleAddPhoto} style={{ display: 'flex', flexDirection: 'column', gap: '1.3rem' }}>
+              {/* 1. Category Selection Cards */}
+              <div>
+                <label style={labelStyle}>Pilih Kategori Galeri *</label>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.6rem' }}>
+                  {CATEGORY_OPTIONS.map((opt) => {
+                    const IconComponent = opt.icon;
+                    const isSelected = category === opt.id;
+                    return (
+                      <div
+                        key={opt.id}
+                        onClick={() => setCategory(opt.id)}
+                        style={{
+                          padding: '0.75rem 0.9rem',
+                          borderRadius: '8px',
+                          border: isSelected ? '1.5px solid var(--color-accent, #c9a96e)' : '1px solid rgba(255, 255, 255, 0.1)',
+                          backgroundColor: isSelected ? 'rgba(201, 169, 110, 0.15)' : 'rgba(255, 255, 255, 0.03)',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '0.3rem',
+                          transition: 'all 0.2s ease',
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                            <IconComponent size={15} color={isSelected ? 'var(--color-accent, #c9a96e)' : 'rgba(255,255,255,0.6)'} />
+                            <span style={{ fontSize: '0.82rem', fontWeight: isSelected ? 700 : 500, color: isSelected ? '#fff' : 'rgba(255,255,255,0.85)' }}>
+                              {opt.label}
+                            </span>
+                          </div>
+                          {isSelected && <Check size={14} color="var(--color-accent, #c9a96e)" />}
+                        </div>
+                        <span style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.45)', lineHeight: 1.3 }}>
+                          {opt.desc}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* 2. Judul Foto */}
               <div>
                 <label style={labelStyle}>Judul / Label Foto *</label>
                 <input
                   type="text"
                   required
-                  placeholder="Misal: Lookbook Fashion Editorial Vol. 4"
+                  placeholder="Misal: Studio Ambiance, Lookbook Fashion, dll."
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   style={inputStyle}
                 />
               </div>
 
+              {/* 3. Upload File */}
               <div>
-                <label style={labelStyle}>Kategori Galeri *</label>
-                <select
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  style={inputStyle}
-                >
-                  <option value="Portrait">Portrait</option>
-                  <option value="Commercial">Commercial</option>
-                  <option value="Editorial">Editorial</option>
-                  <option value="Ruang & Studio">Ruang & Studio</option>
-                </select>
-              </div>
-
-              <div>
-                <label style={labelStyle}>Pilih File Foto dari Perangkat (Otomatis Kompres ke WebP Ringan)</label>
+                <label style={labelStyle}>Pilih File Foto (JPG / PNG Otomatis Diubah ke WebP Ringan ~150KB)</label>
                 <input
                   type="file"
                   accept="image/jpeg,image/png,image/webp,image/avif"
@@ -450,13 +524,14 @@ const GalleryManager = () => {
                 />
                 {isCompressing && (
                   <span style={{ fontSize: '0.75rem', color: 'var(--color-accent, #c9a96e)', marginTop: '0.3rem', display: 'block' }}>
-                    ⚙️ Mengompres foto ke format WebP ringan...
+                    ⚙️ Mengompres foto ke format WebP ultra-ringan...
                   </span>
                 )}
               </div>
 
+              {/* 4. Or Image URL */}
               <div>
-                <label style={labelStyle}>Atau Masukkan URL Gambar (Opsional)</label>
+                <label style={labelStyle}>Atau Masukkan URL Gambar Web (Opsional)</label>
                 <input
                   type="text"
                   placeholder="https://images.unsplash.com/..."
@@ -471,19 +546,23 @@ const GalleryManager = () => {
 
               {/* Live Preview */}
               {previewUrl && (
-                <div style={{ marginTop: '0.5rem' }}>
-                  <span style={labelStyle}>Preview Foto:</span>
-                  <div style={{ width: '100%', height: '160px', borderRadius: '8px', overflow: 'hidden', backgroundColor: '#000', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <div>
+                  <span style={labelStyle}>Pratinjau Foto & Kategori:</span>
+                  <div style={{ width: '100%', height: '170px', borderRadius: '8px', overflow: 'hidden', backgroundColor: '#000', border: '1px solid rgba(255,255,255,0.1)', position: 'relative' }}>
                     <img src={previewUrl} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                    <span style={{ position: 'absolute', bottom: '0.5rem', left: '0.5rem', backgroundColor: 'rgba(0,0,0,0.8)', padding: '0.2rem 0.6rem', borderRadius: '4px', fontSize: '0.7rem', color: 'var(--color-accent, #c9a96e)', fontWeight: 600 }}>
+                      Kategori: {category}
+                    </span>
                   </div>
                 </div>
               )}
 
+              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={isSubmitting || isCompressing}
                 style={{
-                  marginTop: '0.8rem',
+                  marginTop: '0.5rem',
                   padding: '0.85rem',
                   backgroundColor: 'var(--color-accent, #c9a96e)',
                   color: '#000',
@@ -499,7 +578,7 @@ const GalleryManager = () => {
                 }}
               >
                 <UploadCloud size={18} />
-                <span>{isSubmitting ? 'Menyimpan ke Database...' : 'Simpan & Publikasikan'}</span>
+                <span>{isSubmitting ? 'Menyimpan...' : `Simpan ke Kategori "${category}"`}</span>
               </button>
             </form>
           </div>
