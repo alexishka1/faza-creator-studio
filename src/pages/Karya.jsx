@@ -5,21 +5,63 @@ import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import PageTransition from '../components/PageTransition';
 import { PORTFOLIO_ITEMS, PORTFOLIO_CATEGORIES } from '../data/portfolio';
 import { getWhatsAppUrl } from '../data/contact';
+import { supabase } from '../lib/supabase';
 
 const Karya = () => {
   const [filter, setFilter] = useState('Semua');
   const [selectedImg, setSelectedImg] = useState(null);
   const [galleryItems, setGalleryItems] = useState(PORTFOLIO_ITEMS);
 
+  const loadGallery = async () => {
+    let localCustom = [];
+    try {
+      const saved = localStorage.getItem('faza_custom_gallery');
+      if (saved) localCustom = JSON.parse(saved);
+    } catch (e) {
+      console.warn('LocalStorage error:', e);
+    }
+
+    let dbItems = [];
+    try {
+      const { data, error } = await supabase
+        .from('galeri')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (!error && data && data.length > 0) {
+        dbItems = data.map((g) => ({
+          id: g.id,
+          title: g.title,
+          category: g.category,
+          desktopSrc: g.desktop_src,
+          mobileSrc: g.mobile_src,
+        }));
+      }
+    } catch (e) {
+      console.warn('Supabase error:', e);
+    }
+
+    const combined = [...dbItems];
+    localCustom.forEach((loc) => {
+      if (!combined.some((c) => c.id === loc.id)) {
+        combined.push(loc);
+      }
+    });
+
+    const finalMerged = [
+      ...combined,
+      ...PORTFOLIO_ITEMS.filter((def) => !combined.some((c) => String(c.id) === String(def.id))),
+    ];
+
+    setGalleryItems(finalMerged);
+  };
+
   useEffect(() => {
-    fetch('/api/gallery')
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (data && data.items && data.items.length > 0) {
-          setGalleryItems(data.items);
-        }
-      })
-      .catch((err) => console.warn('Fetch gallery error:', err));
+    loadGallery();
+
+    const handleUpdate = () => loadGallery();
+    window.addEventListener('faza_gallery_updated', handleUpdate);
+    return () => window.removeEventListener('faza_gallery_updated', handleUpdate);
   }, []);
 
   const handleFilterChange = (cat) => {

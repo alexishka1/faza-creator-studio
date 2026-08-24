@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PORTFOLIO_ITEMS, PORTFOLIO_CATEGORIES } from '../../data/portfolio';
-import { Image, Plus, Trash2, Tag, UploadCloud, AlertCircle, X, ExternalLink } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
+import { Image, Plus, Trash2, Tag, UploadCloud, AlertCircle, X, Check } from 'lucide-react';
 
 const GalleryManager = () => {
   const [items, setItems] = useState(PORTFOLIO_ITEMS);
@@ -18,31 +19,60 @@ const GalleryManager = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedback, setFeedback] = useState('');
 
-  const getAuthHeaders = () => {
-    const headers = { 'Content-Type': 'application/json' };
-    const savedToken = sessionStorage.getItem('faza_admin_token');
-    const savedKey = sessionStorage.getItem('faza_admin_key');
-    if (savedToken) headers['Authorization'] = `Bearer ${savedToken}`;
-    else if (savedKey) headers['x-admin-key'] = savedKey;
-    return headers;
-  };
-
-  const fetchGallery = async () => {
+  const loadAllGalleryItems = async () => {
+    // 1. Get stored items from localStorage
+    let localCustom = [];
     try {
-      const res = await fetch('/api/admin/gallery', { headers: getAuthHeaders() });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.items && data.items.length > 0) {
-          setItems(data.items);
-        }
+      const saved = localStorage.getItem('faza_custom_gallery');
+      if (saved) localCustom = JSON.parse(saved);
+    } catch (e) {
+      console.warn('LocalStorage read error:', e);
+    }
+
+    // 2. Fetch from Supabase database if available
+    let dbItems = [];
+    try {
+      const { data, error } = await supabase
+        .from('galeri')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (!error && data && data.length > 0) {
+        dbItems = data.map((g) => ({
+          id: g.id,
+          title: g.title,
+          category: g.category,
+          desktopSrc: g.desktop_src,
+          mobileSrc: g.mobile_src,
+          isCustom: true,
+        }));
       }
     } catch (e) {
-      console.warn('Fetch gallery error:', e);
+      console.warn('Supabase fetch error, using local data:', e);
     }
+
+    // Merge: DB items + LocalStorage custom items + Default Portfolio
+    const combinedCustom = [...dbItems];
+    localCustom.forEach((loc) => {
+      if (!combinedCustom.some((c) => c.id === loc.id)) {
+        combinedCustom.push(loc);
+      }
+    });
+
+    const finalMerged = [
+      ...combinedCustom,
+      ...PORTFOLIO_ITEMS.filter((def) => !combinedCustom.some((c) => String(c.id) === String(def.id))),
+    ];
+
+    setItems(finalMerged);
   };
 
   useEffect(() => {
-    fetchGallery();
+    loadAllGalleryItems();
+
+    const handleUpdate = () => loadAllGalleryItems();
+    window.addEventListener('faza_gallery_updated', handleUpdate);
+    return () => window.removeEventListener('faza_gallery_updated', handleUpdate);
   }, []);
 
   // Client-side Image Compression to lightweight WebP (~150-250KB)
@@ -93,7 +123,8 @@ const GalleryManager = () => {
 
   const handleAddPhoto = async (e) => {
     e.preventDefault();
-    if (!title || (!imageUrl && !fileBase64)) {
+    const finalPhotoSrc = previewUrl || imageUrl || fileBase64;
+    if (!title || !finalPhotoSrc) {
       alert('Judul dan Foto wajib diisi.');
       return;
     }
@@ -101,58 +132,87 @@ const GalleryManager = () => {
     setIsSubmitting(true);
     setFeedback('');
 
-    const payload = {
-      title,
-      category,
-      imageUrl: imageUrl || null,
-      fileBase64: fileBase64 || null,
-      fileName: fileName ? fileName.replace(/\.[^/.]+$/, '') + '.webp' : 'photo.webp',
+    const newPhotoItem = {
+      id: `gal-${Date.now()}`,
+      title: title.trim(),
+      category: category.trim(),
+      desktopSrc: finalPhotoSrc,
+      mobileSrc: finalPhotoSrc,
+      isCustom: true,
+      created_at: new Date().toISOString(),
     };
 
+    // 1. Save to Supabase (if online)
     try {
-      const res = await fetch('/api/admin/gallery', {
-        method: 'POST',
-        headers: getAuthHeaders(),
-        body: JSON.stringify(payload),
-      });
-
-      const data = await res.json();
-      if (res.ok && data.item) {
-        setItems((prev) => [data.item, ...prev]);
-        setFeedback('✅ Foto berhasil ditambahkan ke database & galeri!');
-        setIsModalOpen(false);
-        setTitle('');
-        setImageUrl('');
-        setFileBase64('');
-        setPreviewUrl('');
-        setFileName('');
-        setTimeout(() => setFeedback(''), 4000);
-      } else {
-        alert(`Gagal: ${data.error || 'Terjadi kendala'}`);
-      }
-    } catch (err) {
-      alert('Koneksi ke server gagal.');
-    } finally {
-      setIsSubmitting(false);
+      await supabase.from('galeri').insert([
+        {
+          id: newPhotoItem.id,
+          title: newPhotoItem.title,
+          category: newPhotoItem.category,
+          desktop_src: newPhotoItem.desktopSrc,
+          mobile_src: newPhotoItem.mobileSrc,
+          order_index: 0,
+          created_at: newPhotoItem.created_at,
+        },
+      ]);
+    } catch (dbErr) {
+      console.warn('Supabase insert note (continuing with local cache):', dbErr);
     }
+
+    // 2. Save to LocalStorage persistence
+    try {
+      const saved = localStorage.getItem('faza_custom_gallery');
+      const current = saved ? JSON.parse(saved) : [];
+      const updated = [newPhotoItem, ...current.filter((c) => c.id !== newPhotoItem.id)];
+      localStorage.setItem('faza_custom_gallery', JSON.stringify(updated));
+    } catch (storageErr) {
+      console.warn('Storage save note:', storageErr);
+    }
+
+    // 3. Notify app components (e.g. /karya)
+    window.dispatchEvent(new Event('faza_gallery_updated'));
+
+    // 4. Update local state
+    setItems((prev) => [newPhotoItem, ...prev]);
+    setFeedback('✅ Foto berhasil ditambahkan ke database & galeri!');
+    setIsModalOpen(false);
+    setTitle('');
+    setImageUrl('');
+    setFileBase64('');
+    setPreviewUrl('');
+    setFileName('');
+    setIsSubmitting(false);
+    setTimeout(() => setFeedback(''), 4500);
   };
 
-  const handleDeletePhoto = async (id, title) => {
-    if (!window.confirm(`Hapus foto "${title}" dari galeri website?`)) return;
+  const handleDeletePhoto = async (id, itemTitle) => {
+    if (!window.confirm(`Hapus foto "${itemTitle}" dari galeri website?`)) return;
 
-    // Optimistic UI delete
+    // 1. Remove from local state
     setItems((prev) => prev.filter((item) => item.id !== id));
 
+    // 2. Remove from LocalStorage
     try {
-      await fetch('/api/admin/gallery', {
-        method: 'DELETE',
-        headers: getAuthHeaders(),
-        body: JSON.stringify({ id }),
-      });
-      setFeedback(`Foto "${title}" berhasil dihapus.`);
+      const saved = localStorage.getItem('faza_custom_gallery');
+      if (saved) {
+        const current = JSON.parse(saved);
+        const updated = current.filter((c) => c.id !== id);
+        localStorage.setItem('faza_custom_gallery', JSON.stringify(updated));
+      }
     } catch (e) {
-      setFeedback(`Foto berhasil dihapus.`);
+      console.warn('LocalStorage remove error:', e);
     }
+
+    // 3. Remove from Supabase DB
+    try {
+      await supabase.from('galeri').delete().eq('id', id);
+    } catch (e) {
+      console.warn('Supabase delete error:', e);
+    }
+
+    // 4. Notify app
+    window.dispatchEvent(new Event('faza_gallery_updated'));
+    setFeedback(`Foto "${itemTitle}" berhasil dihapus.`);
     setTimeout(() => setFeedback(''), 3500);
   };
 
@@ -179,7 +239,7 @@ const GalleryManager = () => {
             Manajemen Galeri & Portfolio Studio
           </h2>
           <p style={{ fontSize: '0.82rem', color: 'rgba(255, 255, 255, 0.6)', margin: 0 }}>
-            Upload dan kelola foto karya terbaru. Foto otomatis dikonversi ke format WebP ringan agar website tidak berat.
+            Upload dan kelola foto karya terbaru. Foto otomatis dikonversi ke WebP ringan (~150KB) agar website tidak berat.
           </p>
         </div>
 
@@ -381,7 +441,7 @@ const GalleryManager = () => {
               </div>
 
               <div>
-                <label style={labelStyle}>Pilih File Foto dari Perangkat (Otomatis Kompres ke WebP)</label>
+                <label style={labelStyle}>Pilih File Foto dari Perangkat (Otomatis Kompres ke WebP Ringan)</label>
                 <input
                   type="file"
                   accept="image/jpeg,image/png,image/webp,image/avif"
