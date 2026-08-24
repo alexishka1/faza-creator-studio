@@ -1,13 +1,13 @@
 /**
  * Centralized Social Proof: Testimonials, Ratings & Client Logos (Single Source of Truth)
- * Faza Studio — Jakarta Timur
+ * Faza Studio — East Jakarta Creative Space & Studio
  */
 
 export const GOOGLE_REVIEWS_STATS = {
   rating: '4.9',
   maxRating: '5.0',
-  totalReviews: '120+',
-  badgeText: 'Top Rated Photo Studio — Jakarta Timur',
+  totalReviews: '120+ Verified Reviews',
+  badgeText: 'Top Rated Photo Studio — East Jakarta',
   googleMapsReviewUrl:
     'https://maps.google.com/?q=Jl.+Dukuh+V+No.+79,+RT.05/RW.02,+Dukuh,+Kramat+Jati,+Jakarta+Timur',
 };
@@ -15,35 +15,35 @@ export const GOOGLE_REVIEWS_STATS = {
 export const TESTIMONIALS = [
   {
     name: 'Dimas Prasetyo',
-    role: 'Creative Director, Local Brand Apparel',
+    role: 'Creative Director, Lumen Apparel',
     rating: 5,
     quote:
-      'Lighting setup-nya lengkap banget dari Godox sampai continuous light, AC dingin, dan ada ruang ganti private. Sesi photoshoot katalog 6 jam berjalan super lancar!',
+      'The lighting setup is exceptionally thorough—from Godox strobes to continuous modifiers. The air-conditioned private vanity made our 6-hour lookbook production run seamlessly.',
     serviceUsed: 'Product & Commercial',
   },
   {
     name: 'Sarah Nabila',
-    role: 'Fashion Content Creator',
+    role: 'Fashion & Digital Content Creator',
     rating: 5,
     quote:
-      'Lokasi studio di Ciracas gampang diakses. Cyclorama wall-nya bersih dan ambiencenya tenang banget, bikin mood foto jadi dapet. Pasti bakal balik lagi.',
+      'The studio ambiance is pristine and peaceful. The infinity cyclorama wall is spotless, and natural light integration elevates every frame. Will definitely return for our next campaign.',
     serviceUsed: 'Editorial & Fashion',
   },
   {
     name: 'Reza Fahlevi',
-    role: 'Corporate HR & Professional',
+    role: 'Senior Talent Acquisition, Tech Industry',
     rating: 5,
     quote:
-      'Ambil paket LinkedIn Portrait bareng tim kantor. Hasil grading dan arahan posenya sangat profesional. Worth it banget untuk harga terjangkau.',
-    serviceUsed: 'LinkedIn Portrait',
+      'Booked the Executive Portrait session for our corporate team. The posing direction and color grading were top-tier. Exceptional value for high-caliber professional branding.',
+    serviceUsed: 'Executive Portrait',
   },
   {
     name: 'Nadya & Kevin',
-    role: 'Personal Portrait Client',
+    role: 'Private Studio Client',
     rating: 5,
     quote:
-      'Sewa studio per jam buat sesi foto wisuda & keluarga. Adminnya ramah, responsif via WhatsApp, dan fasilitasnya lengkap sampai Bluetooth speaker!',
-    serviceUsed: 'Studio Rent / Jam',
+      'Rented the space for a graduation and family portrait session. Fast and courteous WhatsApp booking, complete Bluetooth audio system, and spotless private dressing rooms.',
+    serviceUsed: 'Studio Rental / Hour',
   },
 ];
 

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-const DAYS = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const MONTHS = [
-  'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-  'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
 const BookingCalendar = ({ selectedDate, onDateSelect, onSlotSelect, selectedSlot }) => {
@@ -15,7 +15,7 @@ const BookingCalendar = ({ selectedDate, onDateSelect, onSlotSelect, selectedSlo
   const [slots, setSlots] = useState([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
 
-  // Fetch slot availability saat tanggal berubah
+  // Fetch slot availability when date changes
   const fetchSlots = useCallback(async (dateStr) => {
     setLoadingSlots(true);
     try {
@@ -35,13 +35,13 @@ const BookingCalendar = ({ selectedDate, onDateSelect, onSlotSelect, selectedSlo
     }
   }, [selectedDate, fetchSlots]);
 
-  // Generate hari-hari dalam bulan
+  // Generate days in month
   const getDaysInMonth = (year, month) => {
     const firstDay = new Date(year, month, 1).getDay();
     const totalDays = new Date(year, month + 1, 0).getDate();
     const days = [];
 
-    // Padding hari kosong di awal
+    // Padding empty days at start
     for (let i = 0; i < firstDay; i++) {
       days.push(null);
     }
@@ -56,10 +56,10 @@ const BookingCalendar = ({ selectedDate, onDateSelect, onSlotSelect, selectedSlo
   const handleDayClick = (day) => {
     if (!day) return;
     const date = new Date(viewYear, viewMonth, day);
-    if (date < today) return; // Tidak bisa pilih masa lalu
+    if (date < today) return; // Cannot select past dates
     const dateStr = `${viewYear}-${String(viewMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     onDateSelect(dateStr);
-    onSlotSelect(''); // Reset slot ketika ganti tanggal
+    onSlotSelect(''); // Reset slot on date change
   };
 
   const prevMonth = () => {
@@ -98,104 +98,96 @@ const BookingCalendar = ({ selectedDate, onDateSelect, onSlotSelect, selectedSlo
       {/* Day Labels */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '4px', marginBottom: '8px' }}>
         {DAYS.map(d => (
-          <div key={d} style={{ textAlign: 'center', fontSize: '0.7rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.1em', padding: '4px 0' }}>
+          <div key={d} style={{ textAlign: 'center', fontSize: '0.72rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.08em', padding: '4px 0' }}>
             {d}
           </div>
         ))}
       </div>
 
-      {/* Calendar Grid */}
+      {/* Day Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '4px' }}>
-        {days.map((day, idx) => (
-          <button
-            key={idx}
-            type="button"
-            onClick={() => handleDayClick(day)}
-            disabled={!day || isDayPast(day)}
-            style={{
-              aspectRatio: '1',
-              background: isSelected(day)
-                ? '#fff'
-                : 'transparent',
-              color: isSelected(day)
-                ? '#000'
-                : !day || isDayPast(day)
-                  ? 'rgba(255,255,255,0.15)'
-                  : 'rgba(255,255,255,0.8)',
-              border: isSelected(day)
-                ? 'none'
-                : '1px solid rgba(255,255,255,0.06)',
-              borderRadius: '6px',
-              fontSize: '0.85rem',
-              cursor: !day || isDayPast(day) ? 'default' : 'pointer',
-              transition: 'all 0.2s ease',
-              fontFamily: 'var(--font-sans)',
-            }}
-            onMouseEnter={(e) => {
-              if (day && !isDayPast(day) && !isSelected(day)) {
-                e.target.style.background = 'rgba(255,255,255,0.08)';
-                e.target.style.borderColor = 'rgba(255,255,255,0.2)';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (!isSelected(day)) {
-                e.target.style.background = 'transparent';
-                e.target.style.borderColor = 'rgba(255,255,255,0.06)';
-              }
-            }}
-          >
-            {day || ''}
-          </button>
-        ))}
+        {days.map((day, i) => {
+          if (!day) {
+            return <div key={`empty-${i}`} style={{ height: '40px' }} />;
+          }
+
+          const past = isDayPast(day);
+          const sel = isSelected(day);
+
+          return (
+            <button
+              key={`day-${day}`}
+              type="button"
+              disabled={past}
+              onClick={() => handleDayClick(day)}
+              style={{
+                height: '40px',
+                background: sel ? 'var(--color-accent)' : 'rgba(255,255,255,0.03)',
+                color: sel ? '#000' : past ? 'rgba(255,255,255,0.15)' : '#fff',
+                border: sel ? '1px solid var(--color-accent)' : '1px solid rgba(255,255,255,0.08)',
+                borderRadius: '4px',
+                fontSize: '0.85rem',
+                fontWeight: sel ? '700' : '400',
+                cursor: past ? 'not-allowed' : 'pointer',
+                transition: 'all 0.2s ease',
+              }}
+            >
+              {day}
+            </button>
+          );
+        })}
       </div>
 
-      {/* Time Slots */}
+      {/* Time Slot Picker */}
       {selectedDate && (
         <div style={{ marginTop: '2rem' }}>
-          <p style={{ fontSize: '0.7rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: '1rem' }}>
-            Pilih Jam Sesi
+          <p style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)', marginBottom: '0.8rem', letterSpacing: '0.05em' }}>
+            SELECT TIME SLOT FOR <strong style={{ color: '#fff' }}>{selectedDate}</strong>:
           </p>
+
           {loadingSlots ? (
-            <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.9rem' }}>Memeriksa ketersediaan...</p>
+            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.85rem' }}>Checking live slot availability...</p>
           ) : (
-            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-              {slots.map(({ jam, available }) => (
-                <button
-                  key={jam}
-                  type="button"
-                  onClick={() => available && onSlotSelect(jam)}
-                  disabled={!available}
-                  style={{
-                    padding: '0.6rem 1.2rem',
-                    border: selectedSlot === jam
-                      ? '1px solid #fff'
-                      : available
-                        ? '1px solid rgba(255,255,255,0.2)'
-                        : '1px solid rgba(255,255,255,0.05)',
-                    background: selectedSlot === jam
-                      ? '#fff'
-                      : 'transparent',
-                    color: selectedSlot === jam
-                      ? '#000'
-                      : available
-                        ? 'rgba(255,255,255,0.8)'
-                        : 'rgba(255,255,255,0.2)',
-                    borderRadius: '6px',
-                    fontSize: '0.85rem',
-                    cursor: available ? 'pointer' : 'not-allowed',
-                    transition: 'all 0.2s ease',
-                    position: 'relative',
-                    fontFamily: 'var(--font-sans)',
-                  }}
-                >
-                  {jam}
-                  {!available && (
-                    <span style={{ display: 'block', fontSize: '0.6rem', color: 'rgba(255,255,255,0.2)', marginTop: '2px' }}>
-                      Penuh
-                    </span>
-                  )}
-                </button>
-              ))}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '0.6rem' }}>
+              {slots.map(slot => {
+                const isTaken = !slot.available;
+                const isSlotSel = selectedSlot === slot.slot;
+
+                return (
+                  <button
+                    key={slot.slot}
+                    type="button"
+                    disabled={isTaken}
+                    onClick={() => onSlotSelect(slot.slot)}
+                    style={{
+                      padding: '0.75rem 0.5rem',
+                      background: isSlotSel
+                        ? 'var(--color-accent)'
+                        : isTaken
+                        ? 'rgba(255,255,255,0.02)'
+                        : 'rgba(255,255,255,0.05)',
+                      color: isSlotSel ? '#000' : isTaken ? 'rgba(255,255,255,0.2)' : '#fff',
+                      border: isSlotSel
+                        ? '1px solid var(--color-accent)'
+                        : isTaken
+                        ? '1px solid rgba(255,255,255,0.04)'
+                        : '1px solid rgba(255,255,255,0.12)',
+                      borderRadius: '4px',
+                      fontSize: '0.82rem',
+                      fontWeight: isSlotSel ? '700' : '400',
+                      cursor: isTaken ? 'not-allowed' : 'pointer',
+                      position: 'relative',
+                      transition: 'all 0.2s ease',
+                      textAlign: 'center',
+                    }}
+                  >
+                    <div>{slot.slot}</div>
+                    <div style={{ fontSize: '0.68rem', marginTop: '2px', opacity: 0.75 }}>
+                      {isTaken ? '🔒 Reserved' : '✓ Available'}
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
@@ -206,17 +198,16 @@ const BookingCalendar = ({ selectedDate, onDateSelect, onSlotSelect, selectedSlo
 
 const navBtnStyle = {
   background: 'transparent',
-  border: '1px solid rgba(255,255,255,0.1)',
+  border: '1px solid rgba(255,255,255,0.2)',
   color: '#fff',
-  width: '36px',
-  height: '36px',
-  borderRadius: '6px',
+  width: '32px',
+  height: '32px',
+  borderRadius: '4px',
   cursor: 'pointer',
   fontSize: '1rem',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  transition: 'border-color 0.2s ease',
 };
 
 export default BookingCalendar;

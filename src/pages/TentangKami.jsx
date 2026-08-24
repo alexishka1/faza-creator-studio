@@ -28,8 +28,8 @@ const TentangKami = () => {
       // 1. Hero Animation
       gsap.fromTo(
         heroTextRef.current,
-        { opacity: 0, y: 50 },
-        { opacity: 1, y: 0, duration: 1.3, ease: 'power4.out', delay: 0.2 }
+        { opacity: 0, y: 40 },
+        { opacity: 1, y: 0, duration: 1.2, ease: 'power4.out', delay: 0.2 }
       );
 
       // 2. Philosophy Text Reveal
@@ -64,12 +64,12 @@ const TentangKami = () => {
       // 4. Team Members Stagger
       gsap.fromTo(
         '.team-card',
-        { opacity: 0, y: 40 },
+        { opacity: 0, y: 35 },
         {
           opacity: 1,
           y: 0,
-          stagger: 0.15,
-          duration: 1,
+          stagger: 0.12,
+          duration: 0.9,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: teamRef.current,
@@ -78,12 +78,12 @@ const TentangKami = () => {
         }
       );
 
-      // 5. Client Marquee
+      // 5. Client Marquee (Moving to the RIGHT - Tahap 2B)
       if (marqueeRef.current) {
         gsap.to(marqueeRef.current, {
-          xPercent: -50,
+          xPercent: 50,
           ease: 'none',
-          duration: 28,
+          duration: 30,
           repeat: -1,
         });
       }
@@ -92,7 +92,7 @@ const TentangKami = () => {
   }, []);
 
   const philosophyText =
-    'Fotografi bukan sekadar menekan tombol kamera. Fotografi adalah seni mengamati, menangkap jiwa dari sebuah momen, dan merangkainya menjadi visual yang bernilai abadi bagi Anda dan brand Anda.';
+    'Photography is not merely pressing a shutter. It is the disciplined art of observation, capturing the authentic pulse of a moment, and engineering visual narratives that endure for individuals and brands alike.';
   const words = philosophyText.split(' ');
 
   const team = [
@@ -105,95 +105,95 @@ const TentangKami = () => {
     <PageTransition>
       <div ref={containerRef} style={{ background: 'var(--color-bg)', color: '#fff', minHeight: '100vh', overflow: 'hidden' }}>
         {/* ===== 1. HERO SECTION WITH FADED PHOTO BACKGROUND ===== */}
-        <section style={{ position: 'relative', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          {/* Faded Background Image (Spec: Opacity 20%) */}
+        <section style={{ position: 'relative', height: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {/* Faded Background Image */}
           <div
             className="faza-faded-bg"
             style={{
               backgroundImage: 'url("/images/optimized/DSCF9515-1600.webp")',
-              opacity: 0.22,
+              opacity: 0.2,
             }}
           />
           {/* Dark Scrim */}
           <div className="faza-scrim" />
 
-          <div ref={heroTextRef} style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '0 6%', maxWidth: '900px' }}>
-            <p style={{ fontSize: '0.85rem', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'var(--color-accent)', marginBottom: '1.5rem', fontWeight: 600 }}>
-              ● TENTANG FAZA STUDIO
+          <div ref={heroTextRef} style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '0 6%', maxWidth: '850px' }}>
+            <p style={{ fontSize: '0.78rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--color-accent)', marginBottom: '1.2rem', fontWeight: 600 }}>
+              ● ABOUT FAZA STUDIO
             </p>
-            <h1 className="font-serif" style={{ fontSize: 'clamp(2.6rem, 6.5vw, 5.5rem)', lineHeight: 1.1, textShadow: '0 20px 40px rgba(0,0,0,0.8)', marginBottom: '1.5rem' }}>
-              KAMI BERCERITA<br />MELALUI CAHAYA
+            <h1 className="font-serif" style={{ fontSize: 'clamp(2.4rem, 5.5vw, 4.5rem)', lineHeight: 1.15, textShadow: '0 20px 40px rgba(0,0,0,0.8)', marginBottom: '1.2rem' }}>
+              STORYTELLING<br />THROUGH LIGHT & SHADOW
             </h1>
-            <p style={{ color: 'var(--color-text-secondary)', fontSize: 'clamp(1rem, 2vw, 1.2rem)', lineHeight: 1.7, fontWeight: 400 }}>
-              Creative Space & Studio Foto di Ciracas, Jakarta Timur yang didedikasikan untuk menghadirkan karya visual berstandar tinggi dengan suasana yang hangat dan inklusif.
+            <p style={{ color: 'var(--color-text-secondary)', fontSize: 'clamp(0.92rem, 1.8vw, 1.05rem)', lineHeight: 1.65, fontWeight: 400 }}>
+              A modern creative space and photography studio in East Jakarta dedicated to producing refined commercial imagery, executive portraiture, and high-caliber productions.
             </p>
           </div>
         </section>
 
         {/* ===== 2. PHILOSOPHY & SIGNATURE ===== */}
-        <section style={{ padding: 'clamp(5rem, 14vh, 12rem) 6% clamp(4rem, 8vh, 8rem) 6%', textAlign: 'center' }}>
-          <div ref={philosophyRef} style={{ maxWidth: '950px', margin: '0 auto', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.6rem' }}>
+        <section style={{ padding: 'clamp(4rem, 10vh, 8rem) 6% clamp(3rem, 6vh, 6rem) 6%', textAlign: 'center' }}>
+          <div ref={philosophyRef} style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.5rem' }}>
             {words.map((word, i) => (
-              <span key={i} className="reveal-text font-serif" style={{ fontSize: 'clamp(1.6rem, 3.8vw, 3.4rem)', fontWeight: 400, display: 'inline-block', lineHeight: 1.35 }}>
+              <span key={i} className="reveal-text font-serif" style={{ fontSize: 'clamp(1.4rem, 3.2vw, 2.6rem)', fontWeight: 400, display: 'inline-block', lineHeight: 1.4 }}>
                 {word}
               </span>
             ))}
           </div>
-          <div style={{ marginTop: '4.5rem' }}>
-            <p style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: '2.5rem', color: 'var(--color-accent)', margin: '0 0 0.5rem 0' }}>
+          <div style={{ marginTop: '3.5rem' }}>
+            <p style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: '2.2rem', color: 'var(--color-accent)', margin: '0 0 0.4rem 0' }}>
               Faza Studio
             </p>
-            <p style={{ fontSize: '0.82rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', fontWeight: 600 }}>
-              Jakarta Timur, Indonesia
+            <p style={{ fontSize: '0.75rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', fontWeight: 600 }}>
+              East Jakarta, Indonesia
             </p>
           </div>
         </section>
 
         {/* ===== 3. STATS / NUMBERS ===== */}
-        <section ref={statsRef} style={{ padding: 'clamp(4rem, 8vh, 7rem) 6%', background: 'var(--color-bg-card)', borderTop: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '3rem', textAlign: 'center' }}>
+        <section ref={statsRef} style={{ padding: 'clamp(3.5rem, 6vh, 5.5rem) 6%', background: 'var(--color-bg-card)', borderTop: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2.5rem', textAlign: 'center' }}>
             <div>
-              <div style={{ fontSize: 'clamp(3.8rem, 7vw, 5.5rem)', fontFamily: 'var(--font-serif)', color: 'var(--color-accent)', lineHeight: 1 }}>
+              <div style={{ fontSize: 'clamp(3rem, 6vw, 4.5rem)', fontFamily: 'var(--font-serif)', color: 'var(--color-accent)', lineHeight: 1 }}>
                 <span ref={count1Ref}>0</span>+
               </div>
-              <p style={{ fontSize: '0.88rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', marginTop: '0.8rem', fontWeight: 500 }}>
-                Tahun Pengalaman
+              <p style={{ fontSize: '0.8rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', marginTop: '0.6rem', fontWeight: 500 }}>
+                Years of Experience
               </p>
             </div>
 
             <div>
-              <div style={{ fontSize: 'clamp(3.8rem, 7vw, 5.5rem)', fontFamily: 'var(--font-serif)', color: 'var(--color-accent)', lineHeight: 1 }}>
+              <div style={{ fontSize: 'clamp(3rem, 6vw, 4.5rem)', fontFamily: 'var(--font-serif)', color: 'var(--color-accent)', lineHeight: 1 }}>
                 <span ref={count2Ref}>0</span>+
               </div>
-              <p style={{ fontSize: '0.88rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', marginTop: '0.8rem', fontWeight: 500 }}>
-                Sesi Foto & Produksi
+              <p style={{ fontSize: '0.8rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', marginTop: '0.6rem', fontWeight: 500 }}>
+                Production Sessions Completed
               </p>
             </div>
 
             <div>
-              <div style={{ fontSize: 'clamp(3.8rem, 7vw, 5.5rem)', fontFamily: 'var(--font-serif)', color: 'var(--color-accent)', lineHeight: 1 }}>
+              <div style={{ fontSize: 'clamp(3rem, 6vw, 4.5rem)', fontFamily: 'var(--font-serif)', color: 'var(--color-accent)', lineHeight: 1 }}>
                 <span ref={count3Ref}>0</span>+
               </div>
-              <p style={{ fontSize: '0.88rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', marginTop: '0.8rem', fontWeight: 500 }}>
-                Ulasan Bintang 5 di Google
+              <p style={{ fontSize: '0.8rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', marginTop: '0.6rem', fontWeight: 500 }}>
+                5-Star Google Reviews
               </p>
             </div>
           </div>
         </section>
 
         {/* ===== 4. THE TEAM ===== */}
-        <section ref={teamRef} style={{ padding: 'clamp(5rem, 10vh, 10rem) 6%' }}>
-          <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
-            <p style={{ fontSize: '0.8rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--color-accent)', marginBottom: '0.8rem', fontWeight: 600 }}>
-              DEDIKASI & KREATIVITAS
+        <section ref={teamRef} style={{ padding: 'clamp(4.5rem, 8vh, 7.5rem) 6%' }}>
+          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <p style={{ fontSize: '0.75rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--color-accent)', marginBottom: '0.6rem', fontWeight: 600 }}>
+              DEDICATION & EXPERTISE
             </p>
-            <h2 className="font-serif" style={{ fontSize: 'clamp(2.4rem, 4.5vw, 3.8rem)' }}>TIM FAZA STUDIO</h2>
+            <h2 className="font-serif" style={{ fontSize: 'clamp(2rem, 3.8vw, 3.2rem)' }}>STUDIO CREATIVE TEAM</h2>
           </div>
 
-          <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2.5rem' }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '2rem' }}>
             {team.map((member, i) => (
               <div key={i} className="team-card" style={{ background: '#151210', borderRadius: '8px', padding: '1.2rem', border: '1px solid rgba(255,255,255,0.06)' }}>
-                <div style={{ width: '100%', aspectRatio: '3/4', overflow: 'hidden', borderRadius: '6px', marginBottom: '1.2rem', background: '#111' }}>
+                <div style={{ width: '100%', aspectRatio: '3/4', overflow: 'hidden', borderRadius: '6px', marginBottom: '1rem', background: '#111' }}>
                   <img
                     src={member.img}
                     alt={member.name}
@@ -206,8 +206,8 @@ const TentangKami = () => {
                     }}
                   />
                 </div>
-                <h3 className="font-serif" style={{ fontSize: '1.5rem', marginBottom: '0.4rem', color: '#fff' }}>{member.name}</h3>
-                <p style={{ fontSize: '0.82rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', margin: 0, fontWeight: 500 }}>
+                <h3 className="font-serif" style={{ fontSize: '1.35rem', marginBottom: '0.3rem', color: '#fff' }}>{member.name}</h3>
+                <p style={{ fontSize: '0.78rem', letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', margin: 0, fontWeight: 500 }}>
                   {member.role}
                 </p>
               </div>
@@ -216,17 +216,17 @@ const TentangKami = () => {
         </section>
 
         {/* ===== 5. CLIENT MARQUEE ===== */}
-        <section style={{ padding: 'clamp(2rem, 4vh, 4rem) 0 clamp(4rem, 8vh, 7rem) 0', overflow: 'hidden' }}>
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <p style={{ fontSize: '0.78rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--color-accent)', fontWeight: 600 }}>
-              DIPERCAYA OLEH BRAND & KREATOR
+        <section style={{ padding: 'clamp(2rem, 4vh, 3.5rem) 0 clamp(3.5rem, 6vh, 5.5rem) 0', overflow: 'hidden' }}>
+          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+            <p style={{ fontSize: '0.75rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--color-accent)', fontWeight: 600 }}>
+              TRUSTED BY LEADING BRANDS & CREATORS
             </p>
           </div>
 
-          <div style={{ display: 'flex', opacity: 0.65, borderTop: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '2rem 0' }}>
+          <div style={{ display: 'flex', opacity: 0.65, borderTop: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '1.8rem 0' }}>
             <div ref={marqueeRef} style={{ display: 'flex', whiteSpace: 'nowrap', willChange: 'transform' }}>
               {[...CLIENT_LOGOS, ...CLIENT_LOGOS].map((client, i) => (
-                <span key={i} className="font-serif" style={{ fontSize: 'clamp(1.4rem, 2.5vw, 2.2rem)', margin: '0 3.5rem', letterSpacing: '0.12em', color: 'var(--color-accent)' }}>
+                <span key={i} className="font-serif" style={{ fontSize: 'clamp(1.2rem, 2vw, 1.8rem)', margin: '0 3rem', letterSpacing: '0.12em', color: 'var(--color-accent)' }}>
                   {client}
                 </span>
               ))}
@@ -234,30 +234,30 @@ const TentangKami = () => {
           </div>
 
           {/* Direct CTA */}
-          <div style={{ textAlign: 'center', marginTop: '4rem' }}>
+          <div style={{ textAlign: 'center', marginTop: '3.5rem' }}>
             <a
-              href={getWhatsAppUrl('Halo Faza Studio, saya tertarik untuk berkunjung atau tanya sewa studio.')}
+              href={getWhatsAppUrl('Hello Faza Studio, I would like to visit the studio or discuss rental availability.')}
               target="_blank"
               rel="noopener noreferrer"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.6rem',
-                padding: '0.95rem 2.2rem',
+                padding: '0.85rem 2rem',
                 background: 'var(--color-wa-gradient, linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%))',
                 border: '1px solid rgba(255, 255, 255, 0.3)',
                 color: '#fff',
                 textDecoration: 'none',
-                fontSize: '0.85rem',
+                fontSize: '0.82rem',
                 fontWeight: 600,
-                letterSpacing: '0.1em',
+                letterSpacing: '0.08em',
                 textTransform: 'uppercase',
                 borderRadius: '50px',
                 boxShadow: '0 6px 22px var(--color-wa-glow, rgba(36, 215, 87, 0.45))',
               }}
             >
-              <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '18px', color: '#fff' }} />
-              Hubungi & Kunjungi Studio
+              <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '17px', color: '#fff' }} />
+              Connect & Visit Studio
             </a>
           </div>
         </section>

@@ -54,9 +54,10 @@ const Layanan = () => {
         pinSpacing: false,
       });
 
+      // Right-moving marquee (Tahap 2B)
       if (marqueeRef.current) {
         gsap.to(marqueeRef.current, {
-          xPercent: -50,
+          xPercent: 50,
           ease: 'none',
           duration: 35,
           repeat: -1,
@@ -67,11 +68,11 @@ const Layanan = () => {
         if (!el) return;
         gsap.fromTo(
           el,
-          { opacity: 0, y: 60 },
+          { opacity: 0, y: 50 },
           {
             opacity: 1,
             y: 0,
-            duration: 1,
+            duration: 0.9,
             ease: 'power3.out',
             scrollTrigger: {
               trigger: el,
@@ -96,13 +97,13 @@ const Layanan = () => {
           flexWrap: 'wrap',
           flexDirection: isEven ? 'row' : 'row-reverse',
           alignItems: 'center',
-          gap: 'clamp(2rem, 5vw, 5rem)',
+          gap: 'clamp(2rem, 4vw, 4.5rem)',
           padding: '2.5rem 0',
           borderBottom: '1px solid rgba(255,255,255,0.06)',
         }}
       >
         {/* Image Section */}
-        <div style={{ flex: '1 1 360px', position: 'relative' }}>
+        <div style={{ flex: '1 1 340px', position: 'relative' }}>
           <div style={{ width: '100%', aspectRatio: '4/5', overflow: 'hidden', borderRadius: '8px', boxShadow: '0 20px 40px rgba(0,0,0,0.6)', background: '#14110f' }}>
             <img
               src={service.desktopImg}
@@ -125,7 +126,7 @@ const Layanan = () => {
               position: 'absolute',
               top: '-1.5rem',
               [isEven ? 'left' : 'right']: '-1.5rem',
-              fontSize: 'clamp(4rem, 8vw, 6.5rem)',
+              fontSize: 'clamp(3.5rem, 7vw, 5.5rem)',
               fontFamily: 'var(--font-serif)',
               color: 'rgba(201, 169, 110, 0.08)',
               pointerEvents: 'none',
@@ -137,15 +138,15 @@ const Layanan = () => {
         </div>
 
         {/* Text Section */}
-        <div style={{ flex: '1 1 360px', padding: '1rem 0' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginBottom: '1.2rem' }}>
+        <div style={{ flex: '1 1 340px', padding: '0.8rem 0' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginBottom: '1rem' }}>
             <span
               style={{
-                padding: '0.35rem 1rem',
+                padding: '0.3rem 0.9rem',
                 border: '1px solid rgba(201, 169, 110, 0.35)',
                 background: 'rgba(201, 169, 110, 0.1)',
                 borderRadius: '100px',
-                fontSize: '0.72rem',
+                fontSize: '0.7rem',
                 letterSpacing: '0.15em',
                 fontWeight: 600,
                 color: 'var(--color-accent)',
@@ -155,12 +156,12 @@ const Layanan = () => {
             </span>
           </div>
 
-          <h3 className="font-serif" style={{ fontSize: 'clamp(2.2rem, 4.5vw, 3.5rem)', color: '#fff', marginBottom: '1rem', lineHeight: 1.1 }}>
+          <h3 className="font-serif" style={{ fontSize: 'clamp(1.8rem, 3.8vw, 2.8rem)', color: '#fff', marginBottom: '0.8rem', lineHeight: 1.15 }}>
             {service.title} <br />
             <em style={{ color: 'var(--color-accent)', fontSize: '0.85em', fontStyle: 'italic' }}>{service.subtitle}</em>
           </h3>
 
-          <p style={{ color: 'var(--color-text-secondary)', lineHeight: 1.8, fontSize: '1rem', marginBottom: '2rem' }}>
+          <p style={{ color: 'var(--color-text-secondary)', lineHeight: 1.7, fontSize: '0.92rem', marginBottom: '1.6rem' }}>
             {service.desc}
           </p>
 
@@ -168,47 +169,47 @@ const Layanan = () => {
             style={{
               listStyle: 'none',
               padding: 0,
-              marginBottom: '2.5rem',
+              marginBottom: '2rem',
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-              gap: '0.9rem',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))',
+              gap: '0.75rem',
             }}
           >
             {service.features.map((f, idx) => (
               <li
                 key={idx}
                 style={{
-                  color: 'rgba(255,255,255,0.9)',
-                  fontSize: '0.88rem',
+                  color: 'rgba(255,255,255,0.85)',
+                  fontSize: '0.82rem',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.6rem',
+                  gap: '0.5rem',
                 }}
               >
-                <span style={{ width: '6px', height: '6px', background: 'var(--color-accent)', borderRadius: '50%', flexShrink: 0 }} />
+                <span style={{ color: 'var(--color-accent)', fontSize: '0.85rem' }}>✓</span>
                 {f}
               </li>
             ))}
           </ul>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
-            <p style={{ fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', fontFamily: 'var(--font-serif)', color: '#fff', margin: 0, fontWeight: 500 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem', flexWrap: 'wrap' }}>
+            <p style={{ fontSize: 'clamp(1.4rem, 2.5vw, 1.8rem)', fontFamily: 'var(--font-serif)', color: '#fff', margin: 0, fontWeight: 600 }}>
               {service.price}
             </p>
-            <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
               <Link
                 to={`/booking?layanan=${encodeURIComponent(service.title + (service.subtitle ? ' ' + service.subtitle : ''))}`}
                 style={{
                   display: 'inline-block',
-                  padding: '0.85rem 1.8rem',
+                  padding: '0.75rem 1.6rem',
                   border: '1px solid var(--color-accent)',
                   color: '#000',
                   background: 'var(--color-accent)',
                   textDecoration: 'none',
                   textTransform: 'uppercase',
-                  fontSize: '0.78rem',
-                  fontWeight: 600,
-                  letterSpacing: '0.12em',
+                  fontSize: '0.75rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.1em',
                   borderRadius: '4px',
                   transition: 'all 0.3s ease',
                 }}
@@ -221,24 +222,24 @@ const Layanan = () => {
                   e.currentTarget.style.borderColor = 'var(--color-accent)';
                 }}
               >
-                Pilih Tanggal
+                Select Date
               </Link>
               <a
-                href={getWhatsAppUrl(`Halo Faza Studio, saya tertarik dengan paket ${service.title} ${service.subtitle} (${service.price}).`)}
+                href={getWhatsAppUrl(`Hello Faza Studio, I would like to book the "${service.title} ${service.subtitle}" package (${service.price}).`)}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '0.5rem',
-                  padding: '0.85rem 1.4rem',
+                  padding: '0.75rem 1.3rem',
                   border: '1px solid rgba(255,255,255,0.2)',
                   color: '#fff',
                   background: 'rgba(255,255,255,0.04)',
                   textDecoration: 'none',
                   textTransform: 'uppercase',
-                  fontSize: '0.78rem',
-                  letterSpacing: '0.1em',
+                  fontSize: '0.75rem',
+                  letterSpacing: '0.08em',
                   borderRadius: '4px',
                   transition: 'all 0.3s ease',
                 }}
@@ -252,7 +253,7 @@ const Layanan = () => {
                 }}
               >
                 <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '15px' }} />
-                Chat WA
+                WhatsApp
               </a>
             </div>
           </div>
@@ -281,8 +282,8 @@ const Layanan = () => {
       <div ref={containerRef} style={{ display: 'flex', flexDirection: 'column', minHeight: '200vh', background: 'var(--color-bg)' }}>
         {/* ===== HERO HEADER WITH FADED PHOTO BACKGROUND ===== */}
         <div ref={headerRef} style={{ width: '100%', height: '100vh', position: 'absolute', top: 0, left: 0, zIndex: 0, overflow: 'hidden' }}>
-          {/* Animated Background Gallery */}
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', opacity: 0.3 }}>
+          {/* Animated Background Gallery (Moves Right) */}
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', opacity: 0.28 }}>
             <div ref={marqueeRef} style={{ display: 'flex', gap: '2vw', whiteSpace: 'nowrap', padding: '0 1vw', willChange: 'transform' }}>
               {[...MARQUEE_IMAGES, ...MARQUEE_IMAGES].map((src, i) => (
                 <div key={i} style={{ width: '25vw', minWidth: '280px', height: '40vh', borderRadius: '4px', overflow: 'hidden', background: '#14110f' }}>
@@ -292,34 +293,34 @@ const Layanan = () => {
             </div>
           </div>
 
-          {/* Dark Scrim Gradient Overlay (Spec 55-85%) */}
-          <div className="faza-scrim" style={{ background: 'radial-gradient(circle, rgba(20,17,15,0.7) 0%, rgba(14,12,10,0.96) 100%)' }} />
+          {/* Dark Scrim Gradient Overlay */}
+          <div className="faza-scrim" style={{ background: 'radial-gradient(circle, rgba(20,17,15,0.75) 0%, rgba(14,12,10,0.96) 100%)' }} />
 
           <div style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', padding: '0 1.5rem' }}>
-            <p style={{ fontSize: '0.85rem', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'var(--color-accent)', marginBottom: '1.2rem', fontWeight: 600 }}>
-              FAZA STUDIO — JAKARTA TIMUR
+            <p style={{ fontSize: '0.78rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--color-accent)', marginBottom: '1rem', fontWeight: 600 }}>
+              FAZA STUDIO — EAST JAKARTA
             </p>
-            <h1 className="font-serif" style={{ fontSize: 'clamp(2.8rem, 6.5vw, 5.5rem)', letterSpacing: '0.06em', color: '#fff', textShadow: '0 10px 40px rgba(0,0,0,0.9)', marginBottom: '1.5rem' }}>
-              LAYANAN & HARGA
+            <h1 className="font-serif" style={{ fontSize: 'clamp(2.4rem, 5.5vw, 4.5rem)', letterSpacing: '0.04em', color: '#fff', textShadow: '0 10px 40px rgba(0,0,0,0.9)', marginBottom: '1.2rem' }}>
+              RATES & SERVICES
             </h1>
-            <p style={{ fontSize: 'clamp(0.95rem, 2vw, 1.15rem)', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', maxWidth: '700px', lineHeight: 1.6 }}>
-              Paket Foto Retail & Solusi Produksi Creative Space Profesional
+            <p style={{ fontSize: 'clamp(0.88rem, 1.6vw, 1.05rem)', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', maxWidth: '650px', lineHeight: 1.6 }}>
+              Retail Photoshoot Packages & Professional Creative Space Solutions
             </p>
-            <div style={{ marginTop: '2.5rem', display: 'flex', alignItems: 'center', gap: '0.8rem', color: 'rgba(255,255,255,0.6)', fontSize: '0.78rem', letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 500 }}>
-              <span style={{ display: 'inline-block', width: '30px', height: '1px', background: 'var(--color-accent)' }} />
-              Scroll untuk menjelajahi paket
-              <span style={{ display: 'inline-block', width: '30px', height: '1px', background: 'var(--color-accent)' }} />
+            <div style={{ marginTop: '2rem', display: 'flex', alignItems: 'center', gap: '0.8rem', color: 'rgba(255,255,255,0.6)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 500 }}>
+              <span style={{ display: 'inline-block', width: '25px', height: '1px', background: 'var(--color-accent)' }} />
+              Scroll to explore packages
+              <span style={{ display: 'inline-block', width: '25px', height: '1px', background: 'var(--color-accent)' }} />
             </div>
           </div>
         </div>
 
         {/* ===== SERVICES CONTENT SECTION ===== */}
-        <div id="services-section" style={{ marginTop: '100vh', zIndex: 2, position: 'relative', background: 'var(--color-bg)', padding: '5rem 6% 8rem 6%' }}>
+        <div id="services-section" style={{ marginTop: '100vh', zIndex: 2, position: 'relative', background: 'var(--color-bg)', padding: '4.5rem 6% 7rem 6%' }}>
           <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
             {/* Filter / Quick Jump Navigation */}
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginBottom: '5rem', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '0.8rem', marginBottom: '4rem', flexWrap: 'wrap' }}>
               {[
-                { id: 'all', label: '✨ Semua Layanan' },
+                { id: 'all', label: '✨ All Services' },
                 { id: 'b2c', label: '🛍️ B2C Retail (Personal & Group)' },
                 { id: 'b2b', label: '🏢 B2B Creative Space & Brand' },
               ].map((tab) => (
@@ -327,14 +328,14 @@ const Layanan = () => {
                   key={tab.id}
                   onClick={() => handleTabChange(tab.id)}
                   style={{
-                    padding: '0.8rem 1.8rem',
-                    borderRadius: '50px',
+                    padding: '0.65rem 1.6rem',
+                    borderRadius: '40px',
                     border: activeTab === tab.id ? '1px solid var(--color-accent)' : '1px solid rgba(255,255,255,0.12)',
                     background: activeTab === tab.id ? 'var(--color-accent)' : 'rgba(255,255,255,0.03)',
                     color: activeTab === tab.id ? '#000' : 'rgba(255,255,255,0.85)',
-                    fontSize: '0.85rem',
+                    fontSize: '0.82rem',
                     fontWeight: 600,
-                    letterSpacing: '0.05em',
+                    letterSpacing: '0.04em',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
                     backdropFilter: 'blur(10px)',
@@ -347,20 +348,20 @@ const Layanan = () => {
 
             {/* ═════ GROUP 1: B2C RETAIL ═════ */}
             {(activeTab === 'all' || activeTab === 'b2c') && (
-              <div style={{ marginBottom: '8rem' }}>
-                <div style={{ borderLeft: '3px solid var(--color-accent)', paddingLeft: '1.5rem', marginBottom: '4rem' }}>
-                  <span style={{ fontSize: '0.75rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--color-accent)', fontWeight: 600, display: 'block', marginBottom: '0.4rem' }}>
-                    KATEGORI 01
+              <div style={{ marginBottom: '6rem' }}>
+                <div style={{ borderLeft: '3px solid var(--color-accent)', paddingLeft: '1.2rem', marginBottom: '3rem' }}>
+                  <span style={{ fontSize: '0.72rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--color-accent)', fontWeight: 600, display: 'block', marginBottom: '0.3rem' }}>
+                    CATEGORY 01
                   </span>
-                  <h2 className="font-serif" style={{ fontSize: 'clamp(2rem, 4vw, 3.2rem)', color: '#fff', margin: '0 0 0.5rem 0' }}>
-                    B2C Retail & Personal Session
+                  <h2 className="font-serif" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)', color: '#fff', margin: '0 0 0.4rem 0' }}>
+                    B2C Retail & Personal Sessions
                   </h2>
-                  <p style={{ color: 'var(--color-text-secondary)', fontSize: '1rem', maxWidth: '700px', margin: 0 }}>
-                    Layanan foto studio personal, portrait profesional, foto grup, dan sewa studio per jam dengan harga terjangkau.
+                  <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem', maxWidth: '680px', margin: 0 }}>
+                    Personal photo studio sessions, executive portraits, graduation photos, and flexible hourly studio rental.
                   </p>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
                   {b2cServices.map((s, idx) => renderServiceCard(s, idx))}
                 </div>
               </div>
@@ -369,19 +370,19 @@ const Layanan = () => {
             {/* ═════ GROUP 2: B2B CREATIVE SPACE ═════ */}
             {(activeTab === 'all' || activeTab === 'b2b') && (
               <div>
-                <div style={{ borderLeft: '3px solid var(--color-accent)', paddingLeft: '1.5rem', marginBottom: '4rem' }}>
-                  <span style={{ fontSize: '0.75rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--color-accent)', fontWeight: 600, display: 'block', marginBottom: '0.4rem' }}>
-                    KATEGORI 02
+                <div style={{ borderLeft: '3px solid var(--color-accent)', paddingLeft: '1.2rem', marginBottom: '3rem' }}>
+                  <span style={{ fontSize: '0.72rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--color-accent)', fontWeight: 600, display: 'block', marginBottom: '0.3rem' }}>
+                    CATEGORY 02
                   </span>
-                  <h2 className="font-serif" style={{ fontSize: 'clamp(2rem, 4vw, 3.2rem)', color: '#fff', margin: '0 0 0.5rem 0' }}>
-                    B2B Creative Space & Production
+                  <h2 className="font-serif" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)', color: '#fff', margin: '0 0 0.4rem 0' }}>
+                    B2B Creative Space & Commercial Production
                   </h2>
-                  <p style={{ color: 'var(--color-text-secondary)', fontSize: '1rem', maxWidth: '700px', margin: 0 }}>
-                    Solusi komersial untuk brand, agensi, editorial fashion, podcast studio, sewa ruang privat, dan kemitraan retainer.
+                  <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem', maxWidth: '680px', margin: 0 }}>
+                    Commercial solutions for fashion brands, lookbooks, podcast recordings, full-day venue buyouts, and agency retainers.
                   </p>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
                   {b2bServices.map((s, idx) => renderServiceCard(s, b2cServices.length + idx))}
                 </div>
               </div>
@@ -390,47 +391,40 @@ const Layanan = () => {
             {/* Bottom Custom Consultation Banner */}
             <div
               style={{
-                marginTop: '8rem',
+                marginTop: '6rem',
                 background: 'linear-gradient(135deg, rgba(21,18,15,0.9) 0%, rgba(14,12,10,0.95) 100%)',
                 border: '1px solid rgba(201,169,110,0.2)',
                 borderRadius: '12px',
                 padding: 'clamp(2.5rem, 5vw, 4rem)',
                 textAlign: 'center',
-                boxShadow: '0 20px 40px rgba(0,0,0,0.5)',
               }}
             >
-              <h3 className="font-serif" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', color: '#fff', marginBottom: '1rem' }}>
-                Punya Kebutuhan Khusus atau Event Tertentu?
+              <h3 className="font-serif" style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', color: '#fff', marginBottom: '0.8rem' }}>
+                Need a Custom Production Proposal?
               </h3>
-              <p style={{ color: 'var(--color-text-secondary)', maxWidth: '650px', margin: '0 auto 2rem', fontSize: '1rem', lineHeight: 1.7 }}>
-                Kami melayani custom setup studio, live streaming, workshop, dan paket khusus disesuaikan dengan kebutuhan dan anggaran produksi Anda.
+              <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem', maxWidth: '600px', margin: '0 auto 2rem', lineHeight: 1.6 }}>
+                We accommodate multi-day production buyouts, specialized set constructions, commercial casting calls, and high-volume e-commerce catalogs.
               </p>
               <a
-                href={getWhatsAppUrl('Halo Faza Studio, saya ingin konsultasi paket atau custom sewa studio.')}
+                href={getWhatsAppUrl('Hello Faza Studio, I would like to consult regarding custom production requirements and dates.')}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '0.6rem',
-                  padding: '1rem 2.5rem',
+                  padding: '0.8rem 2rem',
                   background: 'var(--color-wa-gradient, linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%))',
-                  border: '1px solid rgba(255, 255, 255, 0.3)',
                   color: '#fff',
                   textDecoration: 'none',
+                  borderRadius: '30px',
                   fontSize: '0.85rem',
                   fontWeight: 600,
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  borderRadius: '50px',
-                  boxShadow: '0 6px 22px var(--color-wa-glow, rgba(36, 215, 87, 0.45))',
-                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 20px var(--color-wa-glow, rgba(36, 215, 87, 0.45))',
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-3px)')}
-                onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
               >
-                <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '18px', color: '#fff' }} />
-                Konsultasi Bebas via WhatsApp
+                <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '18px' }} />
+                Consult with Studio Producer
               </a>
             </div>
           </div>

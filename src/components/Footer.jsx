@@ -9,7 +9,7 @@ const Footer = () => {
     <footer
       style={{
         position: 'relative',
-        minHeight: '80vh',
+        minHeight: '75vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -17,15 +17,15 @@ const Footer = () => {
         borderTop: '1px solid rgba(255,255,255,0.08)',
         backgroundColor: '#0a0807',
         color: '#fff',
-        paddingTop: '6rem',
+        paddingTop: '5rem',
       }}
     >
-      {/* Faded Authentic Background Image (Spec: Opacity 18%, Graded) */}
+      {/* Faded Authentic Background Image */}
       <div
         className="faza-faded-bg"
         style={{
           backgroundImage: 'url("/images/optimized/DSCF9515-1600.webp")',
-          opacity: 0.18,
+          opacity: 0.16,
         }}
       />
       {/* Dark Scrim Overlay */}
@@ -38,39 +38,39 @@ const Footer = () => {
           zIndex: 2,
           padding: '0 6%',
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '3.5rem',
-          marginBottom: '4rem',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+          gap: '3rem',
+          marginBottom: '3.5rem',
         }}
       >
         {/* Column 1: Brand & Direct CTA */}
         <div>
-          <p style={{ fontSize: '0.78rem', letterSpacing: '0.25em', color: 'var(--color-accent)', textTransform: 'uppercase', marginBottom: '0.8rem', fontWeight: 600 }}>
-            ● Studio Aktif & Menerima Booking
+          <p style={{ fontSize: '0.75rem', letterSpacing: '0.25em', color: 'var(--color-accent)', textTransform: 'uppercase', marginBottom: '0.6rem', fontWeight: 600 }}>
+            ● Studio Active & Accepting Bookings
           </p>
-          <h3 className="font-serif" style={{ fontSize: 'clamp(1.8rem, 3vw, 2.4rem)', marginBottom: '1.2rem', letterSpacing: '0.04em', lineHeight: 1.2 }}>
-            Siap Mewujudkan <br />
-            Karya Visual Anda?
+          <h3 className="font-serif" style={{ fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', marginBottom: '1rem', letterSpacing: '0.04em', lineHeight: 1.2 }}>
+            Ready to Bring Your <br />
+            Visuals to Life?
           </h3>
-          <p style={{ color: 'var(--color-text-secondary)', lineHeight: 1.8, fontSize: '0.95rem', marginBottom: '2rem', maxWidth: '380px' }}>
-            Konsultasikan ide sesi foto, sewa studio per jam, atau kebutuhan komersial brand Anda langsung dengan tim {STUDIO_INFO.name}.
+          <p style={{ color: 'var(--color-text-secondary)', lineHeight: 1.7, fontSize: '0.88rem', marginBottom: '1.8rem', maxWidth: '360px' }}>
+            Consult your photoshoot concepts, hourly studio rental, or commercial brand production directly with the {STUDIO_INFO.name} team.
           </p>
           <a
-            href={getWhatsAppUrl('Halo Faza Studio, saya tertarik untuk booking atau tanya jadwal studio.')}
+            href={getWhatsAppUrl('Hello Faza Studio, I would like to inquire about booking and studio schedule.')}
             target="_blank"
             rel="noopener noreferrer"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.6rem',
-              padding: '0.9rem 2rem',
+              padding: '0.8rem 1.8rem',
               background: 'var(--color-wa-gradient, linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%))',
               border: '1px solid rgba(255, 255, 255, 0.3)',
               color: '#fff',
               textDecoration: 'none',
               textTransform: 'uppercase',
-              letterSpacing: '0.1em',
-              fontSize: '0.82rem',
+              letterSpacing: '0.08em',
+              fontSize: '0.78rem',
               fontWeight: 600,
               borderRadius: '50px',
               boxShadow: '0 6px 22px var(--color-wa-glow, rgba(36, 215, 87, 0.45))',
@@ -79,63 +79,63 @@ const Footer = () => {
             onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-2px)')}
             onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
           >
-            <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '18px', color: '#fff' }} />
-            Chat WhatsApp
+            <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '16px', color: '#fff' }} />
+            Chat on WhatsApp
           </a>
         </div>
 
-        {/* Column 2: Kontak Utama & Jam Operasional */}
+        {/* Column 2: Main Contact & Hours */}
         <div>
-          <h4 style={{ fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--color-accent)', marginBottom: '1.5rem', fontWeight: 600 }}>
-            Kontak & Jam Buka
+          <h4 style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--color-accent)', marginBottom: '1.2rem', fontWeight: 600 }}>
+            Contact & Operating Hours
           </h4>
 
-          <div style={{ marginBottom: '1.8rem' }}>
-            <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 0.4rem' }}>
-              WhatsApp Hotline
+          <div style={{ marginBottom: '1.5rem' }}>
+            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 0.3rem' }}>
+              WhatsApp Direct Hotline
             </p>
             <a
               href={`https://wa.me/${STUDIO_INFO.phoneRaw}`}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: 'var(--color-wa-light, #2fe668)', textDecoration: 'none', fontSize: '1.05rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
+              style={{ color: 'var(--color-wa-light, #2fe668)', textDecoration: 'none', fontSize: '0.98rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
             >
               {STUDIO_INFO.phone} ↗
             </a>
           </div>
 
-          <div style={{ marginBottom: '1.8rem' }}>
-            <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 0.4rem' }}>
-              Instagram Resmi
+          <div style={{ marginBottom: '1.5rem' }}>
+            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 0.3rem' }}>
+              Official Instagram
             </p>
             <a
               href={STUDIO_INFO.instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: '#fff', textDecoration: 'none', fontSize: '1.05rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
+              style={{ color: '#fff', textDecoration: 'none', fontSize: '0.98rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
             >
               {STUDIO_INFO.instagramHandle} ↗
             </a>
           </div>
 
           <div>
-            <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 0.4rem' }}>
-              Jam Operasional
+            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 0.3rem' }}>
+              Opening Hours
             </p>
-            <p style={{ color: '#fff', fontSize: '0.95rem', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
+            <p style={{ color: '#fff', fontSize: '0.88rem', lineHeight: 1.5, margin: 0, fontWeight: 500 }}>
               {STUDIO_INFO.operatingHours} <br />
-              <span style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.85rem' }}>({STUDIO_INFO.operatingHoursNote})</span>
+              <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.78rem' }}>({STUDIO_INFO.operatingHoursNote})</span>
             </p>
           </div>
         </div>
 
-        {/* Column 3: Lokasi & Google Maps */}
+        {/* Column 3: Location & Google Maps */}
         <div>
-          <h4 style={{ fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--color-accent)', marginBottom: '1.5rem', fontWeight: 600 }}>
-            Lokasi Studio
+          <h4 style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--color-accent)', marginBottom: '1.2rem', fontWeight: 600 }}>
+            Studio Location
           </h4>
-          <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.95rem', lineHeight: 1.7, marginBottom: '1.5rem' }}>
-            <strong style={{ color: '#fff', display: 'block', marginBottom: '0.3rem' }}>{STUDIO_INFO.name}</strong>
+          <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.88rem', lineHeight: 1.6, marginBottom: '1.2rem' }}>
+            <strong style={{ color: '#fff', display: 'block', marginBottom: '0.2rem' }}>{STUDIO_INFO.name}</strong>
             {STUDIO_INFO.address}
           </p>
 
@@ -143,19 +143,19 @@ const Footer = () => {
           <div
             style={{
               background: '#14110f',
-              border: '1px solid rgba(255,255,255,0.12)',
+              border: '1px solid rgba(255,255,255,0.1)',
               borderRadius: '8px',
-              padding: '1rem',
+              padding: '0.9rem',
               display: 'flex',
               flexDirection: 'column',
-              gap: '0.8rem',
+              gap: '0.6rem',
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-              <span style={{ fontSize: '1.2rem' }}>📍</span>
+              <span style={{ fontSize: '1.1rem' }}>📍</span>
               <div>
-                <p style={{ margin: 0, color: '#fff', fontSize: '0.85rem', fontWeight: 600 }}>Akses Mudah & Parkir Luas</p>
-                <p style={{ margin: 0, color: 'rgba(255,255,255,0.65)', fontSize: '0.75rem' }}>Area Ciracas & Kramat Jati</p>
+                <p style={{ margin: 0, color: '#fff', fontSize: '0.82rem', fontWeight: 600 }}>Easy Access & Parking Space</p>
+                <p style={{ margin: 0, color: 'rgba(255,255,255,0.6)', fontSize: '0.72rem' }}>Ciracas & Kramat Jati Area, East Jakarta</p>
               </div>
             </div>
             <a
@@ -165,12 +165,12 @@ const Footer = () => {
               style={{
                 display: 'inline-block',
                 textAlign: 'center',
-                padding: '0.6rem 1rem',
-                background: 'rgba(255,255,255,0.08)',
+                padding: '0.55rem 0.9rem',
+                background: 'rgba(255,255,255,0.06)',
                 border: '1px solid rgba(201,169,110,0.3)',
                 color: '#fff',
                 textDecoration: 'none',
-                fontSize: '0.78rem',
+                fontSize: '0.75rem',
                 fontWeight: 600,
                 borderRadius: '4px',
                 transition: 'all 0.2s ease',
@@ -180,26 +180,26 @@ const Footer = () => {
                 e.currentTarget.style.color = '#000';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
+                e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
                 e.currentTarget.style.color = '#fff';
               }}
             >
-              Buka di Google Maps ↗
+              Open in Google Maps ↗
             </a>
           </div>
         </div>
 
-        {/* Column 4: Navigasi Cepat */}
+        {/* Column 4: Quick Navigation */}
         <div>
-          <h4 style={{ fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--color-accent)', marginBottom: '1.5rem', fontWeight: 600 }}>
-            Navigasi
+          <h4 style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--color-accent)', marginBottom: '1.2rem', fontWeight: 600 }}>
+            Navigation
           </h4>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
-            <li><Link to="/" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s' }}>Home</Link></li>
-            <li><Link to="/layanan" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s' }}>Sewa Studio & Daftar Harga</Link></li>
-            <li><Link to="/karya" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s' }}>Portfolio Karya</Link></li>
-            <li><Link to="/tentangkami" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s' }}>Tentang Faza Studio</Link></li>
-            <li><Link to="/booking" style={{ color: 'var(--color-accent)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 600 }}>Form Booking Online ↗</Link></li>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+            <li><Link to="/" style={{ color: 'rgba(255,255,255,0.75)', textDecoration: 'none', fontSize: '0.85rem', transition: 'color 0.2s' }}>Home</Link></li>
+            <li><Link to="/layanan" style={{ color: 'rgba(255,255,255,0.75)', textDecoration: 'none', fontSize: '0.85rem', transition: 'color 0.2s' }}>Rates & Services</Link></li>
+            <li><Link to="/karya" style={{ color: 'rgba(255,255,255,0.75)', textDecoration: 'none', fontSize: '0.85rem', transition: 'color 0.2s' }}>Portfolio & Works</Link></li>
+            <li><Link to="/tentangkami" style={{ color: 'rgba(255,255,255,0.75)', textDecoration: 'none', fontSize: '0.85rem', transition: 'color 0.2s' }}>About Faza Studio</Link></li>
+            <li><Link to="/booking" style={{ color: 'var(--color-accent)', textDecoration: 'none', fontSize: '0.85rem', fontWeight: 600 }}>Online Calendar Booking ↗</Link></li>
           </ul>
         </div>
       </div>
@@ -209,7 +209,7 @@ const Footer = () => {
         <h1
           className="font-serif"
           style={{
-            fontSize: 'clamp(4.5rem, 14vw, 14rem)',
+            fontSize: 'clamp(3.8rem, 12vw, 12rem)',
             lineHeight: 0.8,
             margin: 0,
             color: 'rgba(201, 169, 110, 0.05)',
@@ -222,20 +222,20 @@ const Footer = () => {
         </h1>
         <div
           style={{
-            padding: '1.5rem 6%',
+            padding: '1.2rem 6%',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
             flexWrap: 'wrap',
-            gap: '1rem',
+            gap: '0.8rem',
             borderTop: '1px solid rgba(255,255,255,0.08)',
-            color: 'rgba(255,255,255,0.6)',
-            fontSize: '0.8rem',
-            letterSpacing: '0.05em',
+            color: 'rgba(255,255,255,0.5)',
+            fontSize: '0.75rem',
+            letterSpacing: '0.04em',
           }}
         >
-          <span>© {new Date().getFullYear()} FAZA STUDIO — Creative Space & Photo Studio Jakarta Timur.</span>
-          <span style={{ color: 'rgba(255,255,255,0.8)' }}>Crafted with Precision & Aesthetics</span>
+          <span>© {new Date().getFullYear()} FAZA STUDIO — Creative Space & Photo Studio East Jakarta.</span>
+          <span style={{ color: 'rgba(255,255,255,0.7)' }}>Crafted with Precision & Aesthetics</span>
         </div>
       </div>
     </footer>
