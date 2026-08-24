@@ -15,7 +15,6 @@ import TentangKami from './pages/TentangKami';
 import Karya from './pages/Karya';
 import Booking from './pages/Booking';
 import Admin from './pages/Admin';
-import Loader from './components/Loader';
 import CustomCursor from './components/CustomCursor';
 import Footer from './components/Footer';
 import WhatsAppFloating from './components/WhatsAppFloating';
@@ -23,7 +22,7 @@ import ScrollToTop from './components/ScrollToTop';
 import { STUDIO_INFO, getWhatsAppUrl } from './data/contact';
 import './index.css';
 
-// Client Layout for Public Marketing Pages (Tahap 2B: Direct Access without Intro Screen)
+// Client Layout for Public Marketing Pages (Direct Access without Loading Screen)
 const ClientLayout = ({ children }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
@@ -67,7 +66,6 @@ const ClientLayout = ({ children }) => {
     <>
       <CustomCursor />
       <ScrollToTop />
-      <Loader />
       <WhatsAppFloating />
 
       {/* Header */}
