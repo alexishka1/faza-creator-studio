@@ -5,6 +5,7 @@ import {
   ClipboardList,
   Lock,
   Package,
+  Image,
   PhoneCall,
   LogOut,
   ExternalLink,
@@ -47,6 +48,11 @@ const AdminSidebar = ({
       id: 'services',
       label: 'Paket & Harga',
       icon: Package,
+    },
+    {
+      id: 'gallery',
+      label: 'Galeri Foto',
+      icon: Image,
     },
     {
       id: 'contact',

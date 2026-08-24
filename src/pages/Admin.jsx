@@ -8,6 +8,7 @@ import BookingTable from '../components/admin/BookingTable';
 import BlockedSlotManager from '../components/admin/BlockedSlotManager';
 import ServiceManager from '../components/admin/ServiceManager';
 import ContactSettings from '../components/admin/ContactSettings';
+import GalleryManager from '../components/admin/GalleryManager';
 import AdminLogin from '../components/admin/AdminLogin';
 
 const Admin = () => {
@@ -16,7 +17,7 @@ const Admin = () => {
   const [token, setToken] = useState(() => sessionStorage.getItem('faza_admin_token') || '');
   const [adminKey, setAdminKey] = useState(() => sessionStorage.getItem('faza_admin_key') || '');
   
-  const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'occupancy' | 'bookings' | 'blocked' | 'services' | 'contact'
+  const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'occupancy' | 'bookings' | 'blocked' | 'services' | 'gallery' | 'contact'
   const [bookings, setBookings] = useState([]);
   const [blockedSlots, setBlockedSlots] = useState([]);
   const [stats, setStats] = useState({ total: 0, pending: 0, confirmed: 0, cancelled: 0, blocked: 0 });
@@ -196,6 +197,7 @@ const Admin = () => {
     bookings: { title: 'Daftar Reservasi Klien', subtitle: 'Kelola booking masuk, konfirmasi jadwal, dan chat WhatsApp' },
     blocked: { title: 'Manajemen Blokir Jadwal', subtitle: 'Kunci tanggal dan jam jika studio libur atau maintenance' },
     services: { title: 'Paket Layanan & Harga', subtitle: 'Kelola paket B2C Retail dan B2B Creative Space' },
+    gallery: { title: 'Galeri & Portfolio', subtitle: 'Upload foto karya studio terbaru dengan kompresi WebP ringan' },
     contact: { title: 'Kontak & Operasional', subtitle: 'Informasi hotline WhatsApp, alamat, dan jam buka studio' },
   };
 
@@ -262,6 +264,8 @@ const Admin = () => {
           )}
 
           {activeTab === 'services' && <ServiceManager />}
+
+          {activeTab === 'gallery' && <GalleryManager />}
 
           {activeTab === 'contact' && <ContactSettings />}
         </main>
