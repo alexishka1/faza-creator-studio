@@ -7,13 +7,34 @@ export default async function handler(req, res) {
 
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  // Auth check on all methods
-  const adminKey = req.headers['x-admin-key'];
-  if (!adminKey || adminKey !== ADMIN_PASSWORD) {
-    return res.status(401).json({ error: 'Unauthorized. Invalid admin key.' });
+  // Auth check on all methods (Support Supabase Auth Bearer token OR master x-admin-key)
+  const supabase = getSupabaseAdmin();
+  let authenticated = false;
+  let userEmail = null;
+
+  const authHeader = req.headers['authorization'];
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.replace('Bearer ', '').trim();
+    try {
+      const { data: { user }, error: authErr } = await supabase.auth.getUser(token);
+      if (user && !authErr) {
+        authenticated = true;
+        userEmail = user.email;
+      }
+    } catch (e) {
+      console.warn('Auth token verification failed:', e);
+    }
   }
 
-  const supabase = getSupabaseAdmin();
+  const adminKey = req.headers['x-admin-key'];
+  if (!authenticated && adminKey && adminKey === ADMIN_PASSWORD) {
+    authenticated = true;
+    userEmail = 'master-admin';
+  }
+
+  if (!authenticated) {
+    return res.status(401).json({ error: 'Unauthorized. Invalid authentication credentials.' });
+  }
 
   // ─── GET: Fetch all bookings & blocked slots ────────────────────
   if (req.method === 'GET') {
