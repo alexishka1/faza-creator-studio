@@ -104,9 +104,9 @@ const Home = () => {
           ref={pricingRef}
           style={{
             paddingTop: 'clamp(5.5rem, 11vh, 8rem)',
-            paddingBottom: 'clamp(3.5rem, 7vh, 5.5rem)',
-            paddingLeft: '6%',
-            paddingRight: '6%',
+            paddingBottom: 'clamp(4rem, 8vh, 6rem)',
+            paddingLeft: 'clamp(1.25rem, 6%, 7rem)',
+            paddingRight: 'clamp(1.25rem, 6%, 7rem)',
             background: 'var(--color-bg)',
             position: 'relative',
           }}
@@ -244,13 +244,14 @@ const Home = () => {
                       }}
                     >
                       <div>
-                        {/* Image Thumbnail */}
-                        <div style={{ width: '100%', height: '170px', borderRadius: '8px', overflow: 'hidden', marginBottom: '1.2rem', backgroundColor: 'var(--color-bg-secondary)' }}>
+                        {/* Image Thumbnail — 16/10 aspect-ratio with cover fit */}
+                        <div className="pricing-thumb">
                           <img
                             src={s.desktopImg}
                             alt={s.title}
                             loading="lazy"
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            className="faza-graded-img"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                           />
                         </div>
 
@@ -363,13 +364,14 @@ const Home = () => {
                       }}
                     >
                       <div>
-                        {/* Image Thumbnail */}
-                        <div style={{ width: '100%', height: '170px', borderRadius: '8px', overflow: 'hidden', marginBottom: '1.2rem', backgroundColor: 'var(--color-bg-secondary)' }}>
+                        {/* Image Thumbnail — 16/10 aspect-ratio with cover fit */}
+                        <div className="pricing-thumb">
                           <img
                             src={s.desktopImg}
                             alt={s.title}
                             loading="lazy"
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            className="faza-graded-img"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                           />
                         </div>
 
@@ -527,58 +529,71 @@ const Home = () => {
           </div>
         </section>
 
-        {/* ══════════════════════════════════════════════════════════════════
-            SECTION 3: STUDIO INFRASTRUCTURE & HIGHLIGHTS
-            ══════════════════════════════════════════════════════════════════ */}
-        <section style={{ padding: '6rem 6%', maxWidth: '1400px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '4rem' }} className="reveal-header">
-            <span style={{ fontSize: '0.75rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--color-accent)', fontWeight: 600 }}>
-              PRODUCTION AMENITIES
-            </span>
-            <h2 className="font-serif" style={{ fontSize: 'clamp(2rem, 4vw, 3.2rem)', color: 'var(--color-text)', margin: '0.4rem 0 0' }}>
-              Built for Visual Precision & Creative Comfort
-            </h2>
-          </div>
+        {/* Section 3: Studio Infrastructure & Highlights */}
+        <section style={{ padding: 'clamp(4.5rem, 9vh, 7rem) clamp(1.25rem, 6%, 7rem)' }}>
+          <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
+            <div style={{ textAlign: 'center', marginBottom: '3.5rem' }} className="reveal-header">
+              <span style={{ fontSize: '0.75rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--color-accent)', fontWeight: 600 }}>
+                PRODUCTION AMENITIES
+              </span>
+              <h2 className="font-serif" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 3rem)', color: 'var(--color-text)', margin: '0.4rem auto 0', maxWidth: '700px', lineHeight: 1.2 }}>
+                Built for Visual Precision &amp; Creative Comfort
+              </h2>
+            </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
-            {STUDIO_FEATURES.map((feat, idx) => (
-              <div
-                key={idx}
-                style={{
-                  backgroundColor: 'var(--color-bg-card)',
-                  border: '1px solid var(--color-border)',
-                  borderRadius: '12px',
-                  overflow: 'hidden',
-                  boxShadow: 'var(--color-card-shadow)',
-                }}
-              >
-                <div style={{ width: '100%', height: '220px', overflow: 'hidden' }}>
-                  <img
-                    src={feat.image}
-                    alt={feat.title}
-                    loading="lazy"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  />
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              gap: 'clamp(1rem, 2vw, 1.8rem)',
+            }}>
+              {STUDIO_FEATURES.map((feat, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    backgroundColor: 'var(--color-bg-card)',
+                    border: '1px solid var(--color-border)',
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                    boxShadow: 'var(--color-card-shadow)',
+                    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-4px)';
+                    e.currentTarget.style.boxShadow = '0 15px 35px rgba(0,0,0,0.12)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = 'var(--color-card-shadow)';
+                  }}
+                >
+                  {/* Zone image — 16/10 aspect-ratio for consistent card height */}
+                  <div style={{ width: '100%', aspectRatio: '16/10', overflow: 'hidden' }}>
+                    <img
+                      src={feat.image}
+                      alt={feat.title}
+                      loading="lazy"
+                      className="faza-graded-img"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                    />
+                  </div>
+                  <div style={{ padding: 'clamp(1.2rem, 2vw, 1.6rem)' }}>
+                    <span style={{ fontSize: '0.68rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--color-accent)', fontWeight: 700 }}>
+                      {feat.tag}
+                    </span>
+                    <h3 style={{ fontSize: 'clamp(1rem, 2vw, 1.15rem)', color: 'var(--color-text)', margin: '0.4rem 0 0.6rem', fontFamily: 'var(--font-serif)', fontWeight: 400 }}>{feat.title}</h3>
+                    <p style={{ fontSize: '0.82rem', color: 'var(--color-text-secondary)', lineHeight: 1.65, margin: 0 }}>
+                      {feat.desc}
+                    </p>
+                  </div>
                 </div>
-                <div style={{ padding: '1.6rem' }}>
-                  <span style={{ fontSize: '0.68rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--color-accent)', fontWeight: 700 }}>
-                    {feat.tag}
-                  </span>
-                  <h3 style={{ fontSize: '1.15rem', color: 'var(--color-text)', margin: '0.4rem 0 0.6rem' }}>{feat.title}</h3>
-                  <p style={{ fontSize: '0.82rem', color: 'var(--color-text-secondary)', lineHeight: 1.6, margin: 0 }}>
-                    {feat.desc}
-                  </p>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* ══════════════════════════════════════════════════════════════════
-            SECTION 4: SOCIAL PROOF, CLIENT LOGOS & REVIEWS
-            ══════════════════════════════════════════════════════════════════ */}
-        <section style={{ padding: '6rem 6%', backgroundColor: 'var(--color-bg-secondary)', borderTop: '1px solid var(--color-border)' }}>
-          <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+        {/* Section 4: Social Proof, Client Logos & Reviews */}
+        <section style={{ padding: 'clamp(4.5rem, 9vh, 7rem) clamp(1.25rem, 6%, 7rem)', backgroundColor: 'var(--color-bg-secondary)', borderTop: '1px solid var(--color-border)' }}>
+          <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
             {/* Google Reviews Badge */}
             <div style={{ textAlign: 'center', marginBottom: '3.5rem' }} className="reveal-header">
               <div
@@ -599,15 +614,15 @@ const Home = () => {
                 </span>
               </div>
               <h2 className="font-serif" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', color: 'var(--color-text)', margin: '0 0 0.5rem' }}>
-                Trusted by Brands, Agencies & Creators
+                Trusted by Brands, Agencies &amp; Creators
               </h2>
-              <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.88rem', margin: 0 }}>
+              <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.88rem', margin: '0 auto', maxWidth: '580px', lineHeight: 1.65 }}>
                 Verified client experiences from commercial productions and portrait sessions in East Jakarta.
               </p>
             </div>
 
-            {/* Testimonials Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.8rem', marginBottom: '4.5rem' }}>
+            {/* Testimonials Grid — equal height cards */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.8rem', marginBottom: '4.5rem', alignItems: 'start' }}>
               {TESTIMONIALS.map((t, idx) => (
                 <div
                   key={idx}
@@ -615,18 +630,19 @@ const Home = () => {
                     backgroundColor: 'var(--color-bg-card)',
                     border: '1px solid var(--color-border)',
                     borderRadius: '12px',
-                    padding: '1.8rem',
+                    padding: 'clamp(1.4rem, 2.5vw, 1.8rem)',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
                     boxShadow: 'var(--color-card-shadow)',
+                    minHeight: '220px',
                   }}
                 >
                   <div>
                     <div style={{ color: '#fbbf24', fontSize: '0.9rem', marginBottom: '0.8rem' }}>
                       {'★'.repeat(t.rating)}
                     </div>
-                    <p style={{ fontSize: '0.85rem', color: 'var(--color-text)', lineHeight: 1.6, fontStyle: 'italic', margin: '0 0 1.5rem' }}>
+                    <p style={{ fontSize: '0.85rem', color: 'var(--color-text)', lineHeight: 1.7, fontStyle: 'italic', margin: '0 0 1.5rem' }}>
                       "{t.quote}"
                     </p>
                   </div>
@@ -641,7 +657,7 @@ const Home = () => {
             {/* Client Brand Logos Strip */}
             <div style={{ borderTop: '1px solid var(--color-border)', paddingTop: '3rem', textAlign: 'center' }}>
               <span style={{ fontSize: '0.72rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--color-text-muted)', fontWeight: 600, display: 'block', marginBottom: '2rem' }}>
-                CREATIVE PARTNERS & CLIENT PRODUCTIONS
+                CREATIVE PARTNERS &amp; CLIENT PRODUCTIONS
               </span>
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 'clamp(1.5rem, 4vw, 4rem)', flexWrap: 'wrap', opacity: 0.75 }}>
                 {CLIENT_LOGOS.map((logo, i) => (
@@ -654,14 +670,12 @@ const Home = () => {
           </div>
         </section>
 
-        {/* ══════════════════════════════════════════════════════════════════
-            SECTION 5: BOTTOM CONSULTATION & INSTANT BOOKING BANNER
-            ══════════════════════════════════════════════════════════════════ */}
-        <section style={{ padding: '6rem 6%', maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
+        {/* Section 5: Bottom Consultation & Instant Booking Banner */}
+        <section style={{ padding: 'clamp(4.5rem, 9vh, 7rem) clamp(1.25rem, 6%, 7rem)', maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
           <div
             style={{
-              padding: 'clamp(2.5rem, 5vw, 4rem)',
-              borderRadius: '16px',
+              padding: 'clamp(2.5rem, 5vw, 4.5rem) clamp(2rem, 5vw, 5rem)',
+              borderRadius: '20px',
               background: 'linear-gradient(135deg, var(--color-bg-card) 0%, var(--color-bg-secondary) 100%)',
               border: '1px solid var(--color-border-hover)',
               boxShadow: 'var(--color-card-shadow)',
@@ -670,10 +684,10 @@ const Home = () => {
             <span style={{ fontSize: '0.75rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--color-accent)', fontWeight: 600 }}>
               SCHEDULE YOUR PRODUCTION
             </span>
-            <h2 className="font-serif" style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', color: 'var(--color-text)', margin: '0.6rem 0 1rem' }}>
+            <h2 className="font-serif" style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', color: 'var(--color-text)', margin: '0.6rem 0 1rem', lineHeight: 1.15 }}>
               Ready to Create at Faza Studio?
             </h2>
-            <p style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)', maxWidth: '580px', margin: '0 auto 2.5rem', lineHeight: 1.6 }}>
+            <p style={{ fontSize: '0.92rem', color: 'var(--color-text-secondary)', maxWidth: '560px', margin: '0 auto 2.5rem', lineHeight: 1.7 }}>
               Check live calendar availability or discuss bespoke production requirements with our studio team directly via WhatsApp.
             </p>
 
@@ -686,17 +700,19 @@ const Home = () => {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '0.6rem',
-                  padding: '0.85rem 2.2rem',
+                  padding: '0.9rem 2.2rem',
                   background: 'var(--color-wa-gradient, linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%))',
                   color: '#fff',
                   textDecoration: 'none',
-                  borderRadius: '35px',
+                  borderRadius: '40px',
                   fontSize: '0.88rem',
                   fontWeight: 700,
                   letterSpacing: '0.04em',
                   boxShadow: '0 6px 25px rgba(36, 215, 87, 0.45)',
                   transition: 'all 0.3s ease',
                 }}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
               >
                 <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '18px' }} />
                 <span>Instant WhatsApp Booking</span>
@@ -707,16 +723,19 @@ const Home = () => {
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  padding: '0.85rem 2rem',
+                  padding: '0.9rem 2rem',
                   backgroundColor: 'var(--color-bg-card)',
                   border: '1px solid var(--color-border)',
                   color: 'var(--color-text)',
                   textDecoration: 'none',
-                  borderRadius: '35px',
+                  borderRadius: '40px',
                   fontSize: '0.88rem',
                   fontWeight: 600,
                   boxShadow: 'var(--color-card-shadow)',
+                  transition: 'all 0.3s ease',
                 }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--color-border-hover)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--color-border)'; }}
               >
                 Explore Full Rate Card
               </Link>

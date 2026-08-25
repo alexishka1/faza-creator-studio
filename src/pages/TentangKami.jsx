@@ -116,14 +116,14 @@ const TentangKami = () => {
           {/* Scrim Overlay */}
           <div className="faza-scrim" />
 
-          <div ref={heroTextRef} style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '0 6%', maxWidth: '850px' }}>
+          <div ref={heroTextRef} style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '0 clamp(1.25rem, 6%, 5rem)', maxWidth: '900px', margin: '0 auto' }}>
             <p style={{ fontSize: '0.78rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--color-accent)', marginBottom: '1.2rem', fontWeight: 600 }}>
               ● ABOUT FAZA STUDIO
             </p>
-            <h1 className="font-serif" style={{ fontSize: 'clamp(2.4rem, 5.5vw, 4.5rem)', lineHeight: 1.15, marginBottom: '1.2rem', color: 'var(--color-text)' }}>
+            <h1 className="font-serif" style={{ fontSize: 'clamp(2.4rem, 5.5vw, 4.5rem)', lineHeight: 1.1, marginBottom: '1.2rem', color: 'var(--color-text)', letterSpacing: '-0.01em' }}>
               STORYTELLING<br />THROUGH LIGHT & SHADOW
             </h1>
-            <p style={{ color: 'var(--color-text-secondary)', fontSize: 'clamp(0.92rem, 1.8vw, 1.05rem)', lineHeight: 1.65, fontWeight: 400 }}>
+            <p style={{ color: 'var(--color-text-secondary)', fontSize: 'clamp(0.92rem, 1.8vw, 1.05rem)', lineHeight: 1.7, fontWeight: 400, maxWidth: '640px', margin: '0 auto' }}>
               A modern creative space and photography studio in East Jakarta dedicated to producing refined commercial imagery, executive portraiture, and high-caliber productions.
             </p>
           </div>
@@ -181,32 +181,51 @@ const TentangKami = () => {
         </section>
 
         {/* ===== 4. THE TEAM ===== */}
-        <section ref={teamRef} style={{ padding: 'clamp(4.5rem, 8vh, 7.5rem) 6%' }}>
-          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+        <section ref={teamRef} style={{ padding: 'clamp(4.5rem, 9vh, 7rem) clamp(1.25rem, 6%, 7rem)' }}>
+          <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
             <p style={{ fontSize: '0.75rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--color-accent)', marginBottom: '0.6rem', fontWeight: 600 }}>
               DEDICATION & EXPERTISE
             </p>
-            <h2 className="font-serif" style={{ fontSize: 'clamp(2rem, 3.8vw, 3.2rem)', color: 'var(--color-text)' }}>STUDIO CREATIVE TEAM</h2>
+            <h2 className="font-serif" style={{ fontSize: 'clamp(1.8rem, 3.8vw, 3rem)', color: 'var(--color-text)', letterSpacing: '-0.01em' }}>STUDIO CREATIVE TEAM</h2>
           </div>
 
-          <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '2rem' }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 'clamp(1.2rem, 2.5vw, 2rem)' }}>
             {team.map((member, i) => (
-              <div key={i} className="team-card" style={{ background: 'var(--color-bg-card)', borderRadius: '8px', padding: '1.2rem', border: '1px solid var(--color-border)', boxShadow: 'var(--color-card-shadow)' }}>
-                <div style={{ width: '100%', aspectRatio: '3/4', overflow: 'hidden', borderRadius: '6px', marginBottom: '1rem', background: 'var(--color-bg-secondary)' }}>
+              <div
+                key={i}
+                className="team-card"
+                style={{
+                  background: 'var(--color-bg-card)',
+                  borderRadius: '12px',
+                  padding: 'clamp(1rem, 2vw, 1.4rem)',
+                  border: '1px solid var(--color-border)',
+                  boxShadow: 'var(--color-card-shadow)',
+                  transition: 'transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease',
+                  overflow: 'hidden',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-5px)';
+                  e.currentTarget.style.boxShadow = '0 18px 40px rgba(0,0,0,0.12)';
+                  e.currentTarget.style.borderColor = 'var(--color-border-hover)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'var(--color-card-shadow)';
+                  e.currentTarget.style.borderColor = 'var(--color-border)';
+                }}
+              >
+                {/* 3/4 Portrait with CSS class for hover zoom */}
+                <div className="team-portrait" style={{ marginBottom: '1.2rem', width: '100%', aspectRatio: '3/4', overflow: 'hidden', borderRadius: '6px', background: 'var(--color-bg-secondary)' }}>
                   <img
                     src={member.img}
                     alt={member.name}
                     loading="lazy"
                     className="faza-graded-img"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                    }}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                   />
                 </div>
-                <h3 className="font-serif" style={{ fontSize: '1.35rem', marginBottom: '0.3rem', color: 'var(--color-text)' }}>{member.name}</h3>
-                <p style={{ fontSize: '0.78rem', letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', margin: 0, fontWeight: 500 }}>
+                <h3 className="font-serif" style={{ fontSize: 'clamp(1.2rem, 2vw, 1.45rem)', marginBottom: '0.3rem', color: 'var(--color-text)', fontWeight: 400 }}>{member.name}</h3>
+                <p style={{ fontSize: '0.75rem', letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', margin: 0, fontWeight: 500 }}>
                   {member.role}
                 </p>
               </div>
