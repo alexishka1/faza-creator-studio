@@ -84,7 +84,7 @@ const ClientLayout = ({ children }) => {
           <li><Link to="/tentangkami" className="nav-link" style={{ color: 'var(--color-nav-link, #8c6227)' }}>About Us</Link></li>
         </ul>
 
-        {/* Far Right Corner Controls: WhatsApp CTA + Theme Toggle */}
+        {/* Far Right Corner Controls: WhatsApp CTA only */}
         <div className="desktop-actions" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <a
             href={getWhatsAppUrl('Hello Faza Studio, I would like to inquire about studio booking and rates.')}
@@ -119,14 +119,12 @@ const ClientLayout = ({ children }) => {
             <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '15px', color: '#fff' }} />
             Book via WhatsApp
           </a>
-
-          {/* Light/Dark Mode Toggle — pojok kanan paling ujung */}
-          <ThemeToggle />
         </div>
 
-        {/* Mobile Header Actions: Theme Toggle + Hamburger (Top Right) */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }} className="mobile-header-actions">
+        {/* Theme Toggle + Hamburger — pojok kanan, tampil di semua breakpoint */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }} className="header-right-actions">
           <ThemeToggle />
+          {/* Hamburger hanya muncul di mobile */}
           <div className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(true)}>
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-brand-color, #8c6227)" strokeWidth="2" strokeLinecap="square">
               <line x1="3" y1="12" x2="21" y2="12"></line>
