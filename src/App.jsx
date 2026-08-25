@@ -19,10 +19,11 @@ import CustomCursor from './components/CustomCursor';
 import Footer from './components/Footer';
 import WhatsAppFloating from './components/WhatsAppFloating';
 import ScrollToTop from './components/ScrollToTop';
+import ThemeToggle from './components/ThemeToggle';
 import { STUDIO_INFO, getWhatsAppUrl } from './data/contact';
 import './index.css';
 
-// Client Layout for Public Marketing Pages (Direct Access without Loading Screen)
+// Client Layout for Public Marketing Pages (Tahap 2C: Light/Dark Mode Toggle)
 const ClientLayout = ({ children }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
@@ -71,7 +72,7 @@ const ClientLayout = ({ children }) => {
       {/* Header */}
       <header className="header">
         <div className="brand">
-          <Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>
+          <Link to="/" style={{ textDecoration: 'none', color: 'var(--color-brand-color)' }}>
             <span className="brand-text">{STUDIO_INFO.name}</span>
           </Link>
         </div>
@@ -80,7 +81,7 @@ const ClientLayout = ({ children }) => {
           <li><Link to="/layanan" className="nav-link">Rates & Services</Link></li>
           <li><Link to="/karya" className="nav-link">Portfolio</Link></li>
           <li><Link to="/tentangkami" className="nav-link">About Us</Link></li>
-          <li>
+          <li style={{ display: 'inline-flex', alignItems: 'center', gap: '0.8rem' }}>
             <a
               href={getWhatsAppUrl('Hello Faza Studio, I would like to inquire about studio booking and rates.')}
               target="_blank"
@@ -114,15 +115,23 @@ const ClientLayout = ({ children }) => {
               <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '15px', color: '#fff' }} />
               Book via WhatsApp
             </a>
+            {/* Theme Toggle Button next to WhatsApp button */}
+            <ThemeToggle />
           </li>
         </ul>
 
-        <div className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(true)}>
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="square">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
+        {/* Mobile Header Actions (Theme Toggle + Hamburger) */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }} className="mobile-header-actions">
+          <div className="mobile-toggle-wrapper" style={{ display: 'none' }}>
+            <ThemeToggle />
+          </div>
+          <div className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(true)}>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" strokeWidth="2" strokeLinecap="square">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </div>
         </div>
       </header>
 
@@ -131,7 +140,7 @@ const ClientLayout = ({ children }) => {
         style={{
           position: 'fixed',
           top: 0, left: 0, width: '100%', height: '100vh',
-          background: '#0a0807',
+          background: 'var(--color-bg)',
           zIndex: 9999,
           display: 'flex',
           flexDirection: 'column',
@@ -141,7 +150,7 @@ const ClientLayout = ({ children }) => {
           padding: '4rem 0',
           opacity: isMobileMenuOpen ? 1 : 0,
           transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(-100%)',
-          transition: 'opacity 0.4s ease, transform 0.4s ease',
+          transition: 'opacity 0.4s ease, transform 0.4s ease, background-color 0.4s ease',
           pointerEvents: isMobileMenuOpen ? 'auto' : 'none',
         }}
       >
@@ -149,18 +158,18 @@ const ClientLayout = ({ children }) => {
           onClick={() => setIsMobileMenuOpen(false)}
           style={{ position: 'absolute', top: '2rem', right: '2rem', cursor: 'pointer', zIndex: 10 }}
         >
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="square">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" strokeWidth="2" strokeLinecap="square">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </div>
         
-        <ul style={{ listStyle: 'none', padding: 0, margin: 0, textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '1.6rem' }}>
-          <li><Link to="/" onClick={() => setIsMobileMenuOpen(false)} style={mobileLinkStyle}>Home</Link></li>
-          <li><Link to="/layanan" onClick={() => setIsMobileMenuOpen(false)} style={mobileLinkStyle}>Rates & Services</Link></li>
-          <li><Link to="/karya" onClick={() => setIsMobileMenuOpen(false)} style={mobileLinkStyle}>Portfolio</Link></li>
-          <li><Link to="/tentangkami" onClick={() => setIsMobileMenuOpen(false)} style={mobileLinkStyle}>About Us</Link></li>
-          <li>
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0, textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '1.6rem', alignItems: 'center' }}>
+          <li><Link to="/" onClick={() => setIsMobileMenuOpen(false)} style={{ ...mobileLinkStyle, color: 'var(--color-text)' }}>Home</Link></li>
+          <li><Link to="/layanan" onClick={() => setIsMobileMenuOpen(false)} style={{ ...mobileLinkStyle, color: 'var(--color-text)' }}>Rates & Services</Link></li>
+          <li><Link to="/karya" onClick={() => setIsMobileMenuOpen(false)} style={{ ...mobileLinkStyle, color: 'var(--color-text)' }}>Portfolio</Link></li>
+          <li><Link to="/tentangkami" onClick={() => setIsMobileMenuOpen(false)} style={{ ...mobileLinkStyle, color: 'var(--color-text)' }}>About Us</Link></li>
+          <li style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '0.5rem' }}>
             <a
               href={getWhatsAppUrl('Hello Faza Studio, I would like to inquire about studio booking and rates.')}
               target="_blank"
@@ -186,6 +195,7 @@ const ClientLayout = ({ children }) => {
               <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '20px', color: '#fff' }} />
               Book via WhatsApp
             </a>
+            <ThemeToggle />
           </li>
         </ul>
       </div>

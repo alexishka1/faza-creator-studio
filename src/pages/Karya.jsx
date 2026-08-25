@@ -6,6 +6,7 @@ import PageTransition from '../components/PageTransition';
 import { PORTFOLIO_ITEMS, PORTFOLIO_CATEGORIES } from '../data/portfolio';
 import { getWhatsAppUrl } from '../data/contact';
 import { supabase } from '../lib/supabase';
+import '../index.css';
 
 const Karya = () => {
   const [filter, setFilter] = useState('All');
@@ -86,13 +87,13 @@ const Karya = () => {
 
   return (
     <PageTransition>
-      <div style={{ background: 'var(--color-bg)', color: '#fff', minHeight: '100vh', paddingTop: '12vh' }}>
+      <div style={{ background: 'var(--color-bg)', color: 'var(--color-text)', minHeight: '100vh', paddingTop: '12vh', transition: 'background-color 0.4s ease, color 0.4s ease' }}>
         {/* Header Section */}
         <section style={{ textAlign: 'center', marginBottom: '3rem', padding: '0 6%' }}>
           <p style={{ fontSize: '0.78rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--color-accent)', marginBottom: '0.8rem', fontWeight: 600 }}>
             ● CURATED WORKS & PORTFOLIO
           </p>
-          <h1 className="font-serif" style={{ fontSize: 'clamp(2.4rem, 5vw, 4.5rem)', marginBottom: '1rem', letterSpacing: '0.04em' }}>
+          <h1 className="font-serif" style={{ fontSize: 'clamp(2.4rem, 5vw, 4.5rem)', marginBottom: '1rem', letterSpacing: '0.04em', color: 'var(--color-text)' }}>
             PORTFOLIO
           </h1>
           <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.95rem', maxWidth: '620px', margin: '0 auto 2.2rem', lineHeight: 1.6 }}>
@@ -106,9 +107,9 @@ const Karya = () => {
                 key={cat}
                 onClick={() => handleFilterChange(cat)}
                 style={{
-                  background: filter === cat ? 'var(--color-accent)' : 'rgba(255,255,255,0.04)',
-                  border: filter === cat ? '1px solid var(--color-accent)' : '1px solid rgba(255,255,255,0.12)',
-                  color: filter === cat ? '#000' : 'rgba(255,255,255,0.85)',
+                  background: filter === cat ? 'var(--color-accent)' : 'var(--color-bg-card)',
+                  border: filter === cat ? '1px solid var(--color-accent)' : '1px solid var(--color-border)',
+                  color: filter === cat ? '#ffffff' : 'var(--color-text)',
                   fontSize: '0.78rem',
                   fontWeight: 600,
                   letterSpacing: '0.04em',
@@ -116,6 +117,7 @@ const Karya = () => {
                   padding: '0.55rem 1.3rem',
                   borderRadius: '30px',
                   cursor: 'pointer',
+                  boxShadow: 'var(--color-card-shadow)',
                   transition: 'all 0.3s ease',
                 }}
               >
@@ -146,8 +148,9 @@ const Karya = () => {
                     overflow: 'hidden',
                     borderRadius: '8px',
                     cursor: 'pointer',
-                    boxShadow: '0 15px 35px rgba(0,0,0,0.5)',
-                    background: '#14110f',
+                    boxShadow: 'var(--color-card-shadow)',
+                    background: 'var(--color-bg-card)',
+                    border: '1px solid var(--color-border)',
                   }}
                 >
                   <img
@@ -169,10 +172,10 @@ const Karya = () => {
                       left: 0,
                       width: '100%',
                       padding: '2.5rem 1.4rem 1.2rem',
-                      background: 'linear-gradient(to top, rgba(14,12,10,0.95) 0%, transparent 100%)',
+                      background: 'linear-gradient(to top, rgba(14,12,10,0.92) 0%, transparent 100%)',
                     }}
                   >
-                    <h3 className="font-serif" style={{ fontSize: '1.15rem', marginBottom: '0.2rem', color: '#fff' }}>
+                    <h3 className="font-serif" style={{ fontSize: '1.15rem', marginBottom: '0.2rem', color: '#ffffff' }}>
                       {item.title}
                     </h3>
                     <p style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--color-accent)', fontWeight: 600, margin: 0 }}>
@@ -230,12 +233,13 @@ const Karya = () => {
                 left: 0,
                 width: '100%',
                 height: '100%',
-                background: 'rgba(0,0,0,0.95)',
+                background: 'rgba(0,0,0,0.92)',
                 zIndex: 99999,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 padding: '2rem',
+                backdropFilter: 'blur(10px)',
               }}
             >
               <motion.img
@@ -248,23 +252,29 @@ const Karya = () => {
                   maxHeight: '85vh',
                   maxWidth: '90vw',
                   objectFit: 'contain',
-                  boxShadow: '0 20px 50px rgba(0,0,0,0.7)',
-                  borderRadius: '6px',
+                  borderRadius: '4px',
+                  boxShadow: '0 20px 60px rgba(0,0,0,0.8)',
                 }}
               />
-              <p
+              <div
                 style={{
                   position: 'absolute',
                   bottom: '2rem',
-                  color: 'rgba(255,255,255,0.75)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.15em',
-                  fontSize: '0.78rem',
-                  fontWeight: 500,
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  textAlign: 'center',
+                  background: 'rgba(18, 14, 12, 0.8)',
+                  padding: '0.8rem 2rem',
+                  borderRadius: '40px',
+                  border: '1px solid rgba(201, 169, 110, 0.3)',
+                  backdropFilter: 'blur(8px)',
                 }}
               >
-                Click anywhere to close
-              </p>
+                <h4 style={{ color: '#fff', margin: 0, fontSize: '1rem' }}>{selectedImg.title}</h4>
+                <p style={{ color: 'var(--color-accent)', margin: 0, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                  {selectedImg.category}
+                </p>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

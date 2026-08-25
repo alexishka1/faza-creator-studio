@@ -7,6 +7,7 @@ import PageTransition from '../components/PageTransition';
 import BookingCalendar from '../components/BookingCalendar';
 import { LAYANAN_OPTIONS } from '../data/services';
 import { STUDIO_INFO, getWhatsAppUrl } from '../data/contact';
+import '../index.css';
 
 const Booking = () => {
   const [searchParams] = useSearchParams();
@@ -93,24 +94,24 @@ const Booking = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            style={{ maxWidth: '600px', width: '100%', background: '#0e0c0a', border: '1px solid rgba(201,169,110,0.3)', borderRadius: '12px', padding: '3rem 2.5rem', textAlign: 'center', boxShadow: '0 20px 50px rgba(0,0,0,0.8)' }}
+            style={{ maxWidth: '600px', width: '100%', background: 'var(--color-bg-card)', border: '1px solid var(--color-border-hover)', borderRadius: '12px', padding: '3rem 2.5rem', textAlign: 'center', boxShadow: 'var(--color-card-shadow)' }}
           >
             <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>🎉</div>
-            <p style={{ color: 'var(--color-accent, #c9a96e)', fontSize: '0.78rem', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: '0.5rem', fontWeight: 600 }}>
+            <p style={{ color: 'var(--color-accent)', fontSize: '0.78rem', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: '0.5rem', fontWeight: 600 }}>
               RESERVATION RECEIVED
             </p>
-            <h2 className="font-serif" style={{ color: '#fff', fontSize: '2.2rem', marginBottom: '1rem' }}>
+            <h2 className="font-serif" style={{ color: 'var(--color-text)', fontSize: '2.2rem', marginBottom: '1rem' }}>
               Booking Confirmed!
             </h2>
             <p style={{ color: 'var(--color-text-secondary)', lineHeight: 1.6, marginBottom: '2rem', fontSize: '0.92rem' }}>
               Thank you, <strong>{form.nama}</strong>. Your reservation request for <strong>{form.layanan}</strong> on <strong>{form.tanggal} ({form.jam})</strong> has been received by our studio coordinator.
             </p>
 
-            <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '8px', padding: '1.2rem', marginBottom: '2rem', textAlign: 'left', border: '1px solid rgba(255,255,255,0.08)' }}>
+            <div style={{ background: 'var(--color-bg-secondary)', borderRadius: '8px', padding: '1.2rem', marginBottom: '2rem', textAlign: 'left', border: '1px solid var(--color-border)' }}>
               <p style={{ fontSize: '0.78rem', color: 'var(--color-accent)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem', fontWeight: 600 }}>
                 Next Steps:
               </p>
-              <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.8)', margin: 0, lineHeight: 1.5 }}>
+              <p style={{ fontSize: '0.85rem', color: 'var(--color-text)', margin: 0, lineHeight: 1.5 }}>
                 Our studio team will verify slot availability and contact you directly via WhatsApp at <strong>{form.phone}</strong> for payment details and preparation guidelines.
               </p>
             </div>
@@ -142,8 +143,8 @@ const Booking = () => {
                 style={{
                   display: 'inline-block',
                   padding: '0.8rem 1.6rem',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  color: '#fff',
+                  border: '1px solid var(--color-border)',
+                  color: 'var(--color-text)',
                   textDecoration: 'none',
                   borderRadius: '30px',
                   fontSize: '0.82rem',
@@ -158,9 +159,33 @@ const Booking = () => {
     );
   }
 
+  const labelStyle = {
+    display: 'block',
+    fontSize: '0.78rem',
+    letterSpacing: '0.15em',
+    textTransform: 'uppercase',
+    color: 'var(--color-accent)',
+    marginBottom: '0.6rem',
+    fontWeight: 600,
+  };
+
+  const inputStyle = {
+    width: '100%',
+    padding: '0.9rem 1.2rem',
+    background: 'var(--color-bg-secondary)',
+    border: '1px solid var(--color-border)',
+    borderRadius: '6px',
+    color: 'var(--color-text)',
+    fontSize: '0.9rem',
+    fontFamily: 'var(--font-sans)',
+    outline: 'none',
+    boxSizing: 'border-box',
+    transition: 'border-color 0.3s ease',
+  };
+
   return (
     <PageTransition>
-      <div style={{ minHeight: '100vh', background: 'var(--color-bg)', color: '#fff', paddingTop: '12vh', paddingBottom: '6rem' }}>
+      <div style={{ minHeight: '100vh', background: 'var(--color-bg)', color: 'var(--color-text)', paddingTop: '12vh', paddingBottom: '6rem', transition: 'background-color 0.4s ease, color 0.4s ease' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 6%' }}>
           
           {/* Header */}
@@ -168,7 +193,7 @@ const Booking = () => {
             <p style={{ fontSize: '0.78rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--color-accent)', marginBottom: '0.8rem', fontWeight: 600 }}>
               ● FAZA STUDIO RESERVATION
             </p>
-            <h1 className="font-serif" style={{ fontSize: 'clamp(2.4rem, 5vw, 4rem)', marginBottom: '1rem', letterSpacing: '0.04em' }}>
+            <h1 className="font-serif" style={{ fontSize: 'clamp(2.4rem, 5vw, 4rem)', marginBottom: '1rem', letterSpacing: '0.04em', color: 'var(--color-text)' }}>
               SCHEDULE YOUR SESSION
             </h1>
             <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.95rem', maxWidth: '580px', margin: '0 auto', lineHeight: 1.6 }}>
@@ -179,11 +204,11 @@ const Booking = () => {
           {/* Form Card */}
           <div
             style={{
-              background: '#110e0c',
-              border: '1px solid rgba(255,255,255,0.08)',
+              background: 'var(--color-bg-card)',
+              border: '1px solid var(--color-border)',
               borderRadius: '12px',
               padding: 'clamp(2rem, 5vw, 3rem)',
-              boxShadow: '0 20px 40px rgba(0,0,0,0.5)',
+              boxShadow: 'var(--color-card-shadow)',
             }}
           >
             {errorMsg && (
@@ -191,7 +216,7 @@ const Booking = () => {
                 style={{
                   background: 'rgba(239, 68, 68, 0.1)',
                   border: '1px solid rgba(239, 68, 68, 0.3)',
-                  color: '#fca5a5',
+                  color: '#dc2626',
                   padding: '1rem',
                   borderRadius: '6px',
                   marginBottom: '2rem',
@@ -224,9 +249,9 @@ const Booking = () => {
                   required
                   style={inputStyle}
                 >
-                  <option value="" style={{ background: '#110e0c' }}>-- Select Studio Package --</option>
+                  <option value="" style={{ background: 'var(--color-bg-card)' }}>-- Select Studio Package --</option>
                   {LAYANAN_OPTIONS.map((opt) => (
-                    <option key={opt.value} value={opt.value} style={{ background: '#110e0c' }}>
+                    <option key={opt.value} value={opt.value} style={{ background: 'var(--color-bg-card)' }}>
                       {opt.label}
                     </option>
                   ))}
@@ -234,9 +259,9 @@ const Booking = () => {
               </div>
 
               {/* Step 2: Date & Slot Calendar */}
-              <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '1.5rem' }}>
+              <div style={{ borderTop: '1px solid var(--color-border)', paddingTop: '1.5rem' }}>
                 <label style={labelStyle}>2. SELECT DATE & TIME SLOT *</label>
-                <p style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.5)', margin: '0 0 1rem' }}>
+                <p style={{ fontSize: '0.78rem', color: 'var(--color-text-secondary)', margin: '0 0 1rem' }}>
                   Click a date on the calendar to view real-time available time slots.
                 </p>
                 <BookingCalendar
@@ -248,60 +273,59 @@ const Booking = () => {
               </div>
 
               {/* Step 3: Contact Info */}
-              <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '1.5rem' }}>
-                <label style={labelStyle}>3. CLIENT CONTACT DETAILS *</label>
-                
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.2rem', marginTop: '1rem' }}>
+              <div style={{ borderTop: '1px solid var(--color-border)', paddingTop: '1.5rem' }}>
+                <label style={labelStyle}>3. YOUR CONTACT INFORMATION</label>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.2rem', marginTop: '1rem' }}>
                   <div>
-                    <span style={subLabelStyle}>Full Name *</span>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)', display: 'block', marginBottom: '0.4rem' }}>Full Name *</span>
                     <input
                       type="text"
                       name="nama"
                       value={form.nama}
                       onChange={handleChange}
-                      placeholder="e.g. Dimas Prasetyo"
+                      placeholder="e.g. Sarah Jenkins"
                       required
                       style={inputStyle}
                     />
                   </div>
-
                   <div>
-                    <span style={subLabelStyle}>WhatsApp / Phone Number *</span>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)', display: 'block', marginBottom: '0.4rem' }}>Email Address *</span>
+                    <input
+                      type="email"
+                      name="email"
+                      value={form.email}
+                      onChange={handleChange}
+                      placeholder="e.g. sarah@domain.com"
+                      required
+                      style={inputStyle}
+                    />
+                  </div>
+                  <div>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)', display: 'block', marginBottom: '0.4rem' }}>WhatsApp / Phone *</span>
                     <input
                       type="tel"
                       name="phone"
                       value={form.phone}
                       onChange={handleChange}
-                      placeholder="e.g. 081234567890"
+                      placeholder="e.g. 08123456789"
                       required
                       style={inputStyle}
                     />
                   </div>
                 </div>
+              </div>
 
-                <div style={{ marginTop: '1.2rem' }}>
-                  <span style={subLabelStyle}>Email Address (Optional)</span>
-                  <input
-                    type="email"
-                    name="email"
-                    value={form.email}
-                    onChange={handleChange}
-                    placeholder="e.g. yourname@gmail.com"
-                    style={inputStyle}
-                  />
-                </div>
-
-                <div style={{ marginTop: '1.2rem' }}>
-                  <span style={subLabelStyle}>Concept Notes / Special Requests (Optional)</span>
-                  <textarea
-                    name="pesan"
-                    value={form.pesan}
-                    onChange={handleChange}
-                    rows="3"
-                    placeholder="Tell us about your shoot concept, team size, lighting preferences, etc."
-                    style={{ ...inputStyle, resize: 'vertical' }}
-                  />
-                </div>
+              {/* Step 4: Notes / Concept */}
+              <div>
+                <label style={labelStyle}>4. SPECIAL REQUESTS / CONCEPTS (OPTIONAL)</label>
+                <textarea
+                  name="pesan"
+                  value={form.pesan}
+                  onChange={handleChange}
+                  placeholder="Describe your creative concept, backdrop preferences, or number of attendees..."
+                  rows={4}
+                  style={{ ...inputStyle, resize: 'vertical' }}
+                />
               </div>
 
               {/* Submit Button */}
@@ -311,36 +335,22 @@ const Booking = () => {
                   disabled={status === 'loading'}
                   style={{
                     width: '100%',
-                    padding: '1rem',
-                    background: status === 'loading' ? 'rgba(255,255,255,0.1)' : 'var(--color-accent)',
-                    color: '#000',
-                    border: 'none',
-                    borderRadius: '6px',
+                    padding: '1rem 2rem',
+                    background: 'var(--color-accent)',
+                    border: '1px solid var(--color-accent)',
+                    borderRadius: '35px',
+                    color: '#ffffff',
                     fontSize: '0.88rem',
                     fontWeight: 700,
-                    letterSpacing: '0.1em',
+                    letterSpacing: '0.08em',
                     textTransform: 'uppercase',
-                    cursor: status === 'loading' ? 'not-allowed' : 'pointer',
+                    cursor: status === 'loading' ? 'wait' : 'pointer',
+                    boxShadow: 'var(--color-card-shadow)',
                     transition: 'all 0.3s ease',
                   }}
                 >
-                  {status === 'loading' ? 'Processing Reservation...' : 'Submit Schedule Booking →'}
+                  {status === 'loading' ? 'Processing Reservation...' : 'Confirm & Reserve Studio Slot →'}
                 </button>
-              </div>
-
-              {/* Quick WhatsApp Alternative */}
-              <div style={{ textAlign: 'center', marginTop: '0.5rem' }}>
-                <span style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.4)' }}>
-                  Prefer direct assistance?{' '}
-                </span>
-                <a
-                  href={getWhatsAppUrl('Hello Faza Studio, I would like to inquire about booking a studio session directly.')}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: 'var(--color-accent)', fontSize: '0.78rem', textDecoration: 'none', fontWeight: 600 }}
-                >
-                  Chat with our coordinator on WhatsApp →
-                </a>
               </div>
             </form>
           </div>
@@ -348,34 +358,6 @@ const Booking = () => {
       </div>
     </PageTransition>
   );
-};
-
-const labelStyle = {
-  display: 'block',
-  fontSize: '0.82rem',
-  fontWeight: 700,
-  letterSpacing: '0.15em',
-  color: 'var(--color-accent)',
-  marginBottom: '0.4rem',
-};
-
-const subLabelStyle = {
-  display: 'block',
-  fontSize: '0.75rem',
-  color: 'rgba(255,255,255,0.7)',
-  marginBottom: '0.4rem',
-};
-
-const inputStyle = {
-  width: '100%',
-  padding: '0.75rem 1rem',
-  background: 'rgba(255,255,255,0.04)',
-  border: '1px solid rgba(255,255,255,0.15)',
-  borderRadius: '6px',
-  color: '#fff',
-  fontSize: '0.88rem',
-  outline: 'none',
-  boxSizing: 'border-box',
 };
 
 export default Booking;

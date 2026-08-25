@@ -36,9 +36,9 @@ const TentangKami = () => {
       const chars = philosophyRef.current.querySelectorAll('.reveal-text');
       gsap.fromTo(
         chars,
-        { color: 'rgba(255, 255, 255, 0.18)' },
+        { opacity: 0.25 },
         {
-          color: 'rgba(255, 255, 255, 1)',
+          opacity: 1,
           stagger: 0.06,
           scrollTrigger: {
             trigger: philosophyRef.current,
@@ -103,7 +103,7 @@ const TentangKami = () => {
 
   return (
     <PageTransition>
-      <div ref={containerRef} style={{ background: 'var(--color-bg)', color: '#fff', minHeight: '100vh', overflow: 'hidden' }}>
+      <div ref={containerRef} style={{ background: 'var(--color-bg)', color: 'var(--color-text)', minHeight: '100vh', overflow: 'hidden', transition: 'background-color 0.4s ease, color 0.4s ease' }}>
         {/* ===== 1. HERO SECTION WITH FADED PHOTO BACKGROUND ===== */}
         <section style={{ position: 'relative', height: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {/* Faded Background Image */}
@@ -111,17 +111,16 @@ const TentangKami = () => {
             className="faza-faded-bg"
             style={{
               backgroundImage: 'url("/images/optimized/DSCF9515-1600.webp")',
-              opacity: 0.2,
             }}
           />
-          {/* Dark Scrim */}
+          {/* Scrim Overlay */}
           <div className="faza-scrim" />
 
           <div ref={heroTextRef} style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '0 6%', maxWidth: '850px' }}>
             <p style={{ fontSize: '0.78rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--color-accent)', marginBottom: '1.2rem', fontWeight: 600 }}>
               ● ABOUT FAZA STUDIO
             </p>
-            <h1 className="font-serif" style={{ fontSize: 'clamp(2.4rem, 5.5vw, 4.5rem)', lineHeight: 1.15, textShadow: '0 20px 40px rgba(0,0,0,0.8)', marginBottom: '1.2rem' }}>
+            <h1 className="font-serif" style={{ fontSize: 'clamp(2.4rem, 5.5vw, 4.5rem)', lineHeight: 1.15, marginBottom: '1.2rem', color: 'var(--color-text)' }}>
               STORYTELLING<br />THROUGH LIGHT & SHADOW
             </h1>
             <p style={{ color: 'var(--color-text-secondary)', fontSize: 'clamp(0.92rem, 1.8vw, 1.05rem)', lineHeight: 1.65, fontWeight: 400 }}>
@@ -134,7 +133,7 @@ const TentangKami = () => {
         <section style={{ padding: 'clamp(4rem, 10vh, 8rem) 6% clamp(3rem, 6vh, 6rem) 6%', textAlign: 'center' }}>
           <div ref={philosophyRef} style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.5rem' }}>
             {words.map((word, i) => (
-              <span key={i} className="reveal-text font-serif" style={{ fontSize: 'clamp(1.4rem, 3.2vw, 2.6rem)', fontWeight: 400, display: 'inline-block', lineHeight: 1.4 }}>
+              <span key={i} className="reveal-text font-serif" style={{ fontSize: 'clamp(1.4rem, 3.2vw, 2.6rem)', fontWeight: 400, display: 'inline-block', lineHeight: 1.4, color: 'var(--color-text)' }}>
                 {word}
               </span>
             ))}
@@ -150,7 +149,7 @@ const TentangKami = () => {
         </section>
 
         {/* ===== 3. STATS / NUMBERS ===== */}
-        <section ref={statsRef} style={{ padding: 'clamp(3.5rem, 6vh, 5.5rem) 6%', background: 'var(--color-bg-card)', borderTop: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+        <section ref={statsRef} style={{ padding: 'clamp(3.5rem, 6vh, 5.5rem) 6%', background: 'var(--color-bg-secondary)', borderTop: '1px solid var(--color-border)', borderBottom: '1px solid var(--color-border)' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2.5rem', textAlign: 'center' }}>
             <div>
               <div style={{ fontSize: 'clamp(3rem, 6vw, 4.5rem)', fontFamily: 'var(--font-serif)', color: 'var(--color-accent)', lineHeight: 1 }}>
@@ -187,13 +186,13 @@ const TentangKami = () => {
             <p style={{ fontSize: '0.75rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--color-accent)', marginBottom: '0.6rem', fontWeight: 600 }}>
               DEDICATION & EXPERTISE
             </p>
-            <h2 className="font-serif" style={{ fontSize: 'clamp(2rem, 3.8vw, 3.2rem)' }}>STUDIO CREATIVE TEAM</h2>
+            <h2 className="font-serif" style={{ fontSize: 'clamp(2rem, 3.8vw, 3.2rem)', color: 'var(--color-text)' }}>STUDIO CREATIVE TEAM</h2>
           </div>
 
           <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '2rem' }}>
             {team.map((member, i) => (
-              <div key={i} className="team-card" style={{ background: '#151210', borderRadius: '8px', padding: '1.2rem', border: '1px solid rgba(255,255,255,0.06)' }}>
-                <div style={{ width: '100%', aspectRatio: '3/4', overflow: 'hidden', borderRadius: '6px', marginBottom: '1rem', background: '#111' }}>
+              <div key={i} className="team-card" style={{ background: 'var(--color-bg-card)', borderRadius: '8px', padding: '1.2rem', border: '1px solid var(--color-border)', boxShadow: 'var(--color-card-shadow)' }}>
+                <div style={{ width: '100%', aspectRatio: '3/4', overflow: 'hidden', borderRadius: '6px', marginBottom: '1rem', background: 'var(--color-bg-secondary)' }}>
                   <img
                     src={member.img}
                     alt={member.name}
@@ -206,7 +205,7 @@ const TentangKami = () => {
                     }}
                   />
                 </div>
-                <h3 className="font-serif" style={{ fontSize: '1.35rem', marginBottom: '0.3rem', color: '#fff' }}>{member.name}</h3>
+                <h3 className="font-serif" style={{ fontSize: '1.35rem', marginBottom: '0.3rem', color: 'var(--color-text)' }}>{member.name}</h3>
                 <p style={{ fontSize: '0.78rem', letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', margin: 0, fontWeight: 500 }}>
                   {member.role}
                 </p>
@@ -223,7 +222,7 @@ const TentangKami = () => {
             </p>
           </div>
 
-          <div style={{ display: 'flex', opacity: 0.65, borderTop: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '1.8rem 0' }}>
+          <div style={{ display: 'flex', opacity: 0.75, borderTop: '1px solid var(--color-border)', borderBottom: '1px solid var(--color-border)', padding: '1.8rem 0' }}>
             <div ref={marqueeRef} style={{ display: 'flex', whiteSpace: 'nowrap', willChange: 'transform' }}>
               {[...CLIENT_LOGOS, ...CLIENT_LOGOS].map((client, i) => (
                 <span key={i} className="font-serif" style={{ fontSize: 'clamp(1.2rem, 2vw, 1.8rem)', margin: '0 3rem', letterSpacing: '0.12em', color: 'var(--color-accent)' }}>
@@ -257,7 +256,7 @@ const TentangKami = () => {
               }}
             >
               <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '17px', color: '#fff' }} />
-              Connect & Visit Studio
+              Direct Studio Inquiry
             </a>
           </div>
         </section>

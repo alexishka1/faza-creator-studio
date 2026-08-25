@@ -7,27 +7,77 @@
   box-sizing: border-box;
 }
 
-:root {
-  --color-bg: #0e0c0a;
-  --color-bg-card: #151210;
-  --color-text: #ffffff;
-  --color-accent: #c9a96e; /* Single consistent signature Tan/Gold accent */
-  --color-accent-hover: #dfc28d;
-  --color-border: rgba(255, 255, 255, 0.08);
+:root,
+[data-theme="light"] {
+  /* LIGHT MODE (Clean Putih Susu & Coklat Earth Tone - DEFAULT) */
+  --color-bg: #f9f7f4; /* Clean Putih Susu / Soft Creamy Milk-White */
+  --color-bg-card: #ffffff; /* Clean white card surface */
+  --color-bg-card-hover: #fcfbfa;
+  --color-bg-secondary: #f2ede4; /* Soft warm earth-tone section */
+  --color-bg-tertiary: #ebe5dc;
+  --color-text: #1a1714; /* Deep charcoal for crystal-clear readability */
+  --color-text-secondary: #5c554e; /* Warm earth-tone grey */
+  --color-text-muted: #8c8277;
+  --color-accent: #9d753b; /* Coklat Earth Tone / Rich Tan Gold */
+  --color-accent-hover: #835f2c;
+  --color-accent-subtle: rgba(157, 117, 59, 0.12);
+  --color-border: rgba(157, 117, 59, 0.18);
+  --color-border-hover: rgba(157, 117, 59, 0.45);
+  --color-card-shadow: 0 10px 30px rgba(70, 50, 30, 0.08);
+  /* Reduced Scrim Opacity to clearly reveal background photo */
+  --color-scrim: linear-gradient(to bottom, rgba(249, 247, 244, 0.55) 0%, rgba(249, 247, 244, 0.25) 40%, rgba(249, 247, 244, 0.85) 100%);
+  --color-header-bg: rgba(244, 238, 229, 0.94); /* Warm Earth Tone Navbar Background */
+  --color-header-border: #ffffff; /* Border tetap putih seperti warna utama */
+  --color-brand-color: #8c6227; /* Earth Tone Brand Logo Color */
+  --color-nav-link: #8c6227; /* Earth Tone Text for Navigation Links */
+  --color-nav-link-hover: #5e3f14;
+  --color-faded-bg-opacity: 0.38; /* Visible authentic background photo */
+  --color-brand-logo-filter: none;
+  --color-theme-toggle-bg: rgba(140, 98, 39, 0.12);
+  --color-theme-toggle-border: rgba(140, 98, 39, 0.35);
+  --color-theme-toggle-color: #8c6227;
   --color-wa: #20c850;
   --color-wa-light: #2fe668;
   --color-wa-dark: #149c3b;
   --color-wa-gradient: linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%);
-  --color-wa-glow: rgba(36, 215, 87, 0.45);
-  --color-wa-glow-strong: rgba(46, 230, 107, 0.65);
+  --color-wa-glow: rgba(36, 215, 87, 0.35);
+  --color-wa-glow-strong: rgba(46, 230, 107, 0.55);
   --font-serif: 'Playfair Display', serif;
   --font-sans: 'Inter', sans-serif;
   --spacing-section: 15vh;
 }
 
+[data-theme="dark"] {
+  /* DARK MODE (Original Authentic Dark Faza Studio) */
+  --color-bg: #0e0c0a;
+  --color-bg-card: #151210;
+  --color-bg-card-hover: #1c1815;
+  --color-bg-secondary: #120f0d;
+  --color-bg-tertiary: #0a0807;
+  --color-text: #ffffff;
+  --color-text-secondary: #a8a29e;
+  --color-text-muted: #78716c;
+  --color-accent: #c9a96e;
+  --color-accent-hover: #dfc28d;
+  --color-accent-subtle: rgba(201, 169, 110, 0.12);
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-hover: rgba(201, 169, 110, 0.4);
+  --color-card-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+  --color-scrim: linear-gradient(to bottom, rgba(20, 17, 15, 0.65) 0%, rgba(20, 17, 15, 0.35) 40%, rgba(14, 12, 10, 0.88) 100%);
+  --color-header-bg: rgba(18, 14, 12, 0.94);
+  --color-header-border: rgba(201, 169, 110, 0.2);
+  --color-brand-color: #c9a96e;
+  --color-nav-link: #ffffff;
+  --color-faded-bg-opacity: 0.35;
+  --color-brand-logo-filter: invert(1);
+  --color-theme-toggle-bg: rgba(255, 255, 255, 0.06);
+  --color-theme-toggle-border: rgba(255, 255, 255, 0.15);
+  --color-theme-toggle-color: #ffffff;
+}
+
 /* ===== UNIVERSAL PHOTO GRADE (Warm charcoal-cream desaturate) ===== */
 .faza-graded-img {
-  filter: grayscale(30%) sepia(16%) contrast(1.08) brightness(0.94);
+  filter: grayscale(25%) sepia(14%) contrast(1.06) brightness(0.96);
   transition: filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s ease;
 }
 
@@ -35,24 +85,26 @@
   filter: grayscale(0%) sepia(8%) contrast(1.1) brightness(1);
 }
 
-/* ===== FADED PHOTO BACKGROUND & SCRIM (Spec: 15-30% opacity + dark gradient 55-80%) ===== */
+/* ===== FADED PHOTO BACKGROUND & SCRIM (Spec: 15-30% opacity + dynamic scrim) ===== */
 .faza-faded-bg {
   position: absolute;
   inset: 0;
   background-size: cover;
   background-position: center;
-  opacity: 0.22;
-  filter: grayscale(35%) sepia(18%) contrast(1.1);
+  opacity: var(--color-faded-bg-opacity);
+  filter: grayscale(30%) sepia(16%) contrast(1.08);
   pointer-events: none;
   z-index: 0;
+  transition: opacity 0.4s ease;
 }
 
 .faza-scrim {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(20, 17, 15, 0.85) 0%, rgba(20, 17, 15, 0.55) 50%, rgba(14, 12, 10, 0.95) 100%);
+  background: var(--color-scrim);
   pointer-events: none;
   z-index: 1;
+  transition: background 0.4s ease;
 }
 
 @media (max-width: 768px) {
@@ -68,6 +120,7 @@ body, html {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 /* Custom cursor only active on public client pages when enabled */
@@ -195,14 +248,17 @@ h2 {
   top: 0;
   left: 0;
   width: 100%;
-  padding: 1.5rem 5%;
+  padding: 1.15rem 5%;
   z-index: 9999;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(180deg, rgba(5,5,5,0.7) 0%, rgba(5,5,5,0) 100%);
-  backdrop-filter: blur(0px);
-  transition: background 0.4s ease, backdrop-filter 0.4s ease;
+  background: var(--color-header-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--color-header-border);
+  box-shadow: 0 4px 25px rgba(60, 45, 25, 0.05);
+  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .brand {
@@ -214,33 +270,39 @@ h2 {
 .brand-logo {
   height: 40px;
   width: auto;
-  filter: invert(1); /* Invert since the original logo is black and the background is dark */
+  filter: var(--color-brand-logo-filter);
+  transition: filter 0.4s ease;
 }
 
 .brand-text {
   font-family: var(--font-serif);
-  font-size: 1.2rem;
-  letter-spacing: 0.2em;
+  font-size: 1.22rem;
+  letter-spacing: 0.18em;
+  color: var(--color-brand-color);
+  font-weight: 700;
+  transition: color 0.4s ease;
 }
 
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 3rem;
+  gap: 2.2rem;
   margin: 0;
   padding: 0;
   align-items: center;
 }
 .nav-link {
   text-decoration: none;
-  color: #fff;
-  font-size: 0.9rem;
-  letter-spacing: 0.1em;
+  color: var(--color-nav-link);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  transition: opacity 0.3s ease;
+  font-weight: 600;
+  transition: color 0.3s ease, opacity 0.3s ease;
 }
 .nav-link:hover {
-  opacity: 0.6;
+  color: var(--color-accent);
+  opacity: 0.85;
 }
 .btn-outline-nav {
   border: 1px solid #fff;
@@ -270,11 +332,14 @@ h2 {
   .desktop-nav {
     display: none !important;
   }
+  .mobile-toggle-wrapper {
+    display: block !important;
+  }
   .mobile-menu-btn {
     display: block;
   }
   .header {
-    padding: 1.5rem 5%;
+    padding: 1.2rem 5%;
   }
 }
 

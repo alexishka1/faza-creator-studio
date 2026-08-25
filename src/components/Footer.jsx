@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { STUDIO_INFO, getWhatsAppUrl } from '../data/contact';
+import '../index.css';
 
 const Footer = () => {
   return (
@@ -14,10 +15,11 @@ const Footer = () => {
         flexDirection: 'column',
         justifyContent: 'space-between',
         overflow: 'hidden',
-        borderTop: '1px solid rgba(255,255,255,0.08)',
-        backgroundColor: '#0a0807',
-        color: '#fff',
+        borderTop: '1px solid var(--color-border)',
+        backgroundColor: 'var(--color-bg-secondary)',
+        color: 'var(--color-text)',
         paddingTop: '5rem',
+        transition: 'background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease',
       }}
     >
       {/* Faded Authentic Background Image */}
@@ -25,10 +27,9 @@ const Footer = () => {
         className="faza-faded-bg"
         style={{
           backgroundImage: 'url("/images/optimized/DSCF9515-1600.webp")',
-          opacity: 0.16,
         }}
       />
-      {/* Dark Scrim Overlay */}
+      {/* Scrim Overlay */}
       <div className="faza-scrim" />
 
       {/* Top Content: Grid Information */}
@@ -48,7 +49,7 @@ const Footer = () => {
           <p style={{ fontSize: '0.75rem', letterSpacing: '0.25em', color: 'var(--color-accent)', textTransform: 'uppercase', marginBottom: '0.6rem', fontWeight: 600 }}>
             ● Studio Active & Accepting Bookings
           </p>
-          <h3 className="font-serif" style={{ fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', marginBottom: '1rem', letterSpacing: '0.04em', lineHeight: 1.2 }}>
+          <h3 className="font-serif" style={{ fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', marginBottom: '1rem', letterSpacing: '0.04em', lineHeight: 1.2, color: 'var(--color-text)' }}>
             Ready to Bring Your <br />
             Visuals to Life?
           </h3>
@@ -91,40 +92,40 @@ const Footer = () => {
           </h4>
 
           <div style={{ marginBottom: '1.5rem' }}>
-            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 0.3rem' }}>
+            <p style={{ color: 'var(--color-text-muted)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 0.3rem' }}>
               WhatsApp Direct Hotline
             </p>
             <a
               href={`https://wa.me/${STUDIO_INFO.phoneRaw}`}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: 'var(--color-wa-light, #2fe668)', textDecoration: 'none', fontSize: '0.98rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
+              style={{ color: 'var(--color-wa-dark, #149c3b)', textDecoration: 'none', fontSize: '0.98rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
             >
               {STUDIO_INFO.phone} ↗
             </a>
           </div>
 
           <div style={{ marginBottom: '1.5rem' }}>
-            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 0.3rem' }}>
+            <p style={{ color: 'var(--color-text-muted)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 0.3rem' }}>
               Official Instagram
             </p>
             <a
               href={STUDIO_INFO.instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: '#fff', textDecoration: 'none', fontSize: '0.98rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
+              style={{ color: 'var(--color-text)', textDecoration: 'none', fontSize: '0.98rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
             >
               {STUDIO_INFO.instagramHandle} ↗
             </a>
           </div>
 
           <div>
-            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 0.3rem' }}>
+            <p style={{ color: 'var(--color-text-muted)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 0.3rem' }}>
               Opening Hours
             </p>
-            <p style={{ color: '#fff', fontSize: '0.88rem', lineHeight: 1.5, margin: 0, fontWeight: 500 }}>
+            <p style={{ color: 'var(--color-text)', fontSize: '0.88rem', lineHeight: 1.5, margin: 0, fontWeight: 500 }}>
               {STUDIO_INFO.operatingHours} <br />
-              <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.78rem' }}>({STUDIO_INFO.operatingHoursNote})</span>
+              <span style={{ color: 'var(--color-text-secondary)', fontSize: '0.78rem' }}>({STUDIO_INFO.operatingHoursNote})</span>
             </p>
           </div>
         </div>
@@ -135,40 +136,41 @@ const Footer = () => {
             Studio Location
           </h4>
           <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.88rem', lineHeight: 1.6, marginBottom: '1.2rem' }}>
-            <strong style={{ color: '#fff', display: 'block', marginBottom: '0.2rem' }}>{STUDIO_INFO.name}</strong>
+            <strong style={{ color: 'var(--color-text)', display: 'block', marginBottom: '0.2rem' }}>{STUDIO_INFO.name}</strong>
             {STUDIO_INFO.address}
           </p>
 
           {/* Maps Embed Card */}
           <div
             style={{
-              background: '#14110f',
-              border: '1px solid rgba(255,255,255,0.1)',
+              background: 'var(--color-bg-card)',
+              border: '1px solid var(--color-border)',
               borderRadius: '8px',
               padding: '0.9rem',
               display: 'flex',
               flexDirection: 'column',
               gap: '0.6rem',
+              boxShadow: 'var(--color-card-shadow)',
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
               <span style={{ fontSize: '1.1rem' }}>📍</span>
               <div>
-                <p style={{ margin: 0, color: '#fff', fontSize: '0.82rem', fontWeight: 600 }}>Easy Access & Parking Space</p>
-                <p style={{ margin: 0, color: 'rgba(255,255,255,0.6)', fontSize: '0.72rem' }}>Ciracas & Kramat Jati Area, East Jakarta</p>
+                <p style={{ margin: 0, color: 'var(--color-text)', fontSize: '0.82rem', fontWeight: 600 }}>Easy Access & Parking Space</p>
+                <p style={{ margin: 0, color: 'var(--color-text-secondary)', fontSize: '0.72rem' }}>Grand Dukuh Indah, Kramat Jati, Jakarta Timur</p>
               </div>
             </div>
             <a
-              href="https://maps.google.com/?q=Jl.+Dukuh+V+No+79+Jakarta+Timur"
+              href={STUDIO_INFO.mapsDirectUrl}
               target="_blank"
               rel="noopener noreferrer"
               style={{
                 display: 'inline-block',
                 textAlign: 'center',
                 padding: '0.55rem 0.9rem',
-                background: 'rgba(255,255,255,0.06)',
-                border: '1px solid rgba(201,169,110,0.3)',
-                color: '#fff',
+                background: 'var(--color-bg-secondary)',
+                border: '1px solid var(--color-border-hover)',
+                color: 'var(--color-text)',
                 textDecoration: 'none',
                 fontSize: '0.75rem',
                 fontWeight: 600,
@@ -177,11 +179,11 @@ const Footer = () => {
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = 'var(--color-accent)';
-                e.currentTarget.style.color = '#000';
+                e.currentTarget.style.color = '#ffffff';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
-                e.currentTarget.style.color = '#fff';
+                e.currentTarget.style.background = 'var(--color-bg-secondary)';
+                e.currentTarget.style.color = 'var(--color-text)';
               }}
             >
               Open in Google Maps ↗
@@ -195,10 +197,10 @@ const Footer = () => {
             Navigation
           </h4>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-            <li><Link to="/" style={{ color: 'rgba(255,255,255,0.75)', textDecoration: 'none', fontSize: '0.85rem', transition: 'color 0.2s' }}>Home</Link></li>
-            <li><Link to="/layanan" style={{ color: 'rgba(255,255,255,0.75)', textDecoration: 'none', fontSize: '0.85rem', transition: 'color 0.2s' }}>Rates & Services</Link></li>
-            <li><Link to="/karya" style={{ color: 'rgba(255,255,255,0.75)', textDecoration: 'none', fontSize: '0.85rem', transition: 'color 0.2s' }}>Portfolio & Works</Link></li>
-            <li><Link to="/tentangkami" style={{ color: 'rgba(255,255,255,0.75)', textDecoration: 'none', fontSize: '0.85rem', transition: 'color 0.2s' }}>About Faza Studio</Link></li>
+            <li><Link to="/" style={{ color: 'var(--color-text-secondary)', textDecoration: 'none', fontSize: '0.85rem', transition: 'color 0.2s' }}>Home</Link></li>
+            <li><Link to="/layanan" style={{ color: 'var(--color-text-secondary)', textDecoration: 'none', fontSize: '0.85rem', transition: 'color 0.2s' }}>Rates & Services</Link></li>
+            <li><Link to="/karya" style={{ color: 'var(--color-text-secondary)', textDecoration: 'none', fontSize: '0.85rem', transition: 'color 0.2s' }}>Portfolio & Works</Link></li>
+            <li><Link to="/tentangkami" style={{ color: 'var(--color-text-secondary)', textDecoration: 'none', fontSize: '0.85rem', transition: 'color 0.2s' }}>About Faza Studio</Link></li>
             <li><Link to="/booking" style={{ color: 'var(--color-accent)', textDecoration: 'none', fontSize: '0.85rem', fontWeight: 600 }}>Online Calendar Booking ↗</Link></li>
           </ul>
         </div>
@@ -212,7 +214,8 @@ const Footer = () => {
             fontSize: 'clamp(3.8rem, 12vw, 12rem)',
             lineHeight: 0.8,
             margin: 0,
-            color: 'rgba(201, 169, 110, 0.05)',
+            color: 'var(--color-accent)',
+            opacity: 0.08,
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             pointerEvents: 'none',
@@ -228,14 +231,14 @@ const Footer = () => {
             alignItems: 'center',
             flexWrap: 'wrap',
             gap: '0.8rem',
-            borderTop: '1px solid rgba(255,255,255,0.08)',
-            color: 'rgba(255,255,255,0.5)',
+            borderTop: '1px solid var(--color-border)',
+            color: 'var(--color-text-muted)',
             fontSize: '0.75rem',
             letterSpacing: '0.04em',
           }}
         >
           <span>© {new Date().getFullYear()} FAZA STUDIO — Creative Space & Photo Studio East Jakarta.</span>
-          <span style={{ color: 'rgba(255,255,255,0.7)' }}>Crafted with Precision & Aesthetics</span>
+          <span style={{ color: 'var(--color-text-secondary)' }}>Crafted with Precision & Aesthetics</span>
         </div>
       </div>
     </footer>

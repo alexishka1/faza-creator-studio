@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import '../index.css';
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const MONTHS = [
@@ -88,17 +89,53 @@ const BookingCalendar = ({ selectedDate, onDateSelect, onSlotSelect, selectedSlo
     <div style={{ marginTop: '2rem' }}>
       {/* Calendar Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-        <button type="button" onClick={prevMonth} style={navBtnStyle}>&#8592;</button>
-        <span style={{ fontFamily: 'var(--font-serif)', fontSize: '1.1rem', color: '#fff' }}>
+        <button
+          type="button"
+          onClick={prevMonth}
+          style={{
+            background: 'var(--color-bg-secondary)',
+            border: '1px solid var(--color-border)',
+            color: 'var(--color-text)',
+            width: '34px',
+            height: '34px',
+            borderRadius: '6px',
+            cursor: 'pointer',
+            fontSize: '1rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          &#8592;
+        </button>
+        <span style={{ fontFamily: 'var(--font-serif)', fontSize: '1.15rem', color: 'var(--color-text)', fontWeight: 600 }}>
           {MONTHS[viewMonth]} {viewYear}
         </span>
-        <button type="button" onClick={nextMonth} style={navBtnStyle}>&#8594;</button>
+        <button
+          type="button"
+          onClick={nextMonth}
+          style={{
+            background: 'var(--color-bg-secondary)',
+            border: '1px solid var(--color-border)',
+            color: 'var(--color-text)',
+            width: '34px',
+            height: '34px',
+            borderRadius: '6px',
+            cursor: 'pointer',
+            fontSize: '1rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          &#8594;
+        </button>
       </div>
 
       {/* Day Labels */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '4px', marginBottom: '8px' }}>
         {DAYS.map(d => (
-          <div key={d} style={{ textAlign: 'center', fontSize: '0.72rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.08em', padding: '4px 0' }}>
+          <div key={d} style={{ textAlign: 'center', fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', padding: '4px 0', fontWeight: 600 }}>
             {d}
           </div>
         ))}
@@ -122,9 +159,10 @@ const BookingCalendar = ({ selectedDate, onDateSelect, onSlotSelect, selectedSlo
               onClick={() => handleDayClick(day)}
               style={{
                 height: '40px',
-                background: sel ? 'var(--color-accent)' : 'rgba(255,255,255,0.03)',
-                color: sel ? '#000' : past ? 'rgba(255,255,255,0.15)' : '#fff',
-                border: sel ? '1px solid var(--color-accent)' : '1px solid rgba(255,255,255,0.08)',
+                background: sel ? 'var(--color-accent)' : 'var(--color-bg-secondary)',
+                color: sel ? '#ffffff' : past ? 'var(--color-text-muted)' : 'var(--color-text)',
+                opacity: past ? 0.35 : 1,
+                border: sel ? '1px solid var(--color-accent)' : '1px solid var(--color-border)',
                 borderRadius: '4px',
                 fontSize: '0.85rem',
                 fontWeight: sel ? '700' : '400',
@@ -142,11 +180,11 @@ const BookingCalendar = ({ selectedDate, onDateSelect, onSlotSelect, selectedSlo
       {selectedDate && (
         <div style={{ marginTop: '2rem' }}>
           <p style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)', marginBottom: '0.8rem', letterSpacing: '0.05em' }}>
-            SELECT TIME SLOT FOR <strong style={{ color: '#fff' }}>{selectedDate}</strong>:
+            SELECT TIME SLOT FOR <strong style={{ color: 'var(--color-text)' }}>{selectedDate}</strong>:
           </p>
 
           {loadingSlots ? (
-            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.85rem' }}>Checking live slot availability...</p>
+            <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem' }}>Checking live slot availability...</p>
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '0.6rem' }}>
               {slots.map(slot => {
@@ -164,25 +202,27 @@ const BookingCalendar = ({ selectedDate, onDateSelect, onSlotSelect, selectedSlo
                       background: isSlotSel
                         ? 'var(--color-accent)'
                         : isTaken
-                        ? 'rgba(255,255,255,0.02)'
-                        : 'rgba(255,255,255,0.05)',
-                      color: isSlotSel ? '#000' : isTaken ? 'rgba(255,255,255,0.2)' : '#fff',
+                        ? 'var(--color-bg-secondary)'
+                        : 'var(--color-bg-card)',
+                      color: isSlotSel ? '#ffffff' : isTaken ? 'var(--color-text-muted)' : 'var(--color-text)',
+                      opacity: isTaken ? 0.45 : 1,
                       border: isSlotSel
                         ? '1px solid var(--color-accent)'
                         : isTaken
-                        ? '1px solid rgba(255,255,255,0.04)'
-                        : '1px solid rgba(255,255,255,0.12)',
-                      borderRadius: '4px',
+                        ? '1px solid var(--color-border)'
+                        : '1px solid var(--color-border)',
+                      borderRadius: '6px',
                       fontSize: '0.82rem',
-                      fontWeight: isSlotSel ? '700' : '400',
+                      fontWeight: isSlotSel ? '700' : '500',
                       cursor: isTaken ? 'not-allowed' : 'pointer',
                       position: 'relative',
+                      boxShadow: isSlotSel ? 'var(--color-card-shadow)' : 'none',
                       transition: 'all 0.2s ease',
                       textAlign: 'center',
                     }}
                   >
                     <div>{slot.slot}</div>
-                    <div style={{ fontSize: '0.68rem', marginTop: '2px', opacity: 0.75 }}>
+                    <div style={{ fontSize: '0.68rem', marginTop: '2px', opacity: 0.85, color: isSlotSel ? '#fff' : isTaken ? 'var(--color-text-muted)' : 'var(--color-accent)' }}>
                       {isTaken ? '🔒 Reserved' : '✓ Available'}
                     </div>
                   </button>
@@ -194,20 +234,6 @@ const BookingCalendar = ({ selectedDate, onDateSelect, onSlotSelect, selectedSlo
       )}
     </div>
   );
-};
-
-const navBtnStyle = {
-  background: 'transparent',
-  border: '1px solid rgba(255,255,255,0.2)',
-  color: '#fff',
-  width: '32px',
-  height: '32px',
-  borderRadius: '4px',
-  cursor: 'pointer',
-  fontSize: '1rem',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
 };
 
 export default BookingCalendar;

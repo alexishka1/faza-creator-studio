@@ -99,12 +99,12 @@ const Layanan = () => {
           alignItems: 'center',
           gap: 'clamp(2rem, 4vw, 4.5rem)',
           padding: '2.5rem 0',
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          borderBottom: '1px solid var(--color-border)',
         }}
       >
         {/* Image Section */}
         <div style={{ flex: '1 1 340px', position: 'relative' }}>
-          <div style={{ width: '100%', aspectRatio: '4/5', overflow: 'hidden', borderRadius: '8px', boxShadow: '0 20px 40px rgba(0,0,0,0.6)', background: '#14110f' }}>
+          <div style={{ width: '100%', aspectRatio: '4/5', overflow: 'hidden', borderRadius: '8px', boxShadow: 'var(--color-card-shadow)', background: 'var(--color-bg-card)' }}>
             <img
               src={service.desktopImg}
               srcSet={`${service.mobileImg} 800w, ${service.desktopImg} 1600w`}
@@ -128,7 +128,8 @@ const Layanan = () => {
               [isEven ? 'left' : 'right']: '-1.5rem',
               fontSize: 'clamp(3.5rem, 7vw, 5.5rem)',
               fontFamily: 'var(--font-serif)',
-              color: 'rgba(201, 169, 110, 0.08)',
+              color: 'var(--color-accent)',
+              opacity: 0.12,
               pointerEvents: 'none',
               lineHeight: 1,
             }}
@@ -143,8 +144,8 @@ const Layanan = () => {
             <span
               style={{
                 padding: '0.3rem 0.9rem',
-                border: '1px solid rgba(201, 169, 110, 0.35)',
-                background: 'rgba(201, 169, 110, 0.1)',
+                border: '1px solid var(--color-border-hover)',
+                background: 'var(--color-accent-subtle)',
                 borderRadius: '100px',
                 fontSize: '0.7rem',
                 letterSpacing: '0.15em',
@@ -156,7 +157,7 @@ const Layanan = () => {
             </span>
           </div>
 
-          <h3 className="font-serif" style={{ fontSize: 'clamp(1.8rem, 3.8vw, 2.8rem)', color: '#fff', marginBottom: '0.8rem', lineHeight: 1.15 }}>
+          <h3 className="font-serif" style={{ fontSize: 'clamp(1.8rem, 3.8vw, 2.8rem)', color: 'var(--color-text)', marginBottom: '0.8rem', lineHeight: 1.15 }}>
             {service.title} <br />
             <em style={{ color: 'var(--color-accent)', fontSize: '0.85em', fontStyle: 'italic' }}>{service.subtitle}</em>
           </h3>
@@ -179,7 +180,7 @@ const Layanan = () => {
               <li
                 key={idx}
                 style={{
-                  color: 'rgba(255,255,255,0.85)',
+                  color: 'var(--color-text)',
                   fontSize: '0.82rem',
                   display: 'flex',
                   alignItems: 'center',
@@ -193,7 +194,7 @@ const Layanan = () => {
           </ul>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem', flexWrap: 'wrap' }}>
-            <p style={{ fontSize: 'clamp(1.4rem, 2.5vw, 1.8rem)', fontFamily: 'var(--font-serif)', color: '#fff', margin: 0, fontWeight: 600 }}>
+            <p style={{ fontSize: 'clamp(1.4rem, 2.5vw, 1.8rem)', fontFamily: 'var(--font-serif)', color: 'var(--color-accent)', margin: 0, fontWeight: 700 }}>
               {service.price}
             </p>
             <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
@@ -203,7 +204,7 @@ const Layanan = () => {
                   display: 'inline-block',
                   padding: '0.75rem 1.6rem',
                   border: '1px solid var(--color-accent)',
-                  color: '#000',
+                  color: '#ffffff',
                   background: 'var(--color-accent)',
                   textDecoration: 'none',
                   textTransform: 'uppercase',
@@ -211,11 +212,12 @@ const Layanan = () => {
                   fontWeight: 700,
                   letterSpacing: '0.1em',
                   borderRadius: '4px',
+                  boxShadow: 'var(--color-card-shadow)',
                   transition: 'all 0.3s ease',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = '#dfc28d';
-                  e.currentTarget.style.borderColor = '#dfc28d';
+                  e.currentTarget.style.background = 'var(--color-accent-hover)';
+                  e.currentTarget.style.borderColor = 'var(--color-accent-hover)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = 'var(--color-accent)';
@@ -233,14 +235,15 @@ const Layanan = () => {
                   alignItems: 'center',
                   gap: '0.5rem',
                   padding: '0.75rem 1.3rem',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  color: '#fff',
-                  background: 'rgba(255,255,255,0.04)',
+                  border: '1px solid var(--color-border)',
+                  color: 'var(--color-text)',
+                  background: 'var(--color-bg-card)',
                   textDecoration: 'none',
                   textTransform: 'uppercase',
                   fontSize: '0.75rem',
                   letterSpacing: '0.08em',
                   borderRadius: '4px',
+                  boxShadow: 'var(--color-card-shadow)',
                   transition: 'all 0.3s ease',
                 }}
                 onMouseEnter={(e) => {
@@ -248,8 +251,8 @@ const Layanan = () => {
                   e.currentTarget.style.color = 'var(--color-wa-light, #2fe668)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)';
-                  e.currentTarget.style.color = '#fff';
+                  e.currentTarget.style.borderColor = 'var(--color-border)';
+                  e.currentTarget.style.color = 'var(--color-text)';
                 }}
               >
                 <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '15px' }} />
@@ -279,34 +282,34 @@ const Layanan = () => {
 
   return (
     <PageTransition>
-      <div ref={containerRef} style={{ display: 'flex', flexDirection: 'column', minHeight: '200vh', background: 'var(--color-bg)' }}>
+      <div ref={containerRef} style={{ display: 'flex', flexDirection: 'column', minHeight: '200vh', background: 'var(--color-bg)', color: 'var(--color-text)', transition: 'background-color 0.4s ease, color 0.4s ease' }}>
         {/* ===== HERO HEADER WITH FADED PHOTO BACKGROUND ===== */}
         <div ref={headerRef} style={{ width: '100%', height: '100vh', position: 'absolute', top: 0, left: 0, zIndex: 0, overflow: 'hidden' }}>
           {/* Animated Background Gallery (Moves Right) */}
           <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', opacity: 0.28 }}>
             <div ref={marqueeRef} style={{ display: 'flex', gap: '2vw', whiteSpace: 'nowrap', padding: '0 1vw', willChange: 'transform' }}>
               {[...MARQUEE_IMAGES, ...MARQUEE_IMAGES].map((src, i) => (
-                <div key={i} style={{ width: '25vw', minWidth: '280px', height: '40vh', borderRadius: '4px', overflow: 'hidden', background: '#14110f' }}>
+                <div key={i} style={{ width: '25vw', minWidth: '280px', height: '40vh', borderRadius: '4px', overflow: 'hidden', background: 'var(--color-bg-card)' }}>
                   <img src={src} alt="" loading="lazy" className="faza-graded-img" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Dark Scrim Gradient Overlay */}
-          <div className="faza-scrim" style={{ background: 'radial-gradient(circle, rgba(20,17,15,0.75) 0%, rgba(14,12,10,0.96) 100%)' }} />
+          {/* Scrim Overlay */}
+          <div className="faza-scrim" />
 
           <div style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', padding: '0 1.5rem' }}>
             <p style={{ fontSize: '0.78rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--color-accent)', marginBottom: '1rem', fontWeight: 600 }}>
               FAZA STUDIO — EAST JAKARTA
             </p>
-            <h1 className="font-serif" style={{ fontSize: 'clamp(2.4rem, 5.5vw, 4.5rem)', letterSpacing: '0.04em', color: '#fff', textShadow: '0 10px 40px rgba(0,0,0,0.9)', marginBottom: '1.2rem' }}>
+            <h1 className="font-serif" style={{ fontSize: 'clamp(2.4rem, 5.5vw, 4.5rem)', letterSpacing: '0.04em', color: 'var(--color-text)', marginBottom: '1.2rem' }}>
               RATES & SERVICES
             </h1>
             <p style={{ fontSize: 'clamp(0.88rem, 1.6vw, 1.05rem)', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', maxWidth: '650px', lineHeight: 1.6 }}>
               Retail Photoshoot Packages & Professional Creative Space Solutions
             </p>
-            <div style={{ marginTop: '2rem', display: 'flex', alignItems: 'center', gap: '0.8rem', color: 'rgba(255,255,255,0.6)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 500 }}>
+            <div style={{ marginTop: '2rem', display: 'flex', alignItems: 'center', gap: '0.8rem', color: 'var(--color-text-secondary)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 500 }}>
               <span style={{ display: 'inline-block', width: '25px', height: '1px', background: 'var(--color-accent)' }} />
               Scroll to explore packages
               <span style={{ display: 'inline-block', width: '25px', height: '1px', background: 'var(--color-accent)' }} />
@@ -330,13 +333,14 @@ const Layanan = () => {
                   style={{
                     padding: '0.65rem 1.6rem',
                     borderRadius: '40px',
-                    border: activeTab === tab.id ? '1px solid var(--color-accent)' : '1px solid rgba(255,255,255,0.12)',
-                    background: activeTab === tab.id ? 'var(--color-accent)' : 'rgba(255,255,255,0.03)',
-                    color: activeTab === tab.id ? '#000' : 'rgba(255,255,255,0.85)',
+                    border: activeTab === tab.id ? '1px solid var(--color-accent)' : '1px solid var(--color-border)',
+                    background: activeTab === tab.id ? 'var(--color-accent)' : 'var(--color-bg-card)',
+                    color: activeTab === tab.id ? '#ffffff' : 'var(--color-text)',
                     fontSize: '0.82rem',
                     fontWeight: 600,
                     letterSpacing: '0.04em',
                     cursor: 'pointer',
+                    boxShadow: 'var(--color-card-shadow)',
                     transition: 'all 0.3s ease',
                     backdropFilter: 'blur(10px)',
                   }}
@@ -353,7 +357,7 @@ const Layanan = () => {
                   <span style={{ fontSize: '0.72rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--color-accent)', fontWeight: 600, display: 'block', marginBottom: '0.3rem' }}>
                     CATEGORY 01
                   </span>
-                  <h2 className="font-serif" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)', color: '#fff', margin: '0 0 0.4rem 0' }}>
+                  <h2 className="font-serif" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)', color: 'var(--color-text)', margin: '0 0 0.4rem 0' }}>
                     B2C Retail & Personal Sessions
                   </h2>
                   <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem', maxWidth: '680px', margin: 0 }}>
@@ -374,7 +378,7 @@ const Layanan = () => {
                   <span style={{ fontSize: '0.72rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--color-accent)', fontWeight: 600, display: 'block', marginBottom: '0.3rem' }}>
                     CATEGORY 02
                   </span>
-                  <h2 className="font-serif" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)', color: '#fff', margin: '0 0 0.4rem 0' }}>
+                  <h2 className="font-serif" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)', color: 'var(--color-text)', margin: '0 0 0.4rem 0' }}>
                     B2B Creative Space & Commercial Production
                   </h2>
                   <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem', maxWidth: '680px', margin: 0 }}>
@@ -392,14 +396,15 @@ const Layanan = () => {
             <div
               style={{
                 marginTop: '6rem',
-                background: 'linear-gradient(135deg, rgba(21,18,15,0.9) 0%, rgba(14,12,10,0.95) 100%)',
-                border: '1px solid rgba(201,169,110,0.2)',
+                background: 'linear-gradient(135deg, var(--color-bg-card) 0%, var(--color-bg-secondary) 100%)',
+                border: '1px solid var(--color-border-hover)',
                 borderRadius: '12px',
                 padding: 'clamp(2.5rem, 5vw, 4rem)',
                 textAlign: 'center',
+                boxShadow: 'var(--color-card-shadow)',
               }}
             >
-              <h3 className="font-serif" style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', color: '#fff', marginBottom: '0.8rem' }}>
+              <h3 className="font-serif" style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', color: 'var(--color-text)', marginBottom: '0.8rem' }}>
                 Need a Custom Production Proposal?
               </h3>
               <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem', maxWidth: '600px', margin: '0 auto 2rem', lineHeight: 1.6 }}>
