@@ -70,7 +70,7 @@ const ClientLayout = ({ children }) => {
       <WhatsAppFloating />
 
       {/* Header */}
-      <header className="header" style={{ borderBottom: '1px solid #ffffff' }}>
+      <header className="header" style={{ borderBottom: '1px solid var(--color-header-border)' }}>
         <div className="brand">
           <Link to="/" style={{ textDecoration: 'none', color: 'var(--color-brand-color, #8c6227)' }}>
             <span className="brand-text" style={{ color: 'var(--color-brand-color, #8c6227)' }}>{STUDIO_INFO.name}</span>
