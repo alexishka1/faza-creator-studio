@@ -19,14 +19,17 @@ import CustomCursor from './components/CustomCursor';
 import Footer from './components/Footer';
 import WhatsAppFloating from './components/WhatsAppFloating';
 import ScrollToTop from './components/ScrollToTop';
-import ThemeToggle from './components/ThemeToggle';
 import { STUDIO_INFO, getWhatsAppUrl } from './data/contact';
 import './index.css';
 
-// Client Layout for Public Marketing Pages (Tahap 2C: Light/Dark Mode Toggle)
+// Client Layout for Public Marketing Pages
 const ClientLayout = ({ children }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }, []);
 
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -84,8 +87,8 @@ const ClientLayout = ({ children }) => {
           <li><Link to="/tentangkami" className="nav-link" style={{ color: 'var(--color-nav-link, #8c6227)' }}>About Us</Link></li>
         </ul>
 
-        {/* Far Right Corner Controls (WhatsApp CTA + Theme Toggle Button) */}
-        <div className="desktop-actions" style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+        {/* Far Right Corner Controls (WhatsApp CTA Button) */}
+        <div className="desktop-actions" style={{ display: 'flex', alignItems: 'center' }}>
           <a
             href={getWhatsAppUrl('Hello Faza Studio, I would like to inquire about studio booking and rates.')}
             target="_blank"
@@ -119,16 +122,10 @@ const ClientLayout = ({ children }) => {
             <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '15px', color: '#fff' }} />
             Book via WhatsApp
           </a>
-          
-          {/* Light / Dark Mode Toggle button placed on the very far right */}
-          <ThemeToggle />
         </div>
 
-        {/* Mobile Header Actions (Theme Toggle + Hamburger in Top Right) */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }} className="mobile-header-actions">
-          <div className="mobile-toggle-wrapper">
-            <ThemeToggle />
-          </div>
+        {/* Mobile Header Actions (Hamburger in Top Right) */}
+        <div style={{ display: 'flex', alignItems: 'center' }} className="mobile-header-actions">
           <div className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(true)}>
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-brand-color, #8c6227)" strokeWidth="2" strokeLinecap="square">
               <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -199,7 +196,6 @@ const ClientLayout = ({ children }) => {
               <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '20px', color: '#fff' }} />
               Book via WhatsApp
             </a>
-            <ThemeToggle />
           </li>
         </ul>
       </div>
