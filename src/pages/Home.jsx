@@ -52,17 +52,7 @@ const Home = () => {
     ScrollTrigger.getAll().forEach((t) => t.kill());
 
     const ctx = gsap.context(() => {
-      // 1. Studio Gallery Marquee - Moves to the RIGHT (Tahap 2B requirement)
-      if (marqueeInnerRef.current) {
-        gsap.to(marqueeInnerRef.current, {
-          xPercent: 50, // Positive translation slides towards the RIGHT
-          ease: 'none',
-          duration: 38,
-          repeat: -1,
-        });
-      }
-
-      // 2. Animate Section Headers
+      // 1. Animate Section Headers
       gsap.utils.toArray('.reveal-header').forEach((el) => {
         gsap.fromTo(
           el,
@@ -470,17 +460,14 @@ const Home = () => {
           </div>
 
           {/* Continuous Right-Moving Marquee */}
-          <div style={{ width: '100%', overflow: 'hidden', display: 'flex' }}>
-            <div
-              ref={marqueeInnerRef}
-              style={{
-                display: 'flex',
-                gap: '1.5rem',
-                width: 'max-content',
-                willChange: 'transform',
-              }}
-            >
-              {[...MARQUEE_STUDIO_IMAGES, ...MARQUEE_STUDIO_IMAGES, ...MARQUEE_STUDIO_IMAGES].map((img, i) => (
+          <div className="marquee-container-wrapper">
+            <div className="marquee-track-right">
+              {[
+                ...MARQUEE_STUDIO_IMAGES,
+                ...MARQUEE_STUDIO_IMAGES,
+                ...MARQUEE_STUDIO_IMAGES,
+                ...MARQUEE_STUDIO_IMAGES,
+              ].map((img, i) => (
                 <div
                   key={i}
                   style={{
