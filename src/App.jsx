@@ -76,53 +76,57 @@ const ClientLayout = ({ children }) => {
             <span className="brand-text" style={{ color: 'var(--color-brand-color, #8c6227)' }}>{STUDIO_INFO.name}</span>
           </Link>
         </div>
+        {/* Desktop Nav Links */}
         <ul className="nav-links desktop-nav">
           <li><Link to="/" className="nav-link" style={{ color: 'var(--color-nav-link, #8c6227)' }}>Home</Link></li>
           <li><Link to="/layanan" className="nav-link" style={{ color: 'var(--color-nav-link, #8c6227)' }}>Rates & Services</Link></li>
           <li><Link to="/karya" className="nav-link" style={{ color: 'var(--color-nav-link, #8c6227)' }}>Portfolio</Link></li>
           <li><Link to="/tentangkami" className="nav-link" style={{ color: 'var(--color-nav-link, #8c6227)' }}>About Us</Link></li>
-          <li style={{ display: 'inline-flex', alignItems: 'center', gap: '0.8rem' }}>
-            <a
-              href={getWhatsAppUrl('Hello Faza Studio, I would like to inquire about studio booking and rates.')}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-wa-nav"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                padding: '0.6rem 1.3rem',
-                background: 'var(--color-wa-gradient, linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%))',
-                color: '#fff',
-                textDecoration: 'none',
-                borderRadius: '30px',
-                border: '1px solid rgba(255, 255, 255, 0.25)',
-                fontSize: '0.8rem',
-                fontWeight: 600,
-                letterSpacing: '0.04em',
-                boxShadow: '0 4px 18px var(--color-wa-glow, rgba(36, 215, 87, 0.45))',
-                transition: 'all 0.3s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 6px 24px var(--color-wa-glow-strong, rgba(46, 230, 107, 0.65))';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 18px var(--color-wa-glow, rgba(36, 215, 87, 0.45))';
-              }}
-            >
-              <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '15px', color: '#fff' }} />
-              Book via WhatsApp
-            </a>
-            {/* Theme Toggle Button next to WhatsApp button */}
-            <ThemeToggle />
-          </li>
         </ul>
 
-        {/* Mobile Header Actions (Theme Toggle + Hamburger) */}
+        {/* Far Right Corner Controls (WhatsApp CTA + Theme Toggle Button) */}
+        <div className="desktop-actions" style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+          <a
+            href={getWhatsAppUrl('Hello Faza Studio, I would like to inquire about studio booking and rates.')}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-wa-nav"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              padding: '0.6rem 1.3rem',
+              background: 'var(--color-wa-gradient, linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%))',
+              color: '#fff',
+              textDecoration: 'none',
+              borderRadius: '30px',
+              border: '1px solid rgba(255, 255, 255, 0.25)',
+              fontSize: '0.8rem',
+              fontWeight: 600,
+              letterSpacing: '0.04em',
+              boxShadow: '0 4px 18px var(--color-wa-glow, rgba(36, 215, 87, 0.45))',
+              transition: 'all 0.3s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 6px 24px var(--color-wa-glow-strong, rgba(46, 230, 107, 0.65))';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 4px 18px var(--color-wa-glow, rgba(36, 215, 87, 0.45))';
+            }}
+          >
+            <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '15px', color: '#fff' }} />
+            Book via WhatsApp
+          </a>
+          
+          {/* Light / Dark Mode Toggle button placed on the very far right */}
+          <ThemeToggle />
+        </div>
+
+        {/* Mobile Header Actions (Theme Toggle + Hamburger in Top Right) */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }} className="mobile-header-actions">
-          <div className="mobile-toggle-wrapper" style={{ display: 'none' }}>
+          <div className="mobile-toggle-wrapper">
             <ThemeToggle />
           </div>
           <div className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(true)}>
