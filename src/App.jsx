@@ -70,17 +70,17 @@ const ClientLayout = ({ children }) => {
       <WhatsAppFloating />
 
       {/* Header */}
-      <header className="header">
+      <header className="header" style={{ borderBottom: '1px solid #ffffff' }}>
         <div className="brand">
-          <Link to="/" style={{ textDecoration: 'none', color: 'var(--color-brand-color)' }}>
-            <span className="brand-text">{STUDIO_INFO.name}</span>
+          <Link to="/" style={{ textDecoration: 'none', color: 'var(--color-brand-color, #8c6227)' }}>
+            <span className="brand-text" style={{ color: 'var(--color-brand-color, #8c6227)' }}>{STUDIO_INFO.name}</span>
           </Link>
         </div>
         <ul className="nav-links desktop-nav">
-          <li><Link to="/" className="nav-link">Home</Link></li>
-          <li><Link to="/layanan" className="nav-link">Rates & Services</Link></li>
-          <li><Link to="/karya" className="nav-link">Portfolio</Link></li>
-          <li><Link to="/tentangkami" className="nav-link">About Us</Link></li>
+          <li><Link to="/" className="nav-link" style={{ color: 'var(--color-nav-link, #8c6227)' }}>Home</Link></li>
+          <li><Link to="/layanan" className="nav-link" style={{ color: 'var(--color-nav-link, #8c6227)' }}>Rates & Services</Link></li>
+          <li><Link to="/karya" className="nav-link" style={{ color: 'var(--color-nav-link, #8c6227)' }}>Portfolio</Link></li>
+          <li><Link to="/tentangkami" className="nav-link" style={{ color: 'var(--color-nav-link, #8c6227)' }}>About Us</Link></li>
           <li style={{ display: 'inline-flex', alignItems: 'center', gap: '0.8rem' }}>
             <a
               href={getWhatsAppUrl('Hello Faza Studio, I would like to inquire about studio booking and rates.')}
@@ -126,7 +126,7 @@ const ClientLayout = ({ children }) => {
             <ThemeToggle />
           </div>
           <div className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(true)}>
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" strokeWidth="2" strokeLinecap="square">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-brand-color, #8c6227)" strokeWidth="2" strokeLinecap="square">
               <line x1="3" y1="12" x2="21" y2="12"></line>
               <line x1="3" y1="6" x2="21" y2="6"></line>
               <line x1="3" y1="18" x2="21" y2="18"></line>
