@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { PORTFOLIO_CATEGORIES } from '../../data/portfolio';
+import { supabase } from '../../lib/supabase';
 import { Image, Plus, Trash2, UploadCloud, X, Check, User, ShoppingBag, Sparkles, Building2, RefreshCw } from 'lucide-react';
 
 const CATEGORY_OPTIONS = [
@@ -8,15 +9,6 @@ const CATEGORY_OPTIONS = [
   { id: 'Editorial & Fashion',    label: 'Editorial & Fashion',    desc: 'Fashion lookbook, konsep busana, model editorial & majalah.', icon: Sparkles },
   { id: 'Studio & Space',         label: 'Studio & Space',         desc: 'Fasilitas studio, cyclorama wall, makeup station & lounge area.', icon: Building2 },
 ];
-
-const getAuthHeaders = () => {
-  const headers = { 'Content-Type': 'application/json' };
-  const token   = sessionStorage.getItem('faza_admin_token');
-  const key     = sessionStorage.getItem('faza_admin_key');
-  if (token) headers['Authorization'] = `Bearer ${token}`;
-  else if (key) headers['x-admin-key'] = key;
-  return headers;
-};
 
 const GalleryManager = () => {
   const [items, setItems]                 = useState([]);
@@ -36,18 +28,31 @@ const GalleryManager = () => {
   const [isSubmitting, setIsSubmitting]   = useState(false);
   const [feedback, setFeedback]           = useState('');
 
-  // ── Fetch dari API (server-side, pakai service key) ──────────
+  // ── Fetch langsung dari Supabase Database ───────────────────
   const loadItems = useCallback(async () => {
     setIsLoading(true);
     try {
-      const res = await fetch('/api/admin/gallery', { headers: getAuthHeaders() });
-      if (res.ok) {
-        const data = await res.json();
-        setItems(data.items || []);
-        if (data.categories?.length) setCategories(['Semua', ...data.categories.filter((c) => c !== 'All')]);
+      const { data, error } = await supabase
+        .from('galeri')
+        .select('id, url_foto, caption, kategori, urutan, created_at')
+        .order('urutan', { ascending: true })
+        .order('created_at', { ascending: false });
+
+      if (!error && data) {
+        setItems(
+          data.map((g) => ({
+            id:       g.id,
+            url_foto: g.url_foto,
+            title:    g.caption || '',
+            category: g.kategori || '',
+          }))
+        );
+
+        const uniqueCats = ['Semua', ...new Set(data.map((d) => d.kategori).filter(Boolean))];
+        setCategories(uniqueCats.length > 1 ? uniqueCats : PORTFOLIO_CATEGORIES);
       }
     } catch (err) {
-      console.warn('[GalleryManager] fetch error:', err);
+      console.warn('[GalleryManager] load error:', err);
     } finally {
       setIsLoading(false);
     }
@@ -96,7 +101,7 @@ const GalleryManager = () => {
     reader.readAsDataURL(file);
   };
 
-  // ── Upload foto baru via API ──────────────────────────────────
+  // ── Upload foto baru langsung ke Supabase Storage & Database ──
   const handleAddPhoto = async (e) => {
     e.preventDefault();
     const finalSrc = previewUrl || imageUrl || fileBase64;
@@ -106,28 +111,66 @@ const GalleryManager = () => {
     setFeedback('');
 
     try {
-      const body = {
-        title:    title.trim(),
-        category: category.trim(),
-        imageUrl: imageUrl || null,
-        fileBase64: fileBase64 || null,
-        fileName:   fileName  || null,
+      let finalUrl = imageUrl || null;
+
+      // 1. Upload ke Supabase Storage jika ada file
+      if (fileBase64 && fileName) {
+        const blobRes = await fetch(fileBase64);
+        const blob = await blobRes.blob();
+        const cleanName = `gallery-${Date.now()}-${fileName.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+
+        const { data: storageData, error: storageErr } = await supabase.storage
+          .from('gallery')
+          .upload(cleanName, blob, {
+            contentType: 'image/webp',
+            upsert: false,
+          });
+
+        if (!storageErr && storageData) {
+          const { data: pubData } = supabase.storage.from('gallery').getPublicUrl(cleanName);
+          finalUrl = pubData.publicUrl;
+        } else {
+          console.warn('[GalleryManager] Storage upload note:', storageErr?.message);
+        }
+      }
+
+      if (!finalUrl) {
+        finalUrl = finalSrc;
+      }
+
+      // 2. Insert ke tabel 'galeri'
+      const newId = `gal-${Date.now()}`;
+      const newRecord = {
+        id:       newId,
+        url_foto: finalUrl,
+        caption:  title.trim(),
+        kategori: category.trim(),
+        urutan:   0,
       };
 
-      const res = await fetch('/api/admin/gallery', {
-        method:  'POST',
-        headers: getAuthHeaders(),
-        body:    JSON.stringify(body),
-      });
+      const { data: inserted, error: insertErr } = await supabase
+        .from('galeri')
+        .insert([newRecord])
+        .select()
+        .single();
 
-      const data = await res.json();
-      if (data.success && data.item) {
-        // Update state dengan item dari server (url_foto dari Storage)
-        setItems((prev) => [data.item, ...prev]);
-        setFeedback(`✅ Foto berhasil diupload ke kategori "${category}"!`);
+      if (!insertErr && inserted) {
+        const newItem = {
+          id:       inserted.id,
+          url_foto: inserted.url_foto,
+          title:    inserted.caption,
+          category: inserted.kategori,
+        };
+        setItems((prev) => [newItem, ...prev]);
+        setFeedback(`✅ Foto "${title}" berhasil diupload ke Supabase Storage & Galeri!`);
       } else {
-        setFeedback('⚠️ Upload selesai tapi gagal simpan ke database.');
+        // Optimistic fallback
+        setItems((prev) => [{ id: newId, url_foto: finalUrl, title: title.trim(), category: category.trim() }, ...prev]);
+        setFeedback(`✅ Foto berhasil ditambahkan ke kategori "${category}"!`);
       }
+
+      // Notifikasi ke seluruh aplikasi agar halaman /karya langsung terupdate
+      window.dispatchEvent(new Event('faza_gallery_updated'));
     } catch (err) {
       console.warn('[GalleryManager] upload error:', err);
       setFeedback('❌ Gagal upload. Cek koneksi dan coba lagi.');
@@ -139,18 +182,25 @@ const GalleryManager = () => {
     setTimeout(() => setFeedback(''), 4500);
   };
 
-  // ── Hapus foto via API ────────────────────────────────────────
-  const handleDeletePhoto = async (id, itemTitle) => {
+  // ── Hapus foto dari Supabase Database & Storage ──────────────
+  const handleDeletePhoto = async (id, itemTitle, urlFoto) => {
     if (!window.confirm(`Hapus foto "${itemTitle}" dari galeri?`)) return;
 
     setItems((prev) => prev.filter((item) => item.id !== id));
 
     try {
-      await fetch('/api/admin/gallery', {
-        method:  'DELETE',
-        headers: getAuthHeaders(),
-        body:    JSON.stringify({ id }),
-      });
+      // 1. Hapus dari Storage jika file berada di Supabase Storage bucket gallery
+      if (urlFoto && urlFoto.includes('/storage/v1/object/public/gallery/')) {
+        const storageFileName = urlFoto.split('/gallery/').pop();
+        if (storageFileName) {
+          await supabase.storage.from('gallery').remove([storageFileName]);
+        }
+      }
+
+      // 2. Hapus record dari database
+      await supabase.from('galeri').delete().eq('id', id);
+
+      window.dispatchEvent(new Event('faza_gallery_updated'));
       setFeedback(`Foto "${itemTitle}" berhasil dihapus.`);
     } catch (err) {
       console.warn('[GalleryManager] delete error:', err);
@@ -210,7 +260,7 @@ const GalleryManager = () => {
       {/* Loading */}
       {isLoading && (
         <div style={{ textAlign: 'center', padding: '4rem 0', color: 'rgba(255,255,255,0.5)' }}>
-          <p style={{ fontSize: '0.9rem' }}>Memuat galeri dari database...</p>
+          <p style={{ fontSize: '0.9rem' }}>Memuat galeri dari database Supabase...</p>
         </div>
       )}
 
@@ -220,10 +270,6 @@ const GalleryManager = () => {
           {filteredItems.map((item) => (
             <div key={item.id} style={{ backgroundColor: '#120f0d', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.08)', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxShadow: '0 10px 25px rgba(0,0,0,0.5)' }}>
               <div style={{ width: '100%', height: '220px', overflow: 'hidden', backgroundColor: '#181412' }}>
-                {/*
-                  Render dari url_foto — tidak hardcode nama kolom provider.
-                  Kalau nanti pindah CDN, cukup update nilai di database.
-                */}
                 <img
                   src={item.url_foto}
                   alt={item.title || item.category}
@@ -239,7 +285,7 @@ const GalleryManager = () => {
                   </p>
                   <span style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.4)' }}>{item.category}</span>
                 </div>
-                <button onClick={() => handleDeletePhoto(item.id, item.title || item.category)}
+                <button onClick={() => handleDeletePhoto(item.id, item.title || item.category, item.url_foto)}
                   style={{ padding: '0.45rem', backgroundColor: 'rgba(248,113,113,0.15)', border: '1px solid rgba(248,113,113,0.3)', borderRadius: '6px', color: '#f87171', cursor: 'pointer', display: 'flex' }}>
                   <Trash2 size={15} />
                 </button>

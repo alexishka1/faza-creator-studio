@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { B2C_SERVICES, B2B_SERVICES } from '../data/services';
 import { getWhatsAppUrl } from '../data/contact';
+import { supabase } from '../lib/supabase';
 import '../index.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -31,17 +32,39 @@ const Layanan = () => {
   const [b2cServices, setB2cServices] = useState(B2C_SERVICES);
   const [b2bServices, setB2bServices] = useState(B2B_SERVICES);
 
-  // Fetch latest packages from Database (with static instant fallback)
+  // Fetch latest packages from Supabase Database (with instant static fallback)
   useEffect(() => {
-    fetch('/api/packages')
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (data && data.b2c && data.b2b) {
-          setB2cServices(data.b2c);
-          setB2bServices(data.b2b);
+    const fetchPackages = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('paket')
+          .select('*')
+          .eq('status', 'aktif')
+          .order('urutan', { ascending: true });
+
+        if (!error && data && data.length > 0) {
+          const mapItem = (p) => ({
+            id:       p.id,
+            title:    p.nama,
+            subtitle: p.subtitle || '',
+            price:    p.harga,
+            tag:      p.tag || '',
+            desc:     p.deskripsi || '',
+            features: p.fitur || [],
+            url_foto: p.url_foto || null,
+          });
+
+          const b2c = data.filter((p) => p.kategori === 'b2c').map(mapItem);
+          const b2b = data.filter((p) => p.kategori === 'b2b').map(mapItem);
+          if (b2c.length > 0) setB2cServices(b2c);
+          if (b2b.length > 0) setB2bServices(b2b);
         }
-      })
-      .catch((err) => console.warn('Fetch packages error:', err));
+      } catch (err) {
+        console.warn('[Layanan] Supabase fetch note:', err);
+      }
+    };
+
+    fetchPackages();
   }, []);
 
   useEffect(() => {

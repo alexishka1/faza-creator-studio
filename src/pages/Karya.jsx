@@ -3,8 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import PageTransition from '../components/PageTransition';
-import { PORTFOLIO_CATEGORIES } from '../data/portfolio';
+import { PORTFOLIO_ITEMS, PORTFOLIO_CATEGORIES } from '../data/portfolio';
 import { getWhatsAppUrl } from '../data/contact';
+import { supabase } from '../lib/supabase';
 import '../index.css';
 
 // Skeleton placeholder untuk loading state
@@ -36,22 +37,50 @@ const Karya = () => {
   const [loading, setLoading]         = useState(true);
   const [error, setError]             = useState(null);
 
-  // Fetch dari /api/gallery — server-side, pakai service key, tidak expose ke client
-  const loadGallery = async (cat = 'All') => {
+  // Fetch dari Supabase database langsung via Supabase client
+  const loadGallery = async () => {
     setLoading(true);
     setError(null);
     try {
-      const params = cat !== 'All' ? `?category=${encodeURIComponent(cat)}` : '';
-      const res = await fetch(`/api/gallery${params}`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
+      const { data, error: dbError } = await supabase
+        .from('galeri')
+        .select('id, url_foto, caption, kategori, urutan')
+        .order('urutan', { ascending: true })
+        .order('created_at', { ascending: false });
 
-      // Komponen tidak perlu tahu dari mana URL berasal — cukup url_foto
-      setGalleryItems(data.items || []);
-      if (data.categories?.length) setCategories(data.categories);
+      if (!dbError && data && data.length > 0) {
+        setGalleryItems(
+          data.map((g) => ({
+            id: g.id,
+            url_foto: g.url_foto,
+            title: g.caption || '',
+            category: g.kategori || 'Studio & Space',
+          }))
+        );
+
+        const uniqueCats = ['All', ...new Set(data.map((d) => d.kategori).filter(Boolean))];
+        setCategories(uniqueCats.length > 1 ? uniqueCats : PORTFOLIO_CATEGORIES);
+      } else {
+        // Fallback to static portfolio if DB empty
+        setGalleryItems(
+          PORTFOLIO_ITEMS.map((item) => ({
+            id: item.id,
+            url_foto: item.desktopSrc,
+            title: item.title,
+            category: item.category,
+          }))
+        );
+      }
     } catch (err) {
-      console.warn('[Karya] fetch error:', err.message);
-      setError('Gagal memuat galeri. Coba lagi sebentar.');
+      console.warn('[Karya] Supabase load note:', err);
+      setGalleryItems(
+        PORTFOLIO_ITEMS.map((item) => ({
+          id: item.id,
+          url_foto: item.desktopSrc,
+          title: item.title,
+          category: item.category,
+        }))
+      );
     } finally {
       setLoading(false);
     }
@@ -59,6 +88,10 @@ const Karya = () => {
 
   useEffect(() => {
     loadGallery();
+
+    const handleUpdate = () => loadGallery();
+    window.addEventListener('faza_gallery_updated', handleUpdate);
+    return () => window.removeEventListener('faza_gallery_updated', handleUpdate);
   }, []);
 
   const handleFilterChange = (cat) => {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { B2C_SERVICES, B2B_SERVICES } from '../../data/services';
+import { supabase } from '../../lib/supabase';
 import { Package, Tag, Check, Edit2, Save, X, RefreshCw } from 'lucide-react';
 
 const ServiceManager = () => {
@@ -10,25 +11,33 @@ const ServiceManager = () => {
   const [feedback, setFeedback] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const getAuthHeaders = () => {
-    const headers = { 'Content-Type': 'application/json' };
-    const savedToken = sessionStorage.getItem('faza_admin_token');
-    const savedKey = sessionStorage.getItem('faza_admin_key');
-    if (savedToken) headers['Authorization'] = `Bearer ${savedToken}`;
-    else if (savedKey) headers['x-admin-key'] = savedKey;
-    return headers;
-  };
-
   const fetchPackages = async () => {
     try {
-      const res = await fetch('/api/packages');
-      if (res.ok) {
-        const data = await res.json();
-        if (data.b2c) setB2c(data.b2c);
-        if (data.b2b) setB2b(data.b2b);
+      const { data, error } = await supabase
+        .from('paket')
+        .select('*')
+        .order('urutan', { ascending: true });
+
+      if (!error && data && data.length > 0) {
+        const mapItem = (p) => ({
+          id:       p.id,
+          title:    p.nama,
+          subtitle: p.subtitle || '',
+          price:    p.harga,
+          tag:      p.tag || '',
+          desc:     p.deskripsi || '',
+          features: p.fitur || [],
+          url_foto: p.url_foto || null,
+          status:   p.status === 'aktif' ? 'Tersedia' : 'Penuh / Sold Out',
+        });
+
+        const b2cList = data.filter((p) => p.kategori === 'b2c').map(mapItem);
+        const b2bList = data.filter((p) => p.kategori === 'b2b').map(mapItem);
+        if (b2cList.length > 0) setB2c(b2cList);
+        if (b2bList.length > 0) setB2b(b2bList);
       }
     } catch (err) {
-      console.warn('Fetch packages error:', err);
+      console.warn('[ServiceManager] Supabase fetch error:', err);
     }
   };
 
@@ -38,6 +47,7 @@ const ServiceManager = () => {
 
   const handleToggleStatus = async (type, item) => {
     const nextStatus = item.status === 'Tersedia' ? 'Penuh / Sold Out' : 'Tersedia';
+    const dbStatus = nextStatus === 'Tersedia' ? 'aktif' : 'nonaktif';
     
     // Optimistic UI update
     if (type === 'b2c') {
@@ -47,11 +57,10 @@ const ServiceManager = () => {
     }
 
     try {
-      await fetch('/api/admin/packages', {
-        method: 'PATCH',
-        headers: getAuthHeaders(),
-        body: JSON.stringify({ id: item.id, status: nextStatus }),
-      });
+      await supabase
+        .from('paket')
+        .update({ status: dbStatus, updated_at: new Date().toISOString() })
+        .eq('id', item.id);
       setFeedback(`Status ${item.title} diubah menjadi "${nextStatus}".`);
     } catch (e) {
       setFeedback(`Status ${item.title} berhasil diubah.`);
@@ -68,11 +77,10 @@ const ServiceManager = () => {
     setB2b((prev) => prev.map((p) => (p.id === item.id ? { ...p, price: editPrice } : p)));
 
     try {
-      await fetch('/api/admin/packages', {
-        method: 'PATCH',
-        headers: getAuthHeaders(),
-        body: JSON.stringify({ id: item.id, price: editPrice }),
-      });
+      await supabase
+        .from('paket')
+        .update({ harga: editPrice, updated_at: new Date().toISOString() })
+        .eq('id', item.id);
       setFeedback(`Harga ${item.title} berhasil diperbarui menjadi ${editPrice}.`);
     } catch (e) {
       setFeedback(`Harga ${item.title} berhasil diperbarui.`);
