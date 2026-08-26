@@ -106,9 +106,7 @@ const Layanan = () => {
         <div style={{ flex: '1 1 340px', position: 'relative' }}>
           <div style={{ width: '100%', aspectRatio: '4/5', overflow: 'hidden', borderRadius: '8px', boxShadow: 'var(--color-card-shadow)', background: 'var(--color-bg-card)' }}>
             <img
-              src={service.desktopImg}
-              srcSet={`${service.mobileImg} 800w, ${service.desktopImg} 1600w`}
-              sizes="(max-width: 768px) 90vw, 45vw"
+              src={service.url_foto || service.desktopImg}
               alt={service.title}
               loading="lazy"
               className="faza-graded-img"

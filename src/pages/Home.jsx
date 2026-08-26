@@ -46,6 +46,21 @@ const Home = () => {
   const marqueeInnerRef = useRef(null);
   const pricingRef = useRef(null);
   const [activeTab, setActiveTab] = useState('all'); // 'all' | 'b2c' | 'b2b'
+  const [b2cServices, setB2cServices] = useState(B2C_SERVICES);
+  const [b2bServices, setB2bServices] = useState(B2B_SERVICES);
+
+  // Fetch packages from Supabase API (fallback to static)
+  useEffect(() => {
+    fetch('/api/packages')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data && data.b2c && data.b2b) {
+          setB2cServices(data.b2c);
+          setB2bServices(data.b2b);
+        }
+      })
+      .catch((err) => console.warn('Fetch packages error:', err));
+  }, []);
 
   useEffect(() => {
     // Kill existing ScrollTriggers to prevent duplicate instances
@@ -217,7 +232,7 @@ const Home = () => {
                     gap: '1.8rem',
                   }}
                 >
-                  {B2C_SERVICES.map((s, idx) => (
+                  {b2cServices.map((s, idx) => (
                     <div
                       key={s.id}
                       className="pricing-card-anim"
@@ -247,7 +262,7 @@ const Home = () => {
                         {/* Image Thumbnail — 16/10 aspect-ratio with cover fit */}
                         <div className="pricing-thumb">
                           <img
-                            src={s.desktopImg}
+                            src={s.url_foto || s.desktopImg}
                             alt={s.title}
                             loading="lazy"
                             className="faza-graded-img"
@@ -337,7 +352,7 @@ const Home = () => {
                     gap: '1.8rem',
                   }}
                 >
-                  {B2B_SERVICES.map((s, idx) => (
+                  {b2bServices.map((s, idx) => (
                     <div
                       key={s.id}
                       className="pricing-card-anim"
@@ -367,7 +382,7 @@ const Home = () => {
                         {/* Image Thumbnail — 16/10 aspect-ratio with cover fit */}
                         <div className="pricing-thumb">
                           <img
-                            src={s.desktopImg}
+                            src={s.url_foto || s.desktopImg}
                             alt={s.title}
                             loading="lazy"
                             className="faza-graded-img"
