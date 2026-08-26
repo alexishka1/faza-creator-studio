@@ -3,66 +3,62 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import PageTransition from '../components/PageTransition';
-import { PORTFOLIO_ITEMS, PORTFOLIO_CATEGORIES } from '../data/portfolio';
+import { PORTFOLIO_CATEGORIES } from '../data/portfolio';
 import { getWhatsAppUrl } from '../data/contact';
-import { supabase } from '../lib/supabase';
 import '../index.css';
 
+// Skeleton placeholder untuk loading state
+const GallerySkeleton = () => (
+  <div className="masonry-grid" style={{ maxWidth: '1440px', margin: '0 auto' }}>
+    {Array.from({ length: 8 }).map((_, i) => (
+      <div
+        key={i}
+        style={{
+          marginBottom: '1.8rem',
+          breakInside: 'avoid',
+          borderRadius: '8px',
+          overflow: 'hidden',
+          background: 'var(--color-bg-card)',
+          border: '1px solid var(--color-border)',
+          aspectRatio: i % 3 === 0 ? '3/4' : i % 2 === 0 ? '4/5' : '1/1',
+          animation: 'pulse 1.5s ease-in-out infinite',
+        }}
+      />
+    ))}
+  </div>
+);
+
 const Karya = () => {
-  const [filter, setFilter] = useState('All');
+  const [filter, setFilter]           = useState('All');
   const [selectedImg, setSelectedImg] = useState(null);
-  const [galleryItems, setGalleryItems] = useState(PORTFOLIO_ITEMS);
+  const [galleryItems, setGalleryItems] = useState([]);
+  const [categories, setCategories]   = useState(PORTFOLIO_CATEGORIES);
+  const [loading, setLoading]         = useState(true);
+  const [error, setError]             = useState(null);
 
-  const loadGallery = async () => {
-    let localCustom = [];
+  // Fetch dari /api/gallery — server-side, pakai service key, tidak expose ke client
+  const loadGallery = async (cat = 'All') => {
+    setLoading(true);
+    setError(null);
     try {
-      const saved = localStorage.getItem('faza_custom_gallery');
-      if (saved) localCustom = JSON.parse(saved);
-    } catch (e) {
-      console.warn('LocalStorage error:', e);
+      const params = cat !== 'All' ? `?category=${encodeURIComponent(cat)}` : '';
+      const res = await fetch(`/api/gallery${params}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+
+      // Komponen tidak perlu tahu dari mana URL berasal — cukup url_foto
+      setGalleryItems(data.items || []);
+      if (data.categories?.length) setCategories(data.categories);
+    } catch (err) {
+      console.warn('[Karya] fetch error:', err.message);
+      setError('Gagal memuat galeri. Coba lagi sebentar.');
+    } finally {
+      setLoading(false);
     }
-
-    let dbItems = [];
-    try {
-      const { data, error } = await supabase
-        .from('galeri')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (!error && data && data.length > 0) {
-        dbItems = data.map((g) => ({
-          id: g.id,
-          title: g.title,
-          category: g.category,
-          desktopSrc: g.desktop_src,
-          mobileSrc: g.mobile_src,
-        }));
-      }
-    } catch (e) {
-      console.warn('Supabase error:', e);
-    }
-
-    const combined = [...dbItems];
-    localCustom.forEach((loc) => {
-      if (!combined.some((c) => c.id === loc.id)) {
-        combined.push(loc);
-      }
-    });
-
-    const finalMerged = [
-      ...combined,
-      ...PORTFOLIO_ITEMS.filter((def) => !combined.some((c) => String(c.id) === String(def.id))),
-    ];
-
-    setGalleryItems(finalMerged);
   };
 
   useEffect(() => {
     loadGallery();
-
-    const handleUpdate = () => loadGallery();
-    window.addEventListener('faza_gallery_updated', handleUpdate);
-    return () => window.removeEventListener('faza_gallery_updated', handleUpdate);
   }, []);
 
   const handleFilterChange = (cat) => {
@@ -88,21 +84,22 @@ const Karya = () => {
   return (
     <PageTransition>
       <div style={{ background: 'var(--color-bg)', color: 'var(--color-text)', minHeight: '100vh', paddingTop: '12vh', transition: 'background-color 0.4s ease, color 0.4s ease' }}>
+
         {/* Header Section */}
-        <section style={{ textAlign: 'center', marginBottom: '3rem', padding: '0 6%' }}>
+        <section style={{ textAlign: 'center', marginBottom: '3rem', padding: '0 clamp(1.25rem, 6%, 7rem)' }}>
           <p style={{ fontSize: '0.78rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--color-accent)', marginBottom: '0.8rem', fontWeight: 600 }}>
             ● CURATED WORKS & PORTFOLIO
           </p>
-          <h1 className="font-serif" style={{ fontSize: 'clamp(2.4rem, 5vw, 4.5rem)', marginBottom: '1rem', letterSpacing: '0.04em', color: 'var(--color-text)' }}>
+          <h1 className="font-serif" style={{ fontSize: 'clamp(2.4rem, 5vw, 4.5rem)', marginBottom: '1rem', letterSpacing: '-0.01em', color: 'var(--color-text)' }}>
             PORTFOLIO
           </h1>
-          <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.95rem', maxWidth: '620px', margin: '0 auto 2.2rem', lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.95rem', maxWidth: '620px', margin: '0 auto 2.2rem', lineHeight: 1.7 }}>
             A curated showcase of commercial campaigns, fashion lookbooks, executive portraits, and creative space ambiance at Faza Studio East Jakarta.
           </p>
 
-          {/* Filter Buttons */}
+          {/* Filter Buttons — dari database, bukan hardcode */}
           <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '0.6rem' }}>
-            {PORTFOLIO_CATEGORIES.map((cat) => (
+            {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => handleFilterChange(cat)}
@@ -128,66 +125,107 @@ const Karya = () => {
         </section>
 
         {/* Masonry Gallery Section */}
-        <section id="portfolio-grid" style={{ padding: '0 6% 7rem 6%' }}>
-          <motion.div layout className="masonry-grid" style={{ maxWidth: '1400px', margin: '0 auto' }}>
-            <AnimatePresence>
-              {filteredData.map((item) => (
-                <motion.div
-                  layout
-                  initial={{ opacity: 0, scale: 0.92 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.92 }}
-                  transition={{ duration: 0.35 }}
-                  key={item.id}
-                  className="gallery-item"
-                  onClick={() => setSelectedImg(item)}
-                  style={{
-                    position: 'relative',
-                    marginBottom: '1.8rem',
-                    breakInside: 'avoid',
-                    overflow: 'hidden',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    boxShadow: 'var(--color-card-shadow)',
-                    background: 'var(--color-bg-card)',
-                    border: '1px solid var(--color-border)',
-                  }}
-                >
-                  <img
-                    src={item.desktopSrc}
-                    srcSet={`${item.mobileSrc} 800w, ${item.desktopSrc} 1600w`}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    alt={item.title}
-                    loading="lazy"
-                    className="faza-graded-img"
+        <section id="portfolio-grid" style={{ padding: '0 clamp(1.25rem, 6%, 7rem) 7rem' }}>
+
+          {/* Loading skeleton */}
+          {loading && <GallerySkeleton />}
+
+          {/* Error state */}
+          {!loading && error && (
+            <div style={{ textAlign: 'center', padding: '4rem 0', color: 'var(--color-text-secondary)' }}>
+              <p style={{ fontSize: '0.95rem', marginBottom: '1rem' }}>{error}</p>
+              <button
+                onClick={() => loadGallery()}
+                style={{
+                  padding: '0.7rem 1.8rem',
+                  borderRadius: '30px',
+                  border: '1px solid var(--color-border)',
+                  background: 'var(--color-bg-card)',
+                  color: 'var(--color-text)',
+                  cursor: 'pointer',
+                  fontSize: '0.82rem',
+                  fontWeight: 600,
+                }}
+              >
+                Coba Lagi
+              </button>
+            </div>
+          )}
+
+          {/* Gallery grid */}
+          {!loading && !error && (
+            <motion.div layout className="masonry-grid" style={{ maxWidth: '1440px', margin: '0 auto' }}>
+              <AnimatePresence>
+                {filteredData.map((item) => (
+                  <motion.div
+                    layout
+                    initial={{ opacity: 0, scale: 0.92 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.92 }}
+                    transition={{ duration: 0.35 }}
+                    key={item.id}
+                    className="gallery-item"
+                    onClick={() => setSelectedImg(item)}
                     style={{
-                      width: '100%',
-                      display: 'block',
-                    }}
-                  />
-                  <div
-                    style={{
-                      position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      width: '100%',
-                      padding: '2.5rem 1.4rem 1.2rem',
-                      background: 'linear-gradient(to top, rgba(14,12,10,0.92) 0%, transparent 100%)',
+                      position: 'relative',
+                      marginBottom: '1.8rem',
+                      breakInside: 'avoid',
+                      overflow: 'hidden',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      boxShadow: 'var(--color-card-shadow)',
+                      background: 'var(--color-bg-card)',
+                      border: '1px solid var(--color-border)',
                     }}
                   >
-                    <h3 className="font-serif" style={{ fontSize: '1.15rem', marginBottom: '0.2rem', color: '#ffffff' }}>
-                      {item.title}
-                    </h3>
-                    <p style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--color-accent)', fontWeight: 600, margin: 0 }}>
-                      {item.category}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
+                    {/*
+                      Hanya baca item.url_foto — tidak hardcode nama kolom provider.
+                      Kalau nanti pindah storage, cukup ganti nilai URL di database.
+                    */}
+                    <img
+                      src={item.url_foto}
+                      alt={item.title || item.category}
+                      loading="lazy"
+                      decoding="async"
+                      className="faza-graded-img"
+                      style={{ width: '100%', display: 'block' }}
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                      }}
+                    />
+                    <div
+                      style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        width: '100%',
+                        padding: '2.5rem 1.4rem 1.2rem',
+                        background: 'linear-gradient(to top, rgba(14,12,10,0.92) 0%, transparent 100%)',
+                      }}
+                    >
+                      {item.title && (
+                        <h3 className="font-serif" style={{ fontSize: '1.15rem', marginBottom: '0.2rem', color: '#ffffff' }}>
+                          {item.title}
+                        </h3>
+                      )}
+                      <p style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--color-accent)', fontWeight: 600, margin: 0 }}>
+                        {item.category}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
 
-          {/* Bottom Direct CTA */}
+              {/* Empty state */}
+              {filteredData.length === 0 && (
+                <div style={{ textAlign: 'center', padding: '4rem 0', gridColumn: '1 / -1', color: 'var(--color-text-secondary)' }}>
+                  <p style={{ fontSize: '0.95rem' }}>Belum ada foto di kategori ini.</p>
+                </div>
+              )}
+            </motion.div>
+          )}
+
+          {/* Bottom CTA */}
           <div style={{ textAlign: 'center', marginTop: '4rem' }}>
             <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.92rem', marginBottom: '1.4rem' }}>
               Interested in producing bespoke visual imagery for your brand or portrait session?
@@ -229,10 +267,8 @@ const Karya = () => {
               onClick={() => setSelectedImg(null)}
               style={{
                 position: 'fixed',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
+                top: 0, left: 0,
+                width: '100%', height: '100%',
                 background: 'rgba(0,0,0,0.92)',
                 zIndex: 99999,
                 display: 'flex',
@@ -246,8 +282,8 @@ const Karya = () => {
                 initial={{ scale: 0.8 }}
                 animate={{ scale: 1 }}
                 exit={{ scale: 0.8 }}
-                src={selectedImg.desktopSrc}
-                alt={selectedImg.title}
+                src={selectedImg.url_foto}
+                alt={selectedImg.title || selectedImg.category}
                 style={{
                   maxHeight: '85vh',
                   maxWidth: '90vw',
@@ -270,7 +306,9 @@ const Karya = () => {
                   backdropFilter: 'blur(8px)',
                 }}
               >
-                <h4 style={{ color: '#fff', margin: 0, fontSize: '1rem' }}>{selectedImg.title}</h4>
+                {selectedImg.title && (
+                  <h4 style={{ color: '#fff', margin: 0, fontSize: '1rem' }}>{selectedImg.title}</h4>
+                )}
                 <p style={{ color: 'var(--color-accent)', margin: 0, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
                   {selectedImg.category}
                 </p>
