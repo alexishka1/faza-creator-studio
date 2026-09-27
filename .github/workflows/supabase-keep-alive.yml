@@ -1,0 +1,83 @@
+﻿# ──────────────────────────────────────────────────────────────────────────────
+# Supabase Keep-Alive Ping
+# Tujuan: Mencegah Supabase Free Tier pause otomatis karena tidak ada aktivitas.
+#
+# Jadwal: Setiap Senin & Kamis pukul 00:00 UTC (07:00 WIB).
+# Cara kerja: SELECT ringan ke tabel "paket" (LIMIT 1) via Supabase REST API.
+#
+# Secrets yang dibutuhkan (Settings > Secrets and variables > Actions):
+#   - SUPABASE_URL       -> URL project Supabase, contoh: https://xxxx.supabase.co
+#   - SUPABASE_ANON_KEY  -> anon/public API key dari Supabase
+#
+# CATATAN: Ini workaround sementara untuk masa development.
+# Upgrade ke Supabase Pro saat website sudah live & dipakai publik.
+# ──────────────────────────────────────────────────────────────────────────────
+
+name: Supabase Keep-Alive Ping
+
+on:
+  schedule:
+    # Senin 00:00 UTC = 07:00 WIB
+    - cron: '0 0 * * 1'
+    # Kamis 00:00 UTC = 07:00 WIB
+    - cron: '0 0 * * 4'
+
+  # Tombol manual di tab Actions (untuk testing / ping darurat)
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Alasan ping manual (opsional)'
+        required: false
+        default: 'Manual ping'
+
+jobs:
+  ping-supabase:
+    name: Ping Supabase Database
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Ping -- SELECT 1 row dari tabel paket
+        id: ping
+        run: |
+          echo "Melakukan ping ke Supabase..."
+          echo "Waktu UTC: $(date -u)"
+          echo "Alasan: ${{ github.event.inputs.reason || 'Scheduled keep-alive' }}"
+          echo ""
+
+          HTTP_STATUS=$(curl \
+            --silent \
+            --output /tmp/supabase_response.json \
+            --write-out "%{http_code}" \
+            --max-time 30 \
+            --request GET \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/paket?select=id&limit=1" \
+            --header "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            --header "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
+            --header "Accept: application/json"
+          )
+
+          echo "HTTP Status: $HTTP_STATUS"
+          echo "Response body:"
+          cat /tmp/supabase_response.json
+          echo ""
+
+          echo "http_status=$HTTP_STATUS" >> "$GITHUB_OUTPUT"
+
+      - name: Verifikasi hasil ping
+        run: |
+          STATUS="${{ steps.ping.outputs.http_status }}"
+          echo "Memverifikasi response code: $STATUS"
+
+          if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 300 ]; then
+            echo "OK - Ping berhasil! Supabase project tetap aktif. (HTTP $STATUS)"
+          else
+            echo "GAGAL - Ping GAGAL! HTTP status: $STATUS"
+            echo ""
+            echo "Kemungkinan penyebab:"
+            echo "  - Project Supabase sudah terlanjur di-pause -> resume manual di dashboard"
+            echo "  - Secret SUPABASE_URL atau SUPABASE_ANON_KEY tidak di-set / salah"
+            echo "  - Tabel paket belum ada / RLS memblokir akses public read"
+            echo "  - Masalah jaringan sementara"
+            exit 1
+          fi

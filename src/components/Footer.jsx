@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { MapPin } from 'lucide-react';
 import { STUDIO_INFO, getWhatsAppUrl } from '../data/contact';
 import '../index.css';
 
@@ -153,8 +154,8 @@ const Footer = () => {
               boxShadow: 'var(--color-card-shadow)',
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-              <span style={{ fontSize: '1.1rem' }}>📍</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+              <MapPin size={18} style={{ color: 'var(--color-accent)', flexShrink: 0 }} />
               <div>
                 <p style={{ margin: 0, color: 'var(--color-text)', fontSize: '0.82rem', fontWeight: 600 }}>Easy Access & Parking Space</p>
                 <p style={{ margin: 0, color: 'var(--color-text-secondary)', fontSize: '0.72rem' }}>Grand Dukuh Indah, Kramat Jati, Jakarta Timur</p>

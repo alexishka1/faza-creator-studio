@@ -5,10 +5,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import PageTransition from '../components/PageTransition';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { LayoutGrid, Users, Briefcase } from 'lucide-react';
 import { B2C_SERVICES, B2B_SERVICES } from '../data/services';
 import { MARQUEE_STUDIO_IMAGES } from '../data/portfolio';
 import { TESTIMONIALS, CLIENT_LOGOS, GOOGLE_REVIEWS_STATS } from '../data/testimonials';
-import { STUDIO_INFO, getWhatsAppUrl } from '../data/contact';
+import { getWhatsAppUrl } from '../data/contact';
 import { supabase } from '../lib/supabase';
 import '../index.css';
 
@@ -44,11 +45,11 @@ const STUDIO_FEATURES = [
 
 const Home = () => {
   const marqueeRef = useRef(null);
-  const marqueeInnerRef = useRef(null);
   const pricingRef = useRef(null);
   const [activeTab, setActiveTab] = useState('all'); // 'all' | 'b2c' | 'b2b'
   const [b2cServices, setB2cServices] = useState(B2C_SERVICES);
   const [b2bServices, setB2bServices] = useState(B2B_SERVICES);
+  const [homeGalleryItems, setHomeGalleryItems] = useState(MARQUEE_STUDIO_IMAGES);
 
   // Fetch packages from Supabase Database (fallback to static)
   useEffect(() => {
@@ -83,6 +84,40 @@ const Home = () => {
     };
 
     fetchPackages();
+  }, []);
+
+  // Fetch home gallery (tampil_di_home = true) — live dari DB, fallback ke static
+  useEffect(() => {
+    const fetchHomeGallery = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('galeri')
+          .select('id, url_foto, caption, kategori, deskripsi, harga')
+          .eq('tampil_di_home', true)
+          .order('urutan', { ascending: true })
+          .order('created_at', { ascending: false });
+
+        if (!error && data && data.length > 0) {
+          setHomeGalleryItems(
+            data.map((g) => ({
+              src:       g.url_foto,
+              label:     g.caption || g.kategori || '',
+              deskripsi: g.deskripsi || '',
+              harga:     g.harga || '',
+            }))
+          );
+        }
+        // else: keep MARQUEE_STUDIO_IMAGES static fallback
+      } catch (err) {
+        console.warn('[Home] gallery fetch note:', err);
+      }
+    };
+
+    fetchHomeGallery();
+
+    const onUpdate = () => fetchHomeGallery();
+    window.addEventListener('faza_gallery_updated', onUpdate);
+    return () => window.removeEventListener('faza_gallery_updated', onUpdate);
   }, []);
 
   useEffect(() => {
@@ -149,14 +184,7 @@ const Home = () => {
             position: 'relative',
           }}
         >
-          {/* Subtle Studio Backdrop with Faded Photo & Dynamic Scrim */}
-          <div
-            className="faza-faded-bg"
-            style={{
-              backgroundImage: 'url(/images/optimized/DSCF9516-1600.webp)',
-            }}
-          />
-          <div className="faza-scrim" />
+          {/* Solid Color Backdrop */}
 
           <div style={{ maxWidth: '1400px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
             {/* Top Bar Header */}
@@ -209,31 +237,53 @@ const Home = () => {
               }}
             >
               {[
-                { id: 'all', label: 'All Packages' },
-                { id: 'b2c', label: 'B2C Retail & Personal' },
-                { id: 'b2b', label: 'B2B Creative Space & Brand' },
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  style={{
-                    padding: '0.65rem 1.6rem',
-                    borderRadius: '40px',
-                    border: activeTab === tab.id ? '1px solid var(--color-accent)' : '1px solid var(--color-border)',
-                    background: activeTab === tab.id ? 'var(--color-accent)' : 'var(--color-bg-card)',
-                    color: activeTab === tab.id ? '#ffffff' : 'var(--color-text)',
-                    fontSize: '0.82rem',
-                    fontWeight: 600,
-                    letterSpacing: '0.04em',
-                    cursor: 'pointer',
-                    boxShadow: 'var(--color-card-shadow)',
-                    transition: 'all 0.3s ease',
-                    backdropFilter: 'blur(8px)',
-                  }}
-                >
-                  {tab.label}
-                </button>
-              ))}
+                { id: 'all', label: 'All Packages', icon: LayoutGrid },
+                { id: 'b2c', label: 'Personal Sessions', icon: Users },
+                { id: 'b2b', label: 'Commercial Production', icon: Briefcase },
+              ].map((tab) => {
+                const Icon = tab.icon;
+                const isActive = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.55rem',
+                      padding: '0.65rem 1.6rem',
+                      borderRadius: '40px',
+                      border: isActive ? '1px solid var(--color-accent)' : '1px solid var(--color-border)',
+                      background: isActive ? 'var(--color-accent)' : 'var(--color-bg-card)',
+                      color: isActive ? '#ffffff' : 'var(--color-text)',
+                      fontSize: '0.82rem',
+                      fontWeight: 600,
+                      letterSpacing: '0.04em',
+                      cursor: 'pointer',
+                      boxShadow: isActive ? '0 4px 18px rgba(157, 117, 59, 0.35)' : 'var(--color-card-shadow)',
+                      transition: 'all 0.28s cubic-bezier(0.16, 1, 0.3, 1)',
+                      backdropFilter: 'blur(8px)',
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.borderColor = 'var(--color-accent)';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                        e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.08)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.borderColor = 'var(--color-border)';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = 'var(--color-card-shadow)';
+                      }
+                    }}
+                  >
+                    <Icon size={15} strokeWidth={2} style={{ color: isActive ? '#ffffff' : 'var(--color-accent)', flexShrink: 0 }} />
+                    <span>{tab.label}</span>
+                  </button>
+                );
+              })}
             </div>
 
             {/* ── 1. B2C Retail Packages Grid ── */}
@@ -244,7 +294,7 @@ const Home = () => {
                     CATEGORY 01
                   </span>
                   <h2 className="font-serif" style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', color: 'var(--color-text)', margin: '0.2rem 0 0' }}>
-                    B2C Retail & Personal Sessions
+                    Personal Sessions
                   </h2>
                 </div>
 
@@ -253,104 +303,50 @@ const Home = () => {
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))',
                     gap: '1.8rem',
+                    alignItems: 'stretch',
                   }}
                 >
-                  {b2cServices.map((s, idx) => (
-                    <div
+                  {b2cServices.map((s) => (
+                    <Link
                       key={s.id}
-                      className="pricing-card-anim"
-                      style={{
-                        backgroundColor: 'var(--color-bg-card)',
-                        border: '1px solid var(--color-border)',
-                        borderRadius: '12px',
-                        padding: '1.8rem',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        boxShadow: 'var(--color-card-shadow)',
-                        transition: 'transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-4px)';
-                        e.currentTarget.style.borderColor = 'var(--color-border-hover)';
-                        e.currentTarget.style.boxShadow = '0 15px 35px rgba(0,0,0,0.15)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.borderColor = 'var(--color-border)';
-                        e.currentTarget.style.boxShadow = 'var(--color-card-shadow)';
-                      }}
+                      to={`/paket/${s.id}`}
+                      className="pricing-card-anim faza-pkg-card"
                     >
-                      <div>
-                        {/* Image Thumbnail — 16/10 aspect-ratio with cover fit */}
-                        <div className="pricing-thumb">
+                      <div className="faza-pkg-body">
+                        {/* Image Thumbnail with zoom & sheen micro-interaction */}
+                        <div className="faza-pkg-thumb">
                           <img
                             src={s.url_foto || s.desktopImg}
                             alt={s.title}
                             loading="lazy"
                             className="faza-graded-img"
-                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                           />
                         </div>
 
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
-                          <span style={{ fontSize: '0.68rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--color-accent)', fontWeight: 700 }}>
-                            {s.tag}
-                          </span>
+                        <div className="faza-pkg-badge">
+                          <span className="faza-pkg-badge-dot"></span>
+                          <span>{s.tag}</span>
                         </div>
 
-                        <h3 style={{ fontSize: '1.2rem', color: 'var(--color-text)', margin: '0 0 0.5rem', fontWeight: 600 }}>
-                          {s.title} <span style={{ color: 'var(--color-text-secondary)', fontSize: '0.95rem' }}>{s.subtitle}</span>
+                        <h3 className="faza-pkg-title">
+                          {s.title}{s.subtitle ? ` ${s.subtitle}` : ''}
                         </h3>
 
-                        <p style={{ fontSize: '0.82rem', color: 'var(--color-text-secondary)', lineHeight: 1.55, margin: '0 0 1.2rem' }}>
-                          {s.desc}
-                        </p>
-
-                        <div style={{ marginBottom: '1.4rem', borderTop: '1px solid var(--color-border)', paddingTop: '1rem' }}>
-                          <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', color: 'var(--color-text-muted)', letterSpacing: '0.1em', display: 'block', marginBottom: '0.2rem' }}>
-                            Rate
-                          </span>
-                          <span style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--color-accent)' }}>
-                            {s.price}
-                          </span>
-                        </div>
-
-                        <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 1.8rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                        <ul className="faza-pkg-features">
                           {s.features.map((f, i) => (
-                            <li key={i} style={{ fontSize: '0.78rem', color: 'var(--color-text)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                              <span style={{ color: 'var(--color-accent)', fontSize: '0.9rem' }}>✓</span> {f}
+                            <li key={i} className="faza-pkg-feature-item">
+                              <span className="faza-pkg-check">✓</span>
+                              <span>{f}</span>
                             </li>
                           ))}
                         </ul>
                       </div>
 
-                      <a
-                        href={getWhatsAppUrl(`Hello Faza Studio, I would like to book the "${s.title} ${s.subtitle}" package (${s.price}).`)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-wa-hover"
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          gap: '0.5rem',
-                          padding: '0.75rem',
-                          background: 'var(--color-wa-gradient, linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%))',
-                          color: '#fff',
-                          textDecoration: 'none',
-                          borderRadius: '8px',
-                          fontSize: '0.82rem',
-                          fontWeight: 600,
-                          letterSpacing: '0.03em',
-                          boxShadow: '0 4px 15px rgba(36, 215, 87, 0.35)',
-                          transition: 'all 0.3s ease',
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '16px' }} />
-                        <span>Book via WhatsApp</span>
-                      </a>
-                    </div>
+                      <div className="faza-pkg-btn">
+                        <span>Lihat Detail</span>
+                        <span className="faza-pkg-arrow">→</span>
+                      </div>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -364,7 +360,7 @@ const Home = () => {
                     CATEGORY 02
                   </span>
                   <h2 className="font-serif" style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', color: 'var(--color-text)', margin: '0.2rem 0 0' }}>
-                    B2B Creative Space & Commercial Production
+                    Commercial Production
                   </h2>
                 </div>
 
@@ -373,103 +369,50 @@ const Home = () => {
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))',
                     gap: '1.8rem',
+                    alignItems: 'stretch',
                   }}
                 >
-                  {b2bServices.map((s, idx) => (
-                    <div
+                  {b2bServices.map((s) => (
+                    <Link
                       key={s.id}
-                      className="pricing-card-anim"
-                      style={{
-                        backgroundColor: 'var(--color-bg-card)',
-                        border: '1px solid var(--color-border)',
-                        borderRadius: '12px',
-                        padding: '1.8rem',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        boxShadow: 'var(--color-card-shadow)',
-                        transition: 'transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-4px)';
-                        e.currentTarget.style.borderColor = 'var(--color-border-hover)';
-                        e.currentTarget.style.boxShadow = '0 15px 35px rgba(0,0,0,0.15)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.borderColor = 'var(--color-border)';
-                        e.currentTarget.style.boxShadow = 'var(--color-card-shadow)';
-                      }}
+                      to={`/paket/${s.id}`}
+                      className="pricing-card-anim faza-pkg-card"
                     >
-                      <div>
-                        {/* Image Thumbnail — 16/10 aspect-ratio with cover fit */}
-                        <div className="pricing-thumb">
+                      <div className="faza-pkg-body">
+                        {/* Image Thumbnail with zoom & sheen micro-interaction */}
+                        <div className="faza-pkg-thumb">
                           <img
                             src={s.url_foto || s.desktopImg}
                             alt={s.title}
                             loading="lazy"
                             className="faza-graded-img"
-                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                           />
                         </div>
 
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
-                          <span style={{ fontSize: '0.68rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--color-accent)', fontWeight: 700 }}>
-                            {s.tag}
-                          </span>
+                        <div className="faza-pkg-badge">
+                          <span className="faza-pkg-badge-dot"></span>
+                          <span>{s.tag}</span>
                         </div>
 
-                        <h3 style={{ fontSize: '1.2rem', color: 'var(--color-text)', margin: '0 0 0.5rem', fontWeight: 600 }}>
-                          {s.title} <span style={{ color: 'var(--color-text-secondary)', fontSize: '0.95rem' }}>{s.subtitle}</span>
+                        <h3 className="faza-pkg-title">
+                          {s.title}{s.subtitle ? ` ${s.subtitle}` : ''}
                         </h3>
 
-                        <p style={{ fontSize: '0.82rem', color: 'var(--color-text-secondary)', lineHeight: 1.55, margin: '0 0 1.2rem' }}>
-                          {s.desc}
-                        </p>
-
-                        <div style={{ marginBottom: '1.4rem', borderTop: '1px solid var(--color-border)', paddingTop: '1rem' }}>
-                          <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', color: 'var(--color-text-muted)', letterSpacing: '0.1em', display: 'block', marginBottom: '0.2rem' }}>
-                            Rate
-                          </span>
-                          <span style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--color-accent)' }}>
-                            {s.price}
-                          </span>
-                        </div>
-
-                        <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 1.8rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                        <ul className="faza-pkg-features">
                           {s.features.map((f, i) => (
-                            <li key={i} style={{ fontSize: '0.78rem', color: 'var(--color-text)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                              <span style={{ color: 'var(--color-accent)', fontSize: '0.9rem' }}>✓</span> {f}
+                            <li key={i} className="faza-pkg-feature-item">
+                              <span className="faza-pkg-check">✓</span>
+                              <span>{f}</span>
                             </li>
                           ))}
                         </ul>
                       </div>
 
-                      <a
-                        href={getWhatsAppUrl(`Hello Faza Studio, I would like to inquire about the commercial package "${s.title} ${s.subtitle}" (${s.price}).`)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          gap: '0.5rem',
-                          padding: '0.75rem',
-                          background: 'var(--color-wa-gradient, linear-gradient(135deg, #32e064 0%, #20be4e 50%, #159b3c 100%))',
-                          color: '#fff',
-                          textDecoration: 'none',
-                          borderRadius: '8px',
-                          fontSize: '0.82rem',
-                          fontWeight: 600,
-                          letterSpacing: '0.03em',
-                          boxShadow: '0 4px 15px rgba(36, 215, 87, 0.35)',
-                          transition: 'all 0.3s ease',
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '16px' }} />
-                        <span>Inquire on WhatsApp</span>
-                      </a>
-                    </div>
+                      <div className="faza-pkg-btn">
+                        <span>Lihat Detail</span>
+                        <span className="faza-pkg-arrow">→</span>
+                      </div>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -499,14 +442,14 @@ const Home = () => {
             </h2>
           </div>
 
-          {/* Continuous Right-Moving Marquee */}
+          {/* Continuous Right-Moving Marquee — live dari DB (tampil_di_home=true), fallback static */}
           <div className="marquee-container-wrapper">
             <div className="marquee-track-right">
               {[
-                ...MARQUEE_STUDIO_IMAGES,
-                ...MARQUEE_STUDIO_IMAGES,
-                ...MARQUEE_STUDIO_IMAGES,
-                ...MARQUEE_STUDIO_IMAGES,
+                ...homeGalleryItems,
+                ...homeGalleryItems,
+                ...homeGalleryItems,
+                ...homeGalleryItems,
               ].map((img, i) => (
                 <div
                   key={i}
@@ -531,15 +474,27 @@ const Home = () => {
                     style={{
                       position: 'absolute',
                       inset: 0,
-                      background: 'linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.8) 100%)',
+                      background: 'linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.88) 100%)',
                       display: 'flex',
-                      alignItems: 'flex-end',
+                      flexDirection: 'column',
+                      justifyContent: 'flex-end',
                       padding: '1rem',
+                      gap: '0.25rem',
                     }}
                   >
+                    {img.harga && (
+                      <span style={{ display: 'inline-block', alignSelf: 'flex-start', padding: '0.15rem 0.55rem', backgroundColor: 'var(--color-accent,#c9a96e)', color: '#000', fontSize: '0.67rem', fontWeight: 700, borderRadius: '20px', letterSpacing: '0.03em' }}>
+                        {img.harga}
+                      </span>
+                    )}
                     <span style={{ fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#fff' }}>
                       {img.label}
                     </span>
+                    {img.deskripsi && (
+                      <span style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.4, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                        {img.deskripsi}
+                      </span>
+                    )}
                   </div>
                 </div>
               ))}

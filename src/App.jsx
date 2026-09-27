@@ -14,7 +14,7 @@ import Layanan from './pages/Layanan';
 import TentangKami from './pages/TentangKami';
 import Karya from './pages/Karya';
 import Booking from './pages/Booking';
-import Admin from './pages/Admin';
+import PackageDetail from './pages/PackageDetail';
 import CustomCursor from './components/CustomCursor';
 import Footer from './components/Footer';
 import WhatsAppFloating from './components/WhatsAppFloating';
@@ -213,6 +213,9 @@ const ClientAnimatedRoutes = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    if (window.lenis) {
+      window.lenis.scrollTo(0, { immediate: true });
+    }
   }, [location.pathname]);
 
   return (
@@ -220,6 +223,7 @@ const ClientAnimatedRoutes = () => {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
         <Route path="/layanan" element={<Layanan />} />
+        <Route path="/paket/:id" element={<PackageDetail />} />
         <Route path="/tentangkami" element={<TentangKami />} />
         <Route path="/karya" element={<Karya />} />
         <Route path="/booking" element={<Booking />} />
@@ -241,20 +245,9 @@ const mobileLinkStyle = {
 const App = () => {
   return (
     <Router>
-      <Routes>
-        {/* 1. ISOLATED ADMIN PORTAL */}
-        <Route path="/admin" element={<Admin />} />
-
-        {/* 2. PUBLIC USER WEBSITE (Full English, Direct Access, Compact Proportions) */}
-        <Route
-          path="/*"
-          element={
-            <ClientLayout>
-              <ClientAnimatedRoutes />
-            </ClientLayout>
-          }
-        />
-      </Routes>
+      <ClientLayout>
+        <ClientAnimatedRoutes />
+      </ClientLayout>
     </Router>
   );
 };

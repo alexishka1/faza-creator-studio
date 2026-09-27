@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { getWhatsAppUrl } from '../data/contact';
 
 const WhatsAppFloating = () => {
-  const location = useLocation();
   const [isHovered, setIsHovered] = useState(false);
   const waUrl = getWhatsAppUrl('Hello Faza Studio, I would like to inquire about studio rental and photoshoot packages.');
-
-  if (location.pathname === '/admin') return null;
 
   return (
     <aside aria-label="WhatsApp Floating Widget" className="wa-float-container">

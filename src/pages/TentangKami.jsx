@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import PageTransition from '../components/PageTransition';
 import { CLIENT_LOGOS } from '../data/testimonials';
-import { STUDIO_INFO, getWhatsAppUrl } from '../data/contact';
+import { getWhatsAppUrl } from '../data/contact';
 import '../index.css';
 
 gsap.registerPlugin(ScrollTrigger);

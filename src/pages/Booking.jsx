@@ -3,10 +3,11 @@ import { useSearchParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { CheckCircle2 } from 'lucide-react';
 import PageTransition from '../components/PageTransition';
 import BookingCalendar from '../components/BookingCalendar';
 import { LAYANAN_OPTIONS } from '../data/services';
-import { STUDIO_INFO, getWhatsAppUrl } from '../data/contact';
+import { getWhatsAppUrl } from '../data/contact';
 import '../index.css';
 
 const Booking = () => {
@@ -96,7 +97,7 @@ const Booking = () => {
             animate={{ opacity: 1, scale: 1 }}
             style={{ maxWidth: '600px', width: '100%', background: 'var(--color-bg-card)', border: '1px solid var(--color-border-hover)', borderRadius: '12px', padding: '3rem 2.5rem', textAlign: 'center', boxShadow: 'var(--color-card-shadow)' }}
           >
-            <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>🎉</div>
+            <CheckCircle2 size={52} strokeWidth={1.8} style={{ color: 'var(--color-accent)', margin: '0 auto 1.2rem', display: 'block' }} />
             <p style={{ color: 'var(--color-accent)', fontSize: '0.78rem', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: '0.5rem', fontWeight: 600 }}>
               RESERVATION RECEIVED
             </p>

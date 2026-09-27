@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import PageTransition from '../components/PageTransition';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { LayoutGrid, Users, Briefcase } from 'lucide-react';
 import { B2C_SERVICES, B2B_SERVICES } from '../data/services';
 import { getWhatsAppUrl } from '../data/contact';
 import { supabase } from '../lib/supabase';
@@ -12,21 +13,9 @@ import '../index.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const MARQUEE_IMAGES = [
-  '/images/optimized/DSCF9516-800.webp',
-  '/images/optimized/DSCF9527-800.webp',
-  '/images/optimized/DSCF9518-800.webp',
-  '/images/optimized/DSCF9520-800.webp',
-  '/images/optimized/DSCF9524-800.webp',
-  '/images/optimized/DSCF9515-800.webp',
-  '/images/optimized/DSCF9516-800.webp',
-  '/images/optimized/DSCF9527-800.webp',
-];
-
 const Layanan = () => {
   const containerRef = useRef(null);
   const headerRef = useRef(null);
-  const marqueeRef = useRef(null);
   const servicesRef = useRef([]);
   const [activeTab, setActiveTab] = useState('all');
   const [b2cServices, setB2cServices] = useState(B2C_SERVICES);
@@ -77,16 +66,6 @@ const Layanan = () => {
         pinSpacing: false,
       });
 
-      // Right-moving marquee (Tahap 2B)
-      if (marqueeRef.current) {
-        gsap.to(marqueeRef.current, {
-          xPercent: 50,
-          ease: 'none',
-          duration: 35,
-          repeat: -1,
-        });
-      }
-
       servicesRef.current.forEach((el) => {
         if (!el) return;
         gsap.fromTo(
@@ -127,7 +106,18 @@ const Layanan = () => {
       >
         {/* Image Section */}
         <div style={{ flex: '1 1 340px', position: 'relative' }}>
-          <div style={{ width: '100%', aspectRatio: '4/5', overflow: 'hidden', borderRadius: '8px', boxShadow: 'var(--color-card-shadow)', background: 'var(--color-bg-card)' }}>
+          <Link
+            to={`/paket/${service.id}`}
+            className="faza-layanan-img-wrapper"
+            style={{
+              display: 'block',
+              width: '100%',
+              aspectRatio: '4/5',
+              textDecoration: 'none',
+              background: 'var(--color-bg-card)',
+              boxShadow: 'var(--color-card-shadow)',
+            }}
+          >
             <img
               src={service.url_foto || service.desktopImg}
               alt={service.title}
@@ -140,7 +130,7 @@ const Layanan = () => {
                 display: 'block',
               }}
             />
-          </div>
+          </Link>
           {/* Floating Number */}
           <div
             style={{
@@ -178,14 +168,26 @@ const Layanan = () => {
             </span>
           </div>
 
-          <h3 className="font-serif" style={{ fontSize: 'clamp(1.8rem, 3.8vw, 2.8rem)', color: 'var(--color-text)', marginBottom: '0.8rem', lineHeight: 1.15 }}>
-            {service.title} <br />
-            <em style={{ color: 'var(--color-accent)', fontSize: '0.85em', fontStyle: 'italic' }}>{service.subtitle}</em>
-          </h3>
-
-          <p style={{ color: 'var(--color-text-secondary)', lineHeight: 1.7, fontSize: '0.92rem', marginBottom: '1.6rem' }}>
-            {service.desc}
-          </p>
+          <Link
+            to={`/paket/${service.id}`}
+            style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}
+          >
+            <h3
+              className="font-serif"
+              style={{
+                fontSize: 'clamp(1.8rem, 3.8vw, 2.8rem)',
+                fontWeight: 700,
+                color: 'var(--color-text)',
+                marginBottom: '0.8rem',
+                lineHeight: 1.15,
+                transition: 'color 0.3s ease',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-accent)')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-text)')}
+            >
+              {service.title}{service.subtitle ? ` ${service.subtitle}` : ''}
+            </h3>
+          </Link>
 
           <ul
             style={{
@@ -215,72 +217,49 @@ const Layanan = () => {
           </ul>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem', flexWrap: 'wrap' }}>
-            <p style={{ fontSize: 'clamp(1.4rem, 2.5vw, 1.8rem)', fontFamily: 'var(--font-serif)', color: 'var(--color-accent)', margin: 0, fontWeight: 700 }}>
-              {service.price}
-            </p>
             <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
               <Link
-                to={`/booking?layanan=${encodeURIComponent(service.title + (service.subtitle ? ' ' + service.subtitle : ''))}`}
+                to={`/paket/${service.id}`}
                 style={{
-                  display: 'inline-block',
-                  padding: '0.75rem 1.6rem',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.6rem',
+                  padding: '0.8rem 1.8rem',
                   border: '1px solid var(--color-accent)',
                   color: '#ffffff',
                   background: 'var(--color-accent)',
                   textDecoration: 'none',
                   textTransform: 'uppercase',
-                  fontSize: '0.75rem',
+                  fontSize: '0.78rem',
                   fontWeight: 700,
                   letterSpacing: '0.1em',
-                  borderRadius: '4px',
+                  borderRadius: '8px',
                   boxShadow: 'var(--color-card-shadow)',
                   transition: 'all 0.3s ease',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = 'var(--color-accent-hover)';
                   e.currentTarget.style.borderColor = 'var(--color-accent-hover)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(157, 117, 59, 0.35)';
+                  const arrow = e.currentTarget.querySelector('.faza-pkg-arrow');
+                  if (arrow) arrow.style.transform = 'translateX(5px)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = 'var(--color-accent)';
                   e.currentTarget.style.borderColor = 'var(--color-accent)';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'var(--color-card-shadow)';
+                  const arrow = e.currentTarget.querySelector('.faza-pkg-arrow');
+                  if (arrow) arrow.style.transform = 'translateX(0)';
                 }}
               >
-                Select Date
+                <span>Lihat Detail</span>
+                <span className="faza-pkg-arrow" style={{ transition: 'transform 0.3s ease' }}>→</span>
               </Link>
-              <a
-                href={getWhatsAppUrl(`Hello Faza Studio, I would like to book the "${service.title} ${service.subtitle}" package (${service.price}).`)}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  padding: '0.75rem 1.3rem',
-                  border: '1px solid var(--color-border)',
-                  color: 'var(--color-text)',
-                  background: 'var(--color-bg-card)',
-                  textDecoration: 'none',
-                  textTransform: 'uppercase',
-                  fontSize: '0.75rem',
-                  letterSpacing: '0.08em',
-                  borderRadius: '4px',
-                  boxShadow: 'var(--color-card-shadow)',
-                  transition: 'all 0.3s ease',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--color-wa-light, #2fe668)';
-                  e.currentTarget.style.color = 'var(--color-wa-light, #2fe668)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--color-border)';
-                  e.currentTarget.style.color = 'var(--color-text)';
-                }}
-              >
-                <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: '15px' }} />
-                WhatsApp
-              </a>
             </div>
           </div>
+
         </div>
       </div>
     );
@@ -304,21 +283,8 @@ const Layanan = () => {
   return (
     <PageTransition>
       <div ref={containerRef} style={{ display: 'flex', flexDirection: 'column', minHeight: '200vh', background: 'var(--color-bg)', color: 'var(--color-text)', transition: 'background-color 0.4s ease, color 0.4s ease' }}>
-        {/* ===== HERO HEADER WITH FADED PHOTO BACKGROUND ===== */}
-        <div ref={headerRef} style={{ width: '100%', height: '100vh', position: 'absolute', top: 0, left: 0, zIndex: 0, overflow: 'hidden' }}>
-          {/* Animated Background Gallery (Moves Right) */}
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', opacity: 0.28 }}>
-            <div ref={marqueeRef} style={{ display: 'flex', gap: '2vw', whiteSpace: 'nowrap', padding: '0 1vw', willChange: 'transform' }}>
-              {[...MARQUEE_IMAGES, ...MARQUEE_IMAGES].map((src, i) => (
-                <div key={i} style={{ width: '25vw', minWidth: '280px', height: '40vh', borderRadius: '4px', overflow: 'hidden', background: 'var(--color-bg-card)' }}>
-                  <img src={src} alt="" loading="lazy" className="faza-graded-img" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Scrim Overlay */}
-          <div className="faza-scrim" />
+        {/* ===== HERO HEADER WITH SOLID COLOR BACKGROUND ===== */}
+        <div ref={headerRef} style={{ width: '100%', height: '100vh', position: 'absolute', top: 0, left: 0, zIndex: 0, overflow: 'hidden', background: 'var(--color-bg)' }}>
 
           <div style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', padding: '0 1.5rem' }}>
             <p style={{ fontSize: '0.78rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--color-accent)', marginBottom: '1rem', fontWeight: 600 }}>
@@ -341,34 +307,56 @@ const Layanan = () => {
         {/* ===== SERVICES CONTENT SECTION ===== */}
         <div id="services-section" style={{ marginTop: '100vh', zIndex: 2, position: 'relative', background: 'var(--color-bg)', padding: '4.5rem 6% 7rem 6%' }}>
           <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-            {/* Filter / Quick Jump Navigation */}
+            {/* Filter / Quick Jump Navigation with sleek Lucide icons */}
             <div style={{ display: 'flex', justifyContent: 'center', gap: '0.8rem', marginBottom: '4rem', flexWrap: 'wrap' }}>
               {[
-                { id: 'all', label: '✨ All Services' },
-                { id: 'b2c', label: '🛍️ B2C Retail (Personal & Group)' },
-                { id: 'b2b', label: '🏢 B2B Creative Space & Brand' },
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => handleTabChange(tab.id)}
-                  style={{
-                    padding: '0.65rem 1.6rem',
-                    borderRadius: '40px',
-                    border: activeTab === tab.id ? '1px solid var(--color-accent)' : '1px solid var(--color-border)',
-                    background: activeTab === tab.id ? 'var(--color-accent)' : 'var(--color-bg-card)',
-                    color: activeTab === tab.id ? '#ffffff' : 'var(--color-text)',
-                    fontSize: '0.82rem',
-                    fontWeight: 600,
-                    letterSpacing: '0.04em',
-                    cursor: 'pointer',
-                    boxShadow: 'var(--color-card-shadow)',
-                    transition: 'all 0.3s ease',
-                    backdropFilter: 'blur(10px)',
-                  }}
-                >
-                  {tab.label}
-                </button>
-              ))}
+                { id: 'all', label: 'All Services', icon: LayoutGrid },
+                { id: 'b2c', label: 'Personal Sessions', icon: Users },
+                { id: 'b2b', label: 'Commercial Production', icon: Briefcase },
+              ].map((tab) => {
+                const Icon = tab.icon;
+                const isActive = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => handleTabChange(tab.id)}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.55rem',
+                      padding: '0.65rem 1.6rem',
+                      borderRadius: '40px',
+                      border: isActive ? '1px solid var(--color-accent)' : '1px solid var(--color-border)',
+                      background: isActive ? 'var(--color-accent)' : 'var(--color-bg-card)',
+                      color: isActive ? '#ffffff' : 'var(--color-text)',
+                      fontSize: '0.82rem',
+                      fontWeight: 600,
+                      letterSpacing: '0.04em',
+                      cursor: 'pointer',
+                      boxShadow: isActive ? '0 4px 18px rgba(157, 117, 59, 0.35)' : 'var(--color-card-shadow)',
+                      transition: 'all 0.28s cubic-bezier(0.16, 1, 0.3, 1)',
+                      backdropFilter: 'blur(10px)',
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.borderColor = 'var(--color-accent)';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                        e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.08)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.borderColor = 'var(--color-border)';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = 'var(--color-card-shadow)';
+                      }
+                    }}
+                  >
+                    <Icon size={15} strokeWidth={2} style={{ color: isActive ? '#ffffff' : 'var(--color-accent)', flexShrink: 0 }} />
+                    <span>{tab.label}</span>
+                  </button>
+                );
+              })}
             </div>
 
             {/* ═════ GROUP 1: B2C RETAIL ═════ */}
@@ -379,7 +367,7 @@ const Layanan = () => {
                     CATEGORY 01
                   </span>
                   <h2 className="font-serif" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)', color: 'var(--color-text)', margin: '0 0 0.4rem 0' }}>
-                    B2C Retail & Personal Sessions
+                    Personal Sessions
                   </h2>
                   <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem', maxWidth: '680px', margin: 0 }}>
                     Personal photo studio sessions, executive portraits, graduation photos, and flexible hourly studio rental.
@@ -400,7 +388,7 @@ const Layanan = () => {
                     CATEGORY 02
                   </span>
                   <h2 className="font-serif" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)', color: 'var(--color-text)', margin: '0 0 0.4rem 0' }}>
-                    B2B Creative Space & Commercial Production
+                    Commercial Production
                   </h2>
                   <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem', maxWidth: '680px', margin: 0 }}>
                     Commercial solutions for fashion brands, lookbooks, podcast recordings, full-day venue buyouts, and agency retainers.
